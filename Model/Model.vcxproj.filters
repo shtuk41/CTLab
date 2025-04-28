@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\cadrw">
+      <UniqueIdentifier>{325627ec-92a1-4cc9-a4ba-de193dd4cf39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cadrw">
+      <UniqueIdentifier>{092efd68-0cf7-45c7-adc4-ece4c8158a0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -27,6 +33,24 @@
     <ClCompile Include="source\detector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scanObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cadrw\cad_common.cpp">
+      <Filter>Source Files\cadrw</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cadrw\cad_parser.cpp">
+      <Filter>Source Files\cadrw</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cadrw\stl_parser.cpp">
+      <Filter>Source Files\cadrw</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cadrw\stp_parser.cpp">
+      <Filter>Source Files\cadrw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\volumeArea.h">
@@ -40,6 +64,24 @@
     </ClInclude>
     <ClInclude Include="include\detector.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\source.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scanObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cadrw\cad_common.h">
+      <Filter>Header Files\cadrw</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cadrw\cad_parser.h">
+      <Filter>Header Files\cadrw</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cadrw\stl_parser.h">
+      <Filter>Header Files\cadrw</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cadrw\stp_parser.h">
+      <Filter>Header Files\cadrw</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

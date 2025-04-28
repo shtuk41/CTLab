@@ -106,11 +106,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/glm/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/glm/include;$(ProjectDir)/include/cadrw;$(SolutionDir)/ThirdParty/OCCT78/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/libd</AdditionalLibraryDirectories>
+      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,13 +124,15 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/glm/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/glm/include;$(ProjectDir)/include/cadrw;$(SolutionDir)/ThirdParty/OCCT78/inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -136,13 +140,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AcquisModel.cpp" />
+    <ClCompile Include="source\cadrw\cad_common.cpp" />
+    <ClCompile Include="source\cadrw\cad_parser.cpp" />
+    <ClCompile Include="source\cadrw\stl_parser.cpp" />
+    <ClCompile Include="source\cadrw\stp_parser.cpp" />
     <ClCompile Include="source\detector.cpp" />
+    <ClCompile Include="source\scanObject.cpp" />
+    <ClCompile Include="source\source.cpp" />
     <ClCompile Include="source\volumeArea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\cadrw\cad_common.h" />
+    <ClInclude Include="include\cadrw\cad_parser.h" />
+    <ClInclude Include="include\cadrw\stl_parser.h" />
+    <ClInclude Include="include\cadrw\stp_parser.h" />
     <ClInclude Include="include\detector.h" />
     <ClInclude Include="include\modelDefs.h" />
     <ClInclude Include="include\modelExceptions.h" />
+    <ClInclude Include="include\scanObject.h" />
+    <ClInclude Include="include\source.h" />
     <ClInclude Include="include\volumeArea.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

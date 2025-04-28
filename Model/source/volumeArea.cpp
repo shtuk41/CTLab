@@ -37,3 +37,8 @@ glm::vec3 VolumeArea::getPointLocation(int x, int y, int z)
 
 	THROW_DETAILED_EXCEPTION("voxel location is outside of range");
 }
+
+glm::vec3* getPointsInsideObject(const ScanObject& object)
+{
+	return nullptr;
+}

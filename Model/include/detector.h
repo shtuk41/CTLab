@@ -21,4 +21,5 @@ public:
 
 	glm::vec3 getPixel(int w, int h);
 
+	const glm::vec3& getCenter() const { return center; }
 };
