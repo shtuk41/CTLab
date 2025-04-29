@@ -1,6 +1,11 @@
 // Model.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 #include <exception>
+#include <iostream>
+#include <vector>
+
+#include <glm/gtc/constants.hpp>
+
 #include <volumeArea.h>
 #include <modelExceptions.h>
 
@@ -38,7 +43,66 @@ glm::vec3 VolumeArea::getPointLocation(int x, int y, int z)
 	THROW_DETAILED_EXCEPTION("voxel location is outside of range");
 }
 
-glm::vec3* getPointsInsideObject(const ScanObject& object)
+std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& object)
 {
-	return nullptr;
+	//winding number procedure to find out if the point is inside mesh
+	std::vector<glm::vec3> innerPoints;
+
+	for (int h = 0; h < nVoxelsZ; h++)
+	{
+		for (int w = 0; w < nVoxelsY; w++)
+		{
+			for (int d = 0; d < nVoxelsX; d++)
+			{
+				glm::vec4* ptr = object.GetTrianglesWithOffset();
+
+				glm::vec3 p = (*scanBox)[h][w][d];
+				//std::cout << "Point: " << p.x << " : " << p.y << " : " << p.z << '\n';
+
+				float totalSolidAngle = 0.0f;
+
+				for (unsigned int ii = 0; ii < object.GetNumberOfTriangles(); ii++)
+				{
+					if (ptr != nullptr)
+					{
+						//std::cout << "Triangle: " << ii << " : " << ptr->x << " : " << ptr->y << " : " << ptr->z << '\n';
+
+						glm::vec3 a = glm::vec3(*ptr++) - p;
+						glm::vec3 b = glm::vec3(*ptr++) - p;
+						glm::vec3 c = glm::vec3(*ptr++) - p;
+
+						float la = glm::length(a);
+						float lb = glm::length(b);
+						float lc = glm::length(c);
+
+						float numerator = fabs(glm::dot(a, glm::cross(b, c)));
+
+						float denominator = (la * lb * lc +
+											glm::dot(a, b) * lc +
+											glm::dot(b, c) * la +
+											glm::dot(c, a) * lb);
+
+						float omega = 2.0f * atan2f(numerator, denominator);
+
+						totalSolidAngle += omega;
+					}
+				}
+
+				//std::cout << "Solid angle: " << totalSolidAngle << '\n';
+
+				const float epsilon = 1e-3f;
+				const float four_pi = 4.0f * glm::pi<float>();
+
+				bool isInside = glm::abs(totalSolidAngle - four_pi) < epsilon;
+
+				if (isInside)
+				{
+					innerPoints.push_back(p);
+				}
+			}
+		}
+	}
+
+	
+	return innerPoints;
 }

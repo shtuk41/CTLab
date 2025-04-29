@@ -24,7 +24,7 @@ private:
 public:
 	VolumeArea(const glm::vec3& center = { 0,0,0 }, const glm::vec3& x_axis = { 1,0,0 }, const glm::vec3& y_axis = { 0,1,0 }, const glm::vec3& z_axis = { 0,0,1 });
 
-	glm::vec3* getPointsInsideObject(const ScanObject& object);
+	std::vector<glm::vec3> getPointsInsideObject(const ScanObject& object);
 
 	glm::vec3 getPointLocation(int w, int h, int d);
 };

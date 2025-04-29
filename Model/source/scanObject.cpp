@@ -3,9 +3,10 @@
 #include <exception>
 #include <scanObject.h>
 #include <modelExceptions.h>
+#include <cad_parser.h>
 
 void ScanObject::Init(const std::string& cadPath, const glm::vec3& offset)
 {
-	
+	m_data = CadParser::ParseToTriangleMesh(cadPath.c_str(), numberOfTriangles);
 }
 

@@ -3,11 +3,10 @@
 
 #include <exception>
 #include <iostream>
+#include <vector>
 
 #include <glm/glm.hpp>
-
 #include <volumeArea.h>
-
 
 int main()
 {
@@ -16,10 +15,16 @@ int main()
 	try
 	{
 		VolumeArea area(center);
-		glm::vec3 p = area.getPointLocation(0, 0, 0);
-		std::cout << p.x << ' ' << p.y << ' ' << p.z << std::endl;
-		glm::vec3 p2 = area.getPointLocation(99, 99, 99);
-		std::cout << p2.x << ' ' << p2.y << ' ' << p2.z << std::endl;
+		ScanObject obj;
+		obj.Init("C:\\Files\\CTLab\\MeshesTest\\sphere500.stl");
+
+		std::vector<glm::vec3> inside = area.getPointsInsideObject(obj);
+
+		std::cout << inside.size() << std::endl;
+
+
+
+
 	}
 	catch (std::exception& ex)
 	{

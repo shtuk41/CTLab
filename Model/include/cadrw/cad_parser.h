@@ -7,5 +7,5 @@
 class CadParser
 {
 public:
-	static output_data ParseToTriangleMesh(const char *filePath, unsigned int & numberOfTriangles, const double stpLinearDeflection, const float sizeCoef);
+	static output_data ParseToTriangleMesh(const char *filePath, unsigned int & numberOfTriangles, const double stpLinearDeflection = 0.01, const float sizeCoef = 1.0f);
 };

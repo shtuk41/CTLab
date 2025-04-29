@@ -27,7 +27,7 @@ static std::string getFileExtension(std::string filepath)
 }
 
 
-output_data CadParser::ParseToTriangleMesh(const char *filePath, unsigned int &numberOfTriangles, const double stpLinearDeflection = 0.01, const float sizeCoef = 1.0f)
+output_data CadParser::ParseToTriangleMesh(const char *filePath, unsigned int &numberOfTriangles, const double stpLinearDeflection, const float sizeCoef)
 {
 	// offset file
 	float xoffset = 0.0f;
