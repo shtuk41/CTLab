@@ -1,7 +1,7 @@
 #pragma once
 
-#include <array>
 #include <memory>
+#include <vector>
 
 #include <glm/glm.hpp>
 
@@ -15,9 +15,9 @@ private:
 
 	glm::vec3 boxCenter;
 
-	using XArray = std::array<glm::vec3, nVoxelsX>;
-	using YArray = std::array<XArray, nVoxelsY>;
-	using ZArray = std::array<YArray, nVoxelsZ>;
+	using XArray = std::vector<glm::vec3>;
+	using YArray = std::vector<XArray>;
+	using ZArray = std::vector<YArray>;
 
 	std::unique_ptr<ZArray> scanBox;
 

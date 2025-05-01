@@ -11,7 +11,16 @@
 
 VolumeArea::VolumeArea(const glm::vec3& center, const glm::vec3& x_axis, const glm::vec3& y_axis, const glm::vec3& z_axis) : boxCenter(center)
 {
-	scanBox = std::make_unique<ZArray>();
+	scanBox = std::make_unique<ZArray>(nVoxelsZ);
+
+	for (auto& y : *scanBox)
+	{
+		y.resize(nVoxelsY);
+		for (auto& x : y)
+		{
+			x.resize(nVoxelsX);
+		}
+	}
 
 	double halfWidth = (nVoxelsY - 1) * yVoxelPitch / 2.0;
 	double halfHeight = (nVoxelsZ - 1) * zVoxelPitch / 2.0;
