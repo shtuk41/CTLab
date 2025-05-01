@@ -43,6 +43,24 @@ glm::vec3 VolumeArea::getPointLocation(int x, int y, int z)
 	THROW_DETAILED_EXCEPTION("voxel location is outside of range");
 }
 
+std::vector<glm::vec3> VolumeArea::getAllPoints() const
+{
+	std::vector<glm::vec3> points;
+
+	for (int h = 0; h < nVoxelsZ; h++)
+	{
+		for (int w = 0; w < nVoxelsY; w++)
+		{
+			for (int d = 0; d < nVoxelsX; d++)
+			{
+				points.push_back((*scanBox)[h][w][d]);
+			}
+		}
+	}
+
+	return points;
+}
+
 std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& object)
 {
 	//winding number procedure to find out if the point is inside mesh
@@ -75,7 +93,8 @@ std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& objec
 						float lb = glm::length(b);
 						float lc = glm::length(c);
 
-						float numerator = fabs(glm::dot(a, glm::cross(b, c)));
+						//float numerator = fabs(glm::dot(a, glm::cross(b, c)));
+						float numerator = glm::dot(a, glm::cross(b, c));
 
 						float denominator = (la * lb * lc +
 											glm::dot(a, b) * lc +

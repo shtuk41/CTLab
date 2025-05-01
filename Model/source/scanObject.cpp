@@ -10,3 +10,18 @@ void ScanObject::Init(const std::string& cadPath, const glm::vec3& offset)
 	m_data = CadParser::ParseToTriangleMesh(cadPath.c_str(), numberOfTriangles);
 }
 
+std::vector<glm::vec3> ScanObject::GetMeshPoints() const
+{
+	glm::vec4* ptr = GetTrianglesWithOffset();
+	std::vector<glm::vec3> vec;
+
+	for (unsigned int ii = 0; ii < GetNumberOfTriangles(); ii++)
+	{
+		vec.push_back(glm::vec3(*ptr++));
+		vec.push_back(glm::vec3(*ptr++));
+		vec.push_back(glm::vec3(*ptr++));
+	}
+
+	return vec;
+}
+

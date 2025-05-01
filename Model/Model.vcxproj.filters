@@ -24,9 +24,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\AcquisModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\volumeArea.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,6 +48,7 @@
     <ClCompile Include="source\cadrw\stp_parser.cpp">
       <Filter>Source Files\cadrw</Filter>
     </ClCompile>
+    <ClCompile Include="source\AcquisModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\volumeArea.h">

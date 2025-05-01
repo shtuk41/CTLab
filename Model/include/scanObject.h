@@ -3,6 +3,7 @@
 #include <array>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <glm/glm.hpp>
 
@@ -35,6 +36,5 @@ public:
 	void Init(const std::string& cadPath, const glm::vec3 &offset = { 0,0,0 });
 	unsigned int GetNumberOfTriangles() const { return numberOfTriangles; }
 	glm::vec4* GetTrianglesWithOffset() const { return m_data.output; }
-
-
+	std::vector<glm::vec3> GetMeshPoints() const;
 };
