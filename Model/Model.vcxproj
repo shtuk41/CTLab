@@ -115,6 +115,33 @@
       <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/libd</AdditionalLibraryDirectories>
       <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D "$(SolutionDir)ThirdParty\freetype\bin\$(Configuration)\freetype.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\GL\dll\glew32.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKXSBase.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKBO.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKBRep.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKCAF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKCDF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKDE.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKDESTEP.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKernel.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKG2d.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKG3d.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKGeomAlgo.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKGeomBase.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKHLR.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKLCAF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKMath.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKMesh.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKPrim.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKService.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKShHealing.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKTopAlgo.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKV3d.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKVCAF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKXCAF.dll" "$(OutDir)\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -135,6 +162,33 @@
       <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /D "$(SolutionDir)ThirdParty\freetype\bin\$(Configuration)\freetype.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\GL\dll\glew32.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKXSBase.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKBO.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKBRep.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKCAF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKCDF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKDE.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKDESTEP.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKernel.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKG2d.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKG3d.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKGeomAlgo.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKGeomBase.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKHLR.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKLCAF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKMath.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKMesh.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKPrim.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKService.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKShHealing.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKTopAlgo.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKV3d.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKVCAF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKXCAF.dll" "$(OutDir)\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="packages.config" />
