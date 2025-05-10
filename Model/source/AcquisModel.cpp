@@ -33,13 +33,13 @@ void savePointsToAFile(const std::vector<glm::vec3>& points, const std::string f
 
 int main()
 {
-	glm::vec3 center = { 0,0,0 };
+	glm::vec3 center = { 200,0,0 };
 
 	try
 	{
 		VolumeArea area(center);
 		ScanObject obj;
-		obj.Init("C:\\Files\\CTLab\\MeshesTest\\sphere500.stl");
+		obj.Init("C:\\Files\\CTLab\\MeshesTest\\torus100.stl");
 
 		auto scanPoints = obj.GetMeshPoints();
 		savePointsToAFile(scanPoints, "object.csv");
@@ -49,12 +49,20 @@ int main()
 
 		std::vector<glm::vec3> insidePoints = area.getPointsInsideObject(obj);
 
+		glm::vec3 sourceCenter(0,0,0);
+		glm::vec3 sourceDirection(1,0,0);
+
+		Source source(sourceCenter, sourceDirection);
+
+		glm::vec3 detectorCenter(1000, 0, 0);
+
+		Detector detector(detectorCenter);
+		detector.getPixels(source, insidePoints);
+
+
+
 		std::cout << insidePoints.size() << std::endl;
 		savePointsToAFile(insidePoints, "insidePoints.csv");
-
-		
-		Source source;
-		Detector detetector(glm::vec3(1000,0,0));
 	}
 	catch (std::exception& ex)
 	{

@@ -4,8 +4,10 @@
 #include <memory>
 
 #include <glm/glm.hpp>
+#include <opencv2/opencv.hpp>
 
 #include <modelDefs.h>
+#include <source.h>
 
 class Detector
 {
@@ -19,7 +21,8 @@ private:
 public:
 	Detector(const glm::vec3& center = { 0,0,0 }, const glm::vec3& x_axis = { 1,0,0 }, const glm::vec3& y_axis = { 0,1,0 }, const glm::vec3& z_axis = { 0,0,1 });
 
-	glm::vec3 getPixel(int w, int h);
-
 	const glm::vec3& getCenter() const { return center; }
+
+	glm::vec3 getPixel(int w, int h);
+	cv::Mat getPixels(const Source &src, const std::vector<glm::vec3> &areaPoints);
 };
