@@ -118,8 +118,8 @@ std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& objec
 
 				//std::cout << "Solid angle: " << totalSolidAngle << '\n';
 
-				const float epsilon = 1e-3f;
-				//const float epsilon = 1.0f;
+				//const float epsilon = 1e-3f;
+				const float epsilon = 1e-2f;
 				const float four_pi = 4.0f * glm::pi<float>();
 
 				bool isInside = glm::abs(totalSolidAngle - four_pi) < epsilon;

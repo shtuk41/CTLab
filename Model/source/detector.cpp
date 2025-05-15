@@ -75,7 +75,9 @@ cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<gl
 {
 	auto apex = src.getCenter();
 
-	cv::Mat detectorValue = cv::Mat::zeros(nDetectorResZ, nDetectorResY, CV_8U);
+	cv::Mat detectorValue = cv::Mat::zeros(nDetectorResZ, nDetectorResY, CV_16U);
+
+	ushort maxValue = 1;
 
 	for (int jj = 0; jj < nDetectorResZ; jj++)
 	{
@@ -95,6 +97,8 @@ cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<gl
 
 			float half_side = static_cast<float>(xVoxelPitch / 2.0);
 
+			ushort currentValue = 0;
+
 			for (auto ap : areaPoints)
 			{
 				glm::vec3 apexToPoint = ap - apex;
@@ -103,13 +107,30 @@ cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<gl
 				float py = glm::dot(apexToPoint, yV);  // lateral
 				float pz = glm::dot(apexToPoint, zV);  // lateral
 
+
+
 				if (px >= 0 && px <= h &&
 					fabs(py) <= half_side &&
 					fabs(pz) <= half_side)
 				{
-					detectorValue.at<uchar>(jj, ii) = 255;
+					currentValue += 1;
 				}
 			}
+
+			if (currentValue > maxValue)
+			{
+				maxValue = currentValue;
+			}
+
+			detectorValue.at<ushort>(jj, ii) = currentValue;
+		}
+	}
+
+	for (int jj = 0; jj < nDetectorResZ; jj++)
+	{
+		for (int ii = 0; ii < nDetectorResY; ii++)
+		{
+			detectorValue.at<ushort>(jj, ii) = static_cast<ushort>((1.0f - (float(detectorValue.at<ushort>(jj, ii)) / maxValue)) * 65535);
 		}
 	}
 

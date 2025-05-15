@@ -81,5 +81,8 @@
     <ClInclude Include="include\cadrw\stp_parser.h">
       <Filter>Header Files\cadrw</Filter>
     </ClInclude>
+    <ClInclude Include="include\utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
