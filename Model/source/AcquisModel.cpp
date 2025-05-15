@@ -12,6 +12,7 @@
 #include <detector.h>
 #include <source.h>
 #include <volumeArea.h>
+#include <utilities.h>
 
 void savePointsToAFile(const std::vector<glm::vec3>& points, const std::string fileName)
 {
@@ -39,7 +40,7 @@ int main()
 	{
 		VolumeArea area(center);
 		ScanObject obj;
-		obj.Init("C:\\Files\\CTLab\\MeshesTest\\torus100.stl");
+		obj.Init("C:\\Files\\CTLab\\MeshesTest\\sphere20.stl");
 
 		auto scanPoints = obj.GetMeshPoints();
 		savePointsToAFile(scanPoints, "object.csv");
@@ -49,20 +50,23 @@ int main()
 
 		std::vector<glm::vec3> insidePoints = area.getPointsInsideObject(obj);
 
+		std::cout << insidePoints.size() << std::endl;
+		savePointsToAFile(insidePoints, "insidePoints.csv");
+
 		glm::vec3 sourceCenter(0,0,0);
 		glm::vec3 sourceDirection(1,0,0);
 
 		Source source(sourceCenter, sourceDirection);
 
-		glm::vec3 detectorCenter(1000, 0, 0);
+		glm::vec3 detectorCenter(700, 0, 0);
 
 		Detector detector(detectorCenter);
-		detector.getPixels(source, insidePoints);
+		//cv::Mat detData = detector.getPixels(source, insidePoints);
+		cv::Mat detData = detector.getPixelsPyramidMethod(source, insidePoints);
 
+		saveMatToFIle(detData, "detectorData.png");
 
-
-		std::cout << insidePoints.size() << std::endl;
-		savePointsToAFile(insidePoints, "insidePoints.csv");
+		
 	}
 	catch (std::exception& ex)
 	{

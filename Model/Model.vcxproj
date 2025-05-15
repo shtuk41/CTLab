@@ -113,7 +113,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/libd;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;opencv_core480d.lib;opencv_imgproc480d.lib;opencv_highgui480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;opencv_core480d.lib;opencv_imgproc480d.lib;opencv_highgui480d.lib;opencv_imgcodecs480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y /D "$(SolutionDir)ThirdParty\freetype\bin\$(Configuration)\freetype.dll" "$(OutDir)\"
@@ -140,7 +140,11 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKShHealing.dll" "$
 xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKTopAlgo.dll" "$(OutDir)\"
 xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKV3d.dll" "$(OutDir)\"
 xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKVCAF.dll" "$(OutDir)\"
-xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKXCAF.dll" "$(OutDir)\"</Command>
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKXCAF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_core480d.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_highgui480d.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgcodecs480d.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480d.dll" "$(OutDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,7 +164,7 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bind\TKXCAF.dll" "$(OutD
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/lib;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;opencv_core480.lib;opencv_imgproc480.lib;opencv_highgui480.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;opencv_core480.lib;opencv_imgproc480.lib;opencv_highgui480.lib;opencv_imgcodecs480.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y /D "$(SolutionDir)ThirdParty\freetype\bin\$(Configuration)\freetype.dll" "$(OutDir)\"
@@ -187,7 +191,11 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKShHealing.dll" "$(
 xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKTopAlgo.dll" "$(OutDir)\"
 xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKV3d.dll" "$(OutDir)\"
 xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKVCAF.dll" "$(OutDir)\"
-xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKXCAF.dll" "$(OutDir)\"</Command>
+xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKXCAF.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_core480.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_highgui480.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgcodecs480.dll" "$(OutDir)\"
+xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480.dll" "$(OutDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -214,6 +222,7 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\OCCT78\win64\vc14\bin\TKXCAF.dll" "$(OutDi
     <ClInclude Include="include\modelExceptions.h" />
     <ClInclude Include="include\scanObject.h" />
     <ClInclude Include="include\source.h" />
+    <ClInclude Include="include\utilities.h" />
     <ClInclude Include="include\volumeArea.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

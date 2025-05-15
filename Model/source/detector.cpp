@@ -16,9 +16,9 @@ Detector::Detector(const glm::vec3& center, const glm::vec3& x_axis, const glm::
 	double halfWidth = (nDetectorResY - 1) * yDetectorPitch / 2.0;
 	double halfHeight = (nDetectorResZ - 1) * zDetectorPitch / 2.0;
 
-	for (int h = 0; h < nVoxelsZ; h++)
+	for (int h = 0; h < nDetectorResZ; h++)
 	{
-		for (int w = 0; w < nVoxelsY; w++)
+		for (int w = 0; w < nDetectorResY; w++)
 		{
 			double y = center.y + w * yDetectorPitch - halfWidth;
 			double z = center.z + h * zDetectorPitch - halfHeight;
@@ -31,7 +31,7 @@ Detector::Detector(const glm::vec3& center, const glm::vec3& x_axis, const glm::
 
 glm::vec3 Detector::getPixel(int y, int z)
 {
-	if (y >= 0 && y < nDetectorResY && z >= 0.0 && z < std::abs(nVoxelsZ))
+	if (y >= 0 && y < nDetectorResY && z >= 0 && z < nDetectorResZ)
 		return (*plate)[z][y];
 
 	THROW_DETAILED_EXCEPTION("detector pixel location is outside of range");
@@ -40,7 +40,6 @@ glm::vec3 Detector::getPixel(int y, int z)
 cv::Mat Detector::getPixels(const Source& src, const std::vector<glm::vec3>& areaPoints)
 {
 	auto srcCenter = src.getCenter();
-
 
 	cv::Mat detectorValue = cv::Mat::zeros(nDetectorResZ, nDetectorResY, CV_8U);
 
@@ -57,15 +56,59 @@ cv::Mat Detector::getPixels(const Source& src, const std::vector<glm::vec3>& are
 
 				float detectorLineLengths = glm::length(lineDetector);
 
-
 				glm::vec3 projOnTolineDetector = glm::dot(lineScanAreaPoint, lineDetector) / (detectorLineLengths * detectorLineLengths) * lineDetector;
 
 				glm::vec3 shortestVector = ap - projOnTolineDetector;
 
-				glm::length_t distance = shortestVector.length();
+				float distance = glm::length(shortestVector);
 
-				if (distance < 0.1)
+				if (distance < 0.5)
 					detectorValue.at<uchar>(jj, ii) = 255;
+			}
+		}
+	}
+
+	return detectorValue;
+}
+
+cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<glm::vec3>& areaPoints)
+{
+	auto apex = src.getCenter();
+
+	cv::Mat detectorValue = cv::Mat::zeros(nDetectorResZ, nDetectorResY, CV_8U);
+
+	for (int jj = 0; jj < nDetectorResZ; jj++)
+	{
+		for (int ii = 0; ii < nDetectorResY; ii++)
+		{
+			glm::vec3 baseCenter = getPixel(ii, jj);
+			glm::vec3 xV = baseCenter - apex;
+			float h = glm::length(xV);
+			if (h < 1e-6f) continue; // avoid zero length
+
+			xV = glm::normalize(xV);
+
+			// Build orthonormal frame
+			glm::vec3 arbitrary = (fabs(glm::dot(xV, glm::vec3(0, 0, 1))) < 0.99f) ? glm::vec3(0, 0, 1) : glm::vec3(1, 0, 0);
+			glm::vec3 yV = glm::normalize(glm::cross(xV, arbitrary));
+			glm::vec3 zV = glm::cross(xV, yV); // right-handed frame
+
+			float half_side = static_cast<float>(xVoxelPitch / 2.0);
+
+			for (auto ap : areaPoints)
+			{
+				glm::vec3 apexToPoint = ap - apex;
+
+				float px = glm::dot(apexToPoint, xV);  // along pyramid axis (height)
+				float py = glm::dot(apexToPoint, yV);  // lateral
+				float pz = glm::dot(apexToPoint, zV);  // lateral
+
+				if (px >= 0 && px <= h &&
+					fabs(py) <= half_side &&
+					fabs(pz) <= half_side)
+				{
+					detectorValue.at<uchar>(jj, ii) = 255;
+				}
 			}
 		}
 	}
