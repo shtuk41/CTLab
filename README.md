@@ -1,17 +1,17 @@
 # CTLab
 Simulation of CT acquisition process and volume reconstruction.  
 
-Voxel centers inside the model.
+Voxel centers inside the model:
 
-<img src="Readme/PointsInsideModel.png" alt="Screenshot>  
+![Screenshot](Readme/PointsInsideModel.png)
 
-Initial scanning configuration  
+Initial scanning configuration:
 
-<img src="Readme/initialConfiguration.png" alt="Screenshot>    
+![Screenshot](Readme/initialConfiguration.png)
 
-First projection  
+First projection:
 
-<img src="Readme/firstProjection.png" alt="Screenshot>    
+![Screenshot](Readme/firstProjection.png)  
 
 
 
