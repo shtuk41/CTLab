@@ -73,6 +73,9 @@ std::vector<glm::vec3> VolumeArea::getAllPoints() const
 std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& object)
 {
 	//winding number procedure to find out if the point is inside mesh
+
+	myCudaKernelLauncher();
+
 	std::vector<glm::vec3> innerPoints;
 
 	for (int h = 0; h < nVoxelsZ; h++)

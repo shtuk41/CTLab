@@ -56,6 +56,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 12.6.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -156,15 +157,15 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480d.d
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/glm/include;$(ProjectDir)/include/cadrw;$(SolutionDir)/ThirdParty/OCCT78/inc;$(SolutionDir)/ThirdParty/opencv48\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/glm/include;$(ProjectDir)/include/cadrw;$(SolutionDir)/ThirdParty/OCCT78/inc;$(SolutionDir)/ThirdParty/opencv48\include;$(CUDA_PATH)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/lib;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;opencv_core480.lib;opencv_imgproc480.lib;opencv_highgui480.lib;opencv_imgcodecs480.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/lib;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib;$(CUDA_PATH)\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;opencv_core480.lib;opencv_imgproc480.lib;opencv_highgui480.lib;opencv_imgcodecs480.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y /D "$(SolutionDir)ThirdParty\freetype\bin\$(Configuration)\freetype.dll" "$(OutDir)\"
@@ -197,12 +198,25 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_highgui480.dl
 xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgcodecs480.dll" "$(OutDir)\"
 xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480.dll" "$(OutDir)\"</Command>
     </PostBuildEvent>
+    <CudaCompile>
+      <Include>$(CUDA_PATH)\include</Include>
+    </CudaCompile>
+    <CudaLink>
+      <AdditionalDependencies>cudart.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UseHostLibraryDependencies>false</UseHostLibraryDependencies>
+      <UseHostLibraryDirectories>false</UseHostLibraryDirectories>
+    </CudaLink>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <CudaCompile Include="source\volumeArea.cu">
+      <FileType>Document</FileType>
+      <Include Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.6\include</Include>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\AcquisModel.cpp" />
+    <CudaCompile Include="source\AcquisModel.cpp" />
     <ClCompile Include="source\cadrw\cad_common.cpp" />
     <ClCompile Include="source\cadrw\cad_parser.cpp" />
     <ClCompile Include="source\cadrw\stl_parser.cpp" />
@@ -228,6 +242,7 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480.dl
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 12.6.targets" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

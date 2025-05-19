@@ -48,7 +48,6 @@
     <ClCompile Include="source\cadrw\stp_parser.cpp">
       <Filter>Source Files\cadrw</Filter>
     </ClCompile>
-    <ClCompile Include="source\AcquisModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\volumeArea.h">
@@ -84,5 +83,11 @@
     <ClInclude Include="include\utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="source\volumeArea.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="source\AcquisModel.cpp" />
   </ItemGroup>
 </Project>
