@@ -9,12 +9,12 @@ extern dim3 blockDim;
 extern dim3 gridDim;
 #endif
 
-void myCudaKernelLauncher()
+void myCudaKernelLauncher(const float* mesh, unsigned int numberOfTriangles)
 {
 
 }
 
-__global__ void myKernel(int* data) {
+__global__ void myKernel(float* data) {
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     // do work per thread
 }

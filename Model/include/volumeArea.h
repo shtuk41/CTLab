@@ -14,7 +14,7 @@ struct Vec3
 	Vec3(float x_ = 0, float y_ = 0, float z_ = 0) : x(x_), y(y_), z(z_) {}
 };
 
-void myCudaKernelLauncher();
+void myCudaKernelLauncher(const float* mesh, unsigned int numberOfTriangles);
 
 class VolumeArea
 {

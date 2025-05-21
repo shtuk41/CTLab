@@ -17,3 +17,5 @@ const int nDetectorResZ = 100;
 const double yDetectorPitch = 1;
 const double zDetectorPitch = 1;
 
+#define USE_CUDA
+

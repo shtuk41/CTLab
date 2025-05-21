@@ -26,6 +26,7 @@
     <RootNamespace>Model</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>AcquisModel</ProjectName>
+    <CudaToolkitCustomDir>$(CUDA_PATH)</CudaToolkitCustomDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -113,8 +114,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/libd;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;opencv_core480d.lib;opencv_imgproc480d.lib;opencv_highgui480d.lib;opencv_imgcodecs480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/OCCT78/win64/vc14/libd;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib;$(CUDA_PATH)/lib/x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>TKernel.lib;TKDESTEP.lib;TKDESTL.lib;TKXSBase.lib;TKBRep.lib;TKMath.lib;TKMesh.lib;opencv_core480d.lib;opencv_imgproc480d.lib;opencv_highgui480d.lib;opencv_imgcodecs480d.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y /D "$(SolutionDir)ThirdParty\freetype\bin\$(Configuration)\freetype.dll" "$(OutDir)\"
@@ -147,6 +148,13 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_highgui480d.d
 xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgcodecs480d.dll" "$(OutDir)\"
 xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480d.dll" "$(OutDir)\"</Command>
     </PostBuildEvent>
+    <CudaLink>
+      <AdditionalDependencies>cudart.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </CudaLink>
+    <CudaCompile>
+      <Include>$(CUDA_PATH)\include</Include>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
