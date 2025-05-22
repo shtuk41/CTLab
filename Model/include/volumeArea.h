@@ -14,22 +14,14 @@ struct Vec3
 	Vec3(float x_ = 0, float y_ = 0, float z_ = 0) : x(x_), y(y_), z(z_) {}
 };
 
-void myCudaKernelLauncher(const float* mesh, unsigned int numberOfTriangles);
+
 
 class VolumeArea
 {
 private:
 
 	glm::vec3 boxCenter;
-
-	using XArray = std::vector<glm::vec3>;
-	using YArray = std::vector<XArray>;
-	using ZArray = std::vector<YArray>;
-
 	std::unique_ptr<ZArray> scanBox;
-
-
-
 
 public:
 	VolumeArea(const glm::vec3& center = { 0,0,0 }, const glm::vec3& x_axis = { 1,0,0 }, const glm::vec3& y_axis = { 0,1,0 }, const glm::vec3& z_axis = { 0,0,1 });
@@ -41,3 +33,5 @@ public:
 	glm::vec3 getPointLocation(int w, int h, int d);
 	
 };
+
+void getPointsInsideObjectCudaKernelLouncher(const ScanObject& obj, ZArray *scanBox, std::vector<glm::vec3>& innerPoints);

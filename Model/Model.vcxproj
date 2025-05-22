@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/glm/include;$(ProjectDir)/include/cadrw;$(SolutionDir)/ThirdParty/OCCT78/inc;$(SolutionDir)/ThirdParty/opencv48\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/glm/include;$(ProjectDir)/include/cadrw;$(SolutionDir)/ThirdParty/OCCT78/inc;$(SolutionDir)/ThirdParty/opencv48\include;$(CUDA_PATH)/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>

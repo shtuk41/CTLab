@@ -41,7 +41,7 @@ int main()
 		VolumeArea area(center);
 		ScanObject obj;
 		//obj.Init("C:\\Files\\CTLab\\MeshesTest\\sphere5.stl");
-		obj.Init("C:\\Files\\CTLab\\MeshesTest\\wolf10.stl");
+		obj.Init("D:\\Files\\CTLab\\MeshesTest\\wolf10.stl");
 
 		auto scanPoints = obj.GetMeshPoints();
 		savePointsToAFile(scanPoints, "object.csv");

@@ -78,28 +78,8 @@ std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& objec
 	std::vector<glm::vec3> innerPoints;
 
 #ifdef USE_CUDA
-
-	unsigned int numberOfTriangles = object.GetNumberOfTriangles();
-	glm::vec4* ptr = object.GetTrianglesWithOffset();
-	auto meshPtr = std::make_unique<float []>(numberOfTriangles * 3 * 3);
-
-	for (unsigned int ii = 0; ii < numberOfTriangles; ii++)
-	{
-		meshPtr[ii * 3] = ptr[ii].x;
-		meshPtr[ii * 3 + 1] = ptr[ii].y;
-		meshPtr[ii * 3 + 2] = ptr[ii].z;
-
-		meshPtr[ii * 3 + 3] = ptr[ii + 1].x;
-		meshPtr[ii * 3 + 4] = ptr[ii + 1].y;
-		meshPtr[ii * 3 + 5] = ptr[ii + 1].z;
-
-		meshPtr[ii * 3 + 6] = ptr[ii + 2].x;
-		meshPtr[ii * 3 + 7] = ptr[ii + 2].y;
-		meshPtr[ii * 3 + 8] = ptr[ii + 2].z;
-	}
-
-	myCudaKernelLauncher(meshPtr.get(), numberOfTriangles);
-
+	
+	getPointsInsideObjectCudaKernelLouncher(object, scanBox.get(), innerPoints);
 
 #else
 
@@ -161,7 +141,6 @@ std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& objec
 	}
 
 #endif
-
-	
+		
 	return innerPoints;
 }

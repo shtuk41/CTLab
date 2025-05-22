@@ -38,3 +38,7 @@ public:
 	glm::vec4* GetTrianglesWithOffset() const { return m_data.output; }
 	std::vector<glm::vec3> GetMeshPoints() const;
 };
+
+using XArray = std::vector<glm::vec3>;
+using YArray = std::vector<XArray>;
+using ZArray = std::vector<YArray>;
