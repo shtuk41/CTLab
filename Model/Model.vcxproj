@@ -218,6 +218,7 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480.dl
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <CudaCompile Include="source\detector.cu" />
     <CudaCompile Include="source\volumeArea.cu">
       <FileType>Document</FileType>
       <Include Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\include</Include>

@@ -89,5 +89,8 @@
       <Filter>Source Files</Filter>
     </CudaCompile>
     <CudaCompile Include="source\AcquisModel.cpp" />
+    <CudaCompile Include="source\detector.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>

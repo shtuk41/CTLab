@@ -27,3 +27,8 @@ public:
 	cv::Mat getPixels(const Source &src, const std::vector<glm::vec3> &areaPoints);
 	cv::Mat getPixelsPyramidMethod(const Source& src, const std::vector<glm::vec3>& areaPoints);
 };
+
+void getPixelsPyramidMethodKernelLouncher(const glm::vec3& center, const std::vector<glm::vec3>& areaPoints, cv::Mat& detectorImage);
+
+
+

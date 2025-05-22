@@ -73,9 +73,14 @@ cv::Mat Detector::getPixels(const Source& src, const std::vector<glm::vec3>& are
 
 cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<glm::vec3>& areaPoints)
 {
-	auto apex = src.getCenter();
+	glm::vec3 apex = src.getCenter();
 
 	cv::Mat detectorValue = cv::Mat::zeros(nDetectorResZ, nDetectorResY, CV_16U);
+
+#ifdef USE_CUDA
+	getPixelsPyramidMethodKernelLouncher(apex, areaPoints, detectorValue);
+
+#else
 
 	ushort maxValue = 1;
 
@@ -107,8 +112,6 @@ cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<gl
 				float py = glm::dot(apexToPoint, yV);  // lateral
 				float pz = glm::dot(apexToPoint, zV);  // lateral
 
-
-
 				if (px >= 0 && px <= h &&
 					fabs(py) <= half_side &&
 					fabs(pz) <= half_side)
@@ -133,6 +136,8 @@ cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<gl
 			detectorValue.at<ushort>(jj, ii) = static_cast<ushort>((1.0f - (float(detectorValue.at<ushort>(jj, ii)) / maxValue)) * 65535);
 		}
 	}
+
+#endif
 
 	return detectorValue;
 }
