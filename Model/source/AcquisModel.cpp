@@ -87,9 +87,9 @@ int main()
 		glm::vec3 detectorCenter(1000, 0, 0);
 		Detector detector(detectorCenter);
 
-		for (int ii = 0; ii < 360; ii++)
+		for (int ii = 0; ii < 3600; ii++)
 		{
-			rotateZ(insidePoints, center, 1);
+			rotateZ(insidePoints, center, 0.1);
 
 			//cv::Mat detData = detector.getPixels(source, insidePoints);
 			cv::Mat detData = detector.getPixelsPyramidMethod(source, insidePoints);
