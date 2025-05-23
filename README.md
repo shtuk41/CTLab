@@ -1,6 +1,10 @@
 # CTLab
 Simulation of CT acquisition process and volume reconstruction.  
 
+Reconstruction using SimpleITK and viewed with napari
+
+![Screenshot](Readme/ReconstructedSimpleITK.png)
+
 Points inside the model:
 
 ![Screenshot](Readme/PointsInsideModel.png)
