@@ -21,15 +21,15 @@ Detector::Detector(const glm::vec3& center, const glm::vec3& x_axis, const glm::
 		for (int w = 0; w < nDetectorResY; w++)
 		{
 			double y = center.y + w * yDetectorPitch - halfWidth;
-			double z = center.z + h * zDetectorPitch - halfHeight;
+			double z = center.z - h * zDetectorPitch + halfHeight;
 			double x = center.x;
 
-			(*plate)[h][w] = glm::vec3(x, y, z);
+			(*plate)[h][w] = glm::vec3(x, z, y);
 		}
 	}
 }
 
-glm::vec3 Detector::getPixel(int y, int z) const
+glm::vec3 Detector::getPixel(int z, int y) const
 {
 	if (y >= 0 && y < nDetectorResY && z >= 0 && z < nDetectorResZ)
 		return (*plate)[z][y];

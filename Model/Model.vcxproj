@@ -154,6 +154,8 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480d.d
     </CudaLink>
     <CudaCompile>
       <Include>$(CUDA_PATH)\include</Include>
+      <AdditionalCompilerOptions>
+      </AdditionalCompilerOptions>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -208,6 +210,8 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480.dl
     </PostBuildEvent>
     <CudaCompile>
       <Include>$(CUDA_PATH)\include</Include>
+      <AdditionalCompilerOptions>
+      </AdditionalCompilerOptions>
     </CudaCompile>
     <CudaLink>
       <AdditionalDependencies>cudart.lib</AdditionalDependencies>

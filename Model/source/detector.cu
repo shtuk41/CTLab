@@ -78,7 +78,7 @@ void getPixelsPyramidMethodKernelLouncher(const Detector * const detector, const
 	{
 		for (int ii = 0; ii < nDetectorResY; ii++)
 		{
-			glm::vec3 pixel = detector->getPixel(ii, jj);
+			glm::vec3 pixel = detector->getPixel(jj, ii);
 
 			h_detectorPixels[jj * nDetectorResY + ii] = make_float3(pixel.x, pixel.y, pixel.z);
 		}
