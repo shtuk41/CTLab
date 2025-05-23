@@ -246,6 +246,7 @@ xcopy /Y /D "$(SolutionDir)ThirdParty\opencv48\x64\vc17\bin\opencv_imgproc480.dl
     <ClInclude Include="include\scanObject.h" />
     <ClInclude Include="include\source.h" />
     <ClInclude Include="include\utilities.h" />
+    <ClInclude Include="include\vecMath.cuh" />
     <ClInclude Include="include\volumeArea.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

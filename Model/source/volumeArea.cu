@@ -1,6 +1,7 @@
 
 #include <cuda_runtime.h>
 #include <math_constants.h>
+#include <vecMath.cuh>
 
 #include <iostream>
 #include <vector>
@@ -16,30 +17,6 @@ extern dim3 blockIdx;
 extern dim3 blockDim;
 extern dim3 gridDim;
 #endif
-
-__device__ float3 vecSub(const float3& a, const float3& b)
-{
-	return make_float3(a.x - b.x, a.y - b.y, a.z - b.z);
-}
-
-__device__ float vecDot(const float3& a, const float3& b) 
-{
-	return a.x * b.x + a.y * b.y + a.z * b.z;
-}
-
-__device__ float3 vecCross(const float3& a, const float3& b) 
-{
-	return make_float3(
-		a.y * b.z - a.z * b.y,
-		a.z * b.x - a.x * b.z,
-		a.x * b.y - a.y * b.x
-	);
-}
-
-__device__ float vecLength(const float3& v) {
-	return sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
-}
-
 
 
 __global__ void findInnerPointsKernel(const float3* d_mesh, int numberOfTriangles, const float3*d_areaPoints, bool*d_includeFlags, int numberOfPoints) {

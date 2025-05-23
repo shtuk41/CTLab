@@ -29,7 +29,7 @@ Detector::Detector(const glm::vec3& center, const glm::vec3& x_axis, const glm::
 	}
 }
 
-glm::vec3 Detector::getPixel(int y, int z)
+glm::vec3 Detector::getPixel(int y, int z) const
 {
 	if (y >= 0 && y < nDetectorResY && z >= 0 && z < nDetectorResZ)
 		return (*plate)[z][y];
@@ -78,7 +78,7 @@ cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<gl
 	cv::Mat detectorValue = cv::Mat::zeros(nDetectorResZ, nDetectorResY, CV_16U);
 
 #ifdef USE_CUDA
-	getPixelsPyramidMethodKernelLouncher(apex, areaPoints, detectorValue);
+	getPixelsPyramidMethodKernelLouncher(this, apex, areaPoints, detectorValue);
 
 #else
 
