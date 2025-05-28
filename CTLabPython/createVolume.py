@@ -2,7 +2,8 @@ import SimpleITK as sitk
 import os
 
 # Folder containing your PNG slices
-folder_path = r"C:\Files\CTLab\Slices\Slices3600"
+cwd = os.getcwd()
+folder_path = os.path.abspath(os.path.join(cwd, "..", "Slices", "Slices3600"))
 
 # List and sort the PNG files to ensure proper order
 file_names = [f for f in os.listdir(folder_path) if f.endswith('.png')]

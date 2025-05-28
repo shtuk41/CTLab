@@ -2,11 +2,11 @@
 //
 
 #include <exception>
-//#include <format>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -64,8 +64,8 @@ int main()
 	{
 		VolumeArea area(center);
 		ScanObject obj;
-		obj.Init("C:\\Files\\CTLab\\MeshesTest\\wolf10.stl");
-		//obj.Init("D:\\Files\\CTLab\\MeshesTest\\wolf10.stl");
+		//obj.Init("C:\\Files\\CTLab\\MeshesTest\\wolf10.stl");
+		obj.Init("..\\MeshesTest\\wolf10.stl");
 
 		auto scanPoints = obj.GetMeshPoints();
 		savePointsToAFile(scanPoints, "object.csv");
@@ -84,24 +84,25 @@ int main()
 
 		Source source(sourceCenter, sourceDirection);
 
-		glm::vec3 detectorCenter(1000, 0, 0);
+		glm::vec3 detectorCenter(700, 0, 0);
 		Detector detector(detectorCenter);
+
+
 
 		for (int ii = 0; ii < 3600; ii++)
 		{
-			rotateZ(insidePoints, center, 0.1);
+			//std::cout << "Step: " << ii << '\n';
+			rotateZ(insidePoints, center, 0.1f);
 
 			//cv::Mat detData = detector.getPixels(source, insidePoints);
 			cv::Mat detData = detector.getPixelsPyramidMethod(source, insidePoints);
 
 			std::ostringstream oss;
-			oss << "slice" << ii << ".png";
+			oss << "..\\Slices\\Slices3600\\slice" << ii << ".png";
 			saveMatToFile(detData, oss.str());
 
 			//saveMatToFile(detData,std::format("slice{}.png", ii));
 		}
-
-		
 	}
 	catch (std::exception& ex)
 	{

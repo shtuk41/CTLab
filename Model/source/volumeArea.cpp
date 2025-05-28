@@ -37,7 +37,7 @@ VolumeArea::VolumeArea(const glm::vec3& center, const glm::vec3& x_axis, const g
 				double y = center.y + h * zVoxelPitch - halfHeight;
 				double z = center.z + d * xVoxelPitch - halfDepth;
 
-				(*scanBox)[h][w][d] = glm::vec3(x, y, z);
+				(*scanBox)[h][w][d] = std::pair<glm::vec3, int>(glm::vec3(x, y, z), 0);
 			}
 		}
 	}
@@ -48,7 +48,7 @@ glm::vec3 VolumeArea::getPointLocation(int x, int y, int z)
 	if (x >= 0 && x < nVoxelsX &&
 		y >= 0 && y < nVoxelsY &&
 		z >= 0 && z < nVoxelsZ)
-		return (*scanBox)[z][y][x];
+		return (*scanBox)[z][y][x].first;
 
 	THROW_DETAILED_EXCEPTION("voxel location is outside of range");
 }
@@ -63,7 +63,7 @@ std::vector<glm::vec3> VolumeArea::getAllPoints() const
 		{
 			for (int d = 0; d < nVoxelsX; d++)
 			{
-				points.push_back((*scanBox)[h][w][d]);
+				points.push_back((*scanBox)[h][w][d].first);
 			}
 		}
 	}

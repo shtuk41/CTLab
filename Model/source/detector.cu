@@ -24,7 +24,7 @@ extern dim3 gridDim;
 #endif
 
 
-__global__ void getPixelPyramidMethodKernel(const float3* detectorPixels, int numberPixels, float3 sourceCenter, const float3* d_areaPoints, int numberOfPoints, unsigned short* d_pixelValue)
+__global__ void getPixelPyramidMethodKernel(const float3* detectorPixels, size_t numberPixels, float3 sourceCenter, const float3* d_areaPoints, size_t numberOfPoints, unsigned short* d_pixelValue)
 {
 	int idx = threadIdx.x + blockIdx.x * blockDim.x;
 	if (idx >= numberPixels)
@@ -78,6 +78,7 @@ void getPixelsPyramidMethodKernelLouncher(const Detector * const detector, const
 	{
 		for (int ii = 0; ii < nDetectorResY; ii++)
 		{
+			//std::cout << jj << " " << ii << '\n';
 			glm::vec3 pixel = detector->getPixel(jj, ii);
 
 			h_detectorPixels[jj * nDetectorResY + ii] = make_float3(pixel.x, pixel.y, pixel.z);
@@ -106,8 +107,8 @@ void getPixelsPyramidMethodKernelLouncher(const Detector * const detector, const
 	cudaMalloc(&d_pixelValues, numberPixels * sizeof(unsigned short));
 	cudaMemset(d_pixelValues, 0, numberPixels * sizeof(unsigned short));
 
-	int threadsPerBlock = 256;
-	int blocks = (numberPixels + threadsPerBlock - 1) / threadsPerBlock;
+	unsigned int threadsPerBlock = 256;
+	unsigned int blocks = static_cast<unsigned int>((numberPixels + threadsPerBlock - 1) / threadsPerBlock);
 	getPixelPyramidMethodKernel<<<blocks, threadsPerBlock>>> (d_detectorPoints, numberPixels, h_sCenter, d_areaPoints, h_areaPoints.size(), d_pixelValues);
 
 	cudaError_t err = cudaDeviceSynchronize();

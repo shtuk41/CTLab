@@ -19,7 +19,7 @@ extern dim3 gridDim;
 #endif
 
 
-__global__ void findInnerPointsKernel(const float3* d_mesh, int numberOfTriangles, const float3*d_areaPoints, bool*d_includeFlags, int numberOfPoints) {
+__global__ void findInnerPointsKernel(const float3* d_mesh, int numberOfTriangles, const float3*d_areaPoints, bool*d_includeFlags, size_t numberOfPoints) {
 	int idx = threadIdx.x + blockIdx.x * blockDim.x;
 	if (idx >= numberOfPoints)
 		return;
@@ -77,7 +77,7 @@ void getPointsInsideObjectCudaKernelLouncher(const ScanObject& obj, ZArray* scan
 		{
 			for (int d = 0; d < nVoxelsX; d++)
 			{
-				glm::vec3 p = (*scanBox)[h][w][d];
+				glm::vec3 p = (*scanBox)[h][w][d].first;
 
 				int index = ((h * nVoxelsY + w) * nVoxelsX + d);
 
@@ -101,7 +101,7 @@ void getPointsInsideObjectCudaKernelLouncher(const ScanObject& obj, ZArray* scan
 	cudaMemset(d_includeFlag, 0, totalVoxes);
 
 	int threadsPerBlock = 256;
-	int blocks = (totalVoxes + threadsPerBlock - 1) / threadsPerBlock;
+	int blocks = static_cast<int>((totalVoxes + threadsPerBlock - 1) / threadsPerBlock);
 	findInnerPointsKernel<<<blocks, threadsPerBlock>>>(d_mesh, numberOfTriangles, d_areaPoints, d_includeFlag, totalVoxes);
 
 	cudaError_t err = cudaDeviceSynchronize();
@@ -128,7 +128,7 @@ void getPointsInsideObjectCudaKernelLouncher(const ScanObject& obj, ZArray* scan
 			int w = (ii / nVoxelsX) % nVoxelsY;
 			int h = ii / (nVoxelsX * nVoxelsY);
 
-			internalPoints.push_back((*scanBox)[h][w][d]);
+			internalPoints.push_back((*scanBox)[h][w][d].first);
 		}
 	}
 

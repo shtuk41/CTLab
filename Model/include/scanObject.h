@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include <glm/glm.hpp>
 
@@ -39,6 +40,6 @@ public:
 	std::vector<glm::vec3> GetMeshPoints() const;
 };
 
-using XArray = std::vector<glm::vec3>;
+using XArray = std::vector<std::pair<glm::vec3, int>>;
 using YArray = std::vector<XArray>;
 using ZArray = std::vector<YArray>;
