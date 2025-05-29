@@ -5,8 +5,10 @@
 
 #include <glm/glm.hpp>
 
+#include <detector.h>
 #include <modelDefs.h>
 #include <scanObject.h>
+
 
 struct Vec3
 {
@@ -31,6 +33,7 @@ public:
 
 
 	glm::vec3 getPointLocation(int w, int h, int d);
+	void applySliceReconstruction(const Detector& detector, const Source& src, const cv::Mat& data, float angle);
 	
 };
 

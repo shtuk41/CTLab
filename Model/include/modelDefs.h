@@ -17,5 +17,7 @@ const int nDetectorResZ = 100;
 const double yDetectorPitch = 1;
 const double zDetectorPitch = 1;
 
+const unsigned int numberOfSlices = 3600;
+
 #define USE_CUDA
 

@@ -91,7 +91,7 @@ std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& objec
 			{
 				glm::vec4* ptr = object.GetTrianglesWithOffset();
 
-				glm::vec3 p = (*scanBox)[h][w][d];
+				glm::vec3 p = (*scanBox)[h][w][d].first;
 				//std::cout << "Point: " << p.x << " : " << p.y << " : " << p.z << '\n';
 
 				float totalSolidAngle = 0.0f;
@@ -143,4 +143,9 @@ std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& objec
 #endif
 		
 	return innerPoints;
+}
+
+void VolumeArea::applySliceReconstruction(const Detector& detector, const Source& src, const cv::Mat& data, float angle)
+{
+
 }
