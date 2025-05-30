@@ -145,7 +145,51 @@ std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& objec
 	return innerPoints;
 }
 
-void VolumeArea::applySliceReconstruction(const Detector& detector, const Source& src, const cv::Mat& data, float angle)
+void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, const cv::Mat& data, float angle)
 {
+	glm::vec3 apex = src.getCenter();
 
+	for (int jj = 0; jj < nDetectorResZ; jj++)
+	{
+		for (int ii = 0; ii < nDetectorResY; ii++)
+		{
+			glm::vec3 baseCenter = detector.getPixel(ii, jj);
+			glm::vec3 xV = baseCenter - apex;
+			float h = glm::length(xV);
+			if (h < 1e-6f) continue; // avoid zero length
+
+			xV = glm::normalize(xV);
+
+			// Build orthonormal frame
+			glm::vec3 arbitrary = (fabs(glm::dot(xV, glm::vec3(0, 0, 1))) < 0.99f) ? glm::vec3(0, 0, 1) : glm::vec3(1, 0, 0);
+			glm::vec3 yV = glm::normalize(glm::cross(xV, arbitrary));
+			glm::vec3 zV = glm::cross(xV, yV); // right-handed frame
+
+			float half_side = static_cast<float>(xVoxelPitch / 2.0);
+
+			for (int h = 0; h < nVoxelsZ; h++)
+			{
+				for (int w = 0; w < nVoxelsY; w++)
+				{
+					for (int d = 0; d < nVoxelsX; d++)
+					{
+						auto& p = (*scanBox)[h][w][d];
+
+						glm::vec3 apexToPoint = p.first - apex;
+
+						float px = glm::dot(apexToPoint, xV);  // along pyramid axis (height)
+						float py = glm::dot(apexToPoint, yV);  // lateral
+						float pz = glm::dot(apexToPoint, zV);  // lateral
+
+						if (px >= 0 && px <= h &&
+							fabs(py) <= half_side &&
+							fabs(pz) <= half_side)
+						{
+							p.second += static_cast<int>(data.at<uchar>(ii, jj));
+						}
+					}
+				}
+			}
+		}
+	}
 }

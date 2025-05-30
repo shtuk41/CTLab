@@ -19,5 +19,5 @@ const double zDetectorPitch = 1;
 
 const unsigned int numberOfSlices = 3600;
 
-#define USE_CUDA
+//#define USE_CUDA
 

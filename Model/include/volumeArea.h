@@ -33,7 +33,7 @@ public:
 
 
 	glm::vec3 getPointLocation(int w, int h, int d);
-	void applySliceReconstruction(const Detector& detector, const Source& src, const cv::Mat& data, float angle);
+	void backprojectSlice(const Detector& detector, const Source& src, const cv::Mat& data, float angle);
 	
 };
 

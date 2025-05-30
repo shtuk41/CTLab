@@ -96,7 +96,9 @@ int main()
 			oss << "..\\Slices\\Slices3600\\slice" << ii << ".png";
 			saveMatToFile(detData, oss.str());
 
-			area.applySliceReconstruction(detector, source, detData, float(ii /  numberOfSlices * 360));
+			area.backprojectSlice(detector, source, detData, float(ii /  numberOfSlices * 360));
+
+			std::cout << "Slice " << ii << std::endl;
 		}
 	}
 	catch (std::exception& ex)
