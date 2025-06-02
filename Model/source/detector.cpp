@@ -88,7 +88,7 @@ cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<gl
 	{
 		for (int ii = 0; ii < nDetectorResY; ii++)
 		{
-			glm::vec3 baseCenter = getPixel(ii, jj);
+			glm::vec3 baseCenter = getPixel(jj, ii);
 			glm::vec3 xV = baseCenter - apex;
 			float h = glm::length(xV);
 			if (h < 1e-6f) continue; // avoid zero length

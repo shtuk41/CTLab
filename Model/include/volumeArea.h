@@ -34,6 +34,7 @@ public:
 
 	glm::vec3 getPointLocation(int w, int h, int d);
 	void backprojectSlice(const Detector& detector, const Source& src, const cv::Mat& data, float angle);
+	void writeFile(const std::string fileName);
 	
 };
 

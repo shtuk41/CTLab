@@ -93,13 +93,20 @@ int main()
 			rotateZ(insidePoints, center, float(360 / numberOfSlices));
 			cv::Mat detData = detector.getPixelsPyramidMethod(source, insidePoints);
 			std::ostringstream oss;
-			oss << "..\\Slices\\Slices3600\\slice" << ii << ".png";
+			oss << "..\\Slices\\Slice" << numberOfSlices << "\\slice" << ii << ".png";
+			
 			saveMatToFile(detData, oss.str());
 
-			area.backprojectSlice(detector, source, detData, float(ii /  numberOfSlices * 360));
+			float rotation = 360.0f * ii / numberOfSlices;
 
-			std::cout << "Slice " << ii << std::endl;
+			std::cout << "Slice " << ii << " saved\nBackprojection started. Rotation " << std::fixed << std::setprecision(5) << rotation << std::endl;
+
+			area.backprojectSlice(detector, source, detData, rotation);
+
+			std::cout << "Slice " << ii << " backprojection finished.\n";
 		}
+
+		area.writeFile("area360.raw");
 	}
 	catch (std::exception& ex)
 	{

@@ -1,11 +1,15 @@
 // Model.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 #include <exception>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <vector>
 
+#include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include <volumeArea.h>
 #include <modelExceptions.h>
@@ -149,6 +153,9 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 {
 	glm::vec3 apex = src.getCenter();
 
+	float angleRadians = glm::radians(angle);
+	glm::mat4 rot = glm::rotate(angleRadians, glm::vec3(0.0f, 1.0f, 0.0));
+
 	for (int jj = 0; jj < nDetectorResZ; jj++)
 	{
 		for (int ii = 0; ii < nDetectorResY; ii++)
@@ -175,7 +182,12 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 					{
 						auto& p = (*scanBox)[h][w][d];
 
-						glm::vec3 apexToPoint = p.first - apex;
+						glm::vec3 areaPoint = p.first;
+						glm::vec3 areaPointTSource = areaPoint - boxCenter;
+						glm::vec4 rotated_point = rot * glm::vec4(areaPointTSource, 1.0f);
+						glm::vec3 rotatedPoint = glm::vec3(rotated_point) + boxCenter;
+
+						glm::vec3 apexToPoint = rotatedPoint - apex;
 
 						float px = glm::dot(apexToPoint, xV);  // along pyramid axis (height)
 						float py = glm::dot(apexToPoint, yV);  // lateral
@@ -192,4 +204,33 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 			}
 		}
 	}
+}
+
+void VolumeArea::writeFile(const std::string fileName)
+{
+	std::ofstream saveFile(fileName.c_str(), std::ios::binary);
+
+	try
+	{
+		if (saveFile.is_open())
+		{
+			for (int h = 0; h < nVoxelsZ; h++)
+			{
+				for (int w = 0; w < nVoxelsY; w++)
+				{
+					for (int d = 0; d < nVoxelsX; d++)
+					{
+						int p = (*scanBox)[h][w][d].second;
+						saveFile.write(reinterpret_cast<const char*>(&p), sizeof(p));
+					}
+				}
+			}
+		}
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "Error writing file: " << e.what() << std::endl;
+		return;
+	}
+
 }
