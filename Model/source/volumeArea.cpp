@@ -160,10 +160,10 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 	{
 		for (int ii = 0; ii < nDetectorResY; ii++)
 		{
-			glm::vec3 baseCenter = detector.getPixel(ii, jj);
+			glm::vec3 baseCenter = detector.getPixel(jj, ii);
 			glm::vec3 xV = baseCenter - apex;
-			float h = glm::length(xV);
-			if (h < 1e-6f) continue; // avoid zero length
+			float xVLength = glm::length(xV);
+			if (xVLength < 1e-6f) continue; // avoid zero length
 
 			xV = glm::normalize(xV);
 
@@ -193,11 +193,11 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 						float py = glm::dot(apexToPoint, yV);  // lateral
 						float pz = glm::dot(apexToPoint, zV);  // lateral
 
-						if (px >= 0 && px <= h &&
+						if (px >= 0 && px <= xVLength &&
 							fabs(py) <= half_side &&
 							fabs(pz) <= half_side)
 						{
-							p.second += static_cast<int>(data.at<uchar>(ii, jj));
+							p.second += static_cast<int>(data.at<ushort>(jj, ii));
 						}
 					}
 				}
