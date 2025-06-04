@@ -197,7 +197,7 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 							fabs(py) <= half_side &&
 							fabs(pz) <= half_side)
 						{
-							p.second += static_cast<int>(data.at<ushort>(jj, ii));
+							p.second += static_cast<int>(65535 - data.at<ushort>(jj, ii));
 						}
 					}
 				}

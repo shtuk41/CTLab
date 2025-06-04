@@ -101,9 +101,13 @@ int main()
 
 			std::cout << "Slice " << ii << " saved\nBackprojection started. Rotation " << std::fixed << std::setprecision(5) << rotation << std::endl;
 
-			area.backprojectSlice(detector, source, detData, rotation);
+			if (ii == 0 || ii == 45 || ii == 90)
+			{
+				area.backprojectSlice(detector, source, detData, rotation);
+				std::cout << "Slice " << ii << " backprojection finished.\n";
+			}
 
-			std::cout << "Slice " << ii << " backprojection finished.\n";
+			//break;
 		}
 
 		area.writeFile("area360.raw");

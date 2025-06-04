@@ -24,7 +24,6 @@ public:
 	const glm::vec3& getCenter() const { return center; }
 
 	glm::vec3 getPixel(int w, int h) const;
-	cv::Mat getPixels(const Source &src, const std::vector<glm::vec3> &areaPoints);
 	cv::Mat getPixelsPyramidMethod(const Source& src, const std::vector<glm::vec3>& areaPoints);
 };
 
