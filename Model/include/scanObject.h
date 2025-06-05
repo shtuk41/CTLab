@@ -40,6 +40,20 @@ public:
 	std::vector<glm::vec3> GetMeshPoints() const;
 };
 
-using XArray = std::vector<std::pair<glm::vec3, int>>;
+struct Voxel
+{
+	glm::vec3 location;
+	float value;
+	int count;
+
+	Voxel(glm::vec3 loc = {0,0,0}, float val = 0.0f, int c = 0)
+	{
+		location = loc;
+		value = val;
+		count = c;
+	}
+};
+
+using XArray = std::vector<Voxel>;
 using YArray = std::vector<XArray>;
 using ZArray = std::vector<YArray>;

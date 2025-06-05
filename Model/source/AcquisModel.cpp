@@ -87,13 +87,16 @@ int main()
 		glm::vec3 detectorCenter(700, 0, 0);
 		Detector detector(detectorCenter);
 
+		std::vector<int> slices = { 0,45,90 };
+
 		//scanning & reconstructing
-		for (uint ii = 0; ii < numberOfSlices; ii++)
+		//for (uint ii = 0; ii < numberOfSlices; ii++)
+		for (int ii : slices)
 		{
 			rotateZ(insidePoints, center, float(360 / numberOfSlices));
 			cv::Mat detData = detector.getPixelsPyramidMethod(source, insidePoints);
 			std::ostringstream oss;
-			oss << "..\\Slices\\Slice" << numberOfSlices << "\\slice" << ii << ".png";
+			oss << "..\\Slices\\Slices" << numberOfSlices << "\\slice" << ii << ".png";
 			
 			saveMatToFile(detData, oss.str());
 
@@ -101,13 +104,8 @@ int main()
 
 			std::cout << "Slice " << ii << " saved\nBackprojection started. Rotation " << std::fixed << std::setprecision(5) << rotation << std::endl;
 
-			if (ii == 0 || ii == 45 || ii == 90)
-			{
-				area.backprojectSlice(detector, source, detData, rotation);
-				std::cout << "Slice " << ii << " backprojection finished.\n";
-			}
-
-			//break;
+			area.backprojectSlice(detector, source, detData, rotation);
+			std::cout << "Slice " << ii << " backprojection finished.\n";
 		}
 
 		area.writeFile("area360.raw");

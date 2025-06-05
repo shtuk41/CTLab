@@ -3,11 +3,11 @@ import numpy as np
 from vtk.util import numpy_support
 
 # Load raw data
-data = np.fromfile(r"..\Model\area360.raw", dtype=np.int32).reshape((120, 120, 120))
+data = np.fromfile(r"..\Model\area360.raw", dtype=np.float32).reshape((120, 120, 120))
 
 # Convert to VTK format (column-major / Fortran order)
 vtk_data = numpy_support.numpy_to_vtk(
-    num_array=data.ravel(order='F'), deep=True, array_type=vtk.VTK_INT
+    num_array=data.ravel(order='F'), deep=True, array_type=vtk.VTK_FLOAT
 )
 
 # Create VTK image data
@@ -16,7 +16,7 @@ image_data.SetDimensions(120, 120, 120)
 image_data.GetPointData().SetScalars(vtk_data)
 
 # Opacity transfer function
-THRESHOLD = 50000
+THRESHOLD = 5000
 
 opacity_tf = vtk.vtkPiecewiseFunction()
 opacity_tf.AddPoint(np.min(data), 0.0)
