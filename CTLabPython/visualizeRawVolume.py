@@ -16,11 +16,11 @@ image_data.SetDimensions(120, 120, 120)
 image_data.GetPointData().SetScalars(vtk_data)
 
 # Opacity transfer function
-THRESHOLD = 50000
+THRESHOLD = 30000
 
 opacity_tf = vtk.vtkPiecewiseFunction()
 opacity_tf.AddPoint(np.min(data), 0.0)
-opacity_tf.AddPoint(THRESHOLD, 1.0)
+opacity_tf.AddPoint(THRESHOLD, 0.0)
 opacity_tf.AddPoint(THRESHOLD + 1, 1.0)
 opacity_tf.AddPoint(np.max(data), 1.0)
 
@@ -48,7 +48,7 @@ volume.SetProperty(volume_property)
 # Renderer
 renderer = vtk.vtkRenderer()
 renderer.AddVolume(volume)
-renderer.SetBackground(0.1, 0.1, 0.1)
+renderer.SetBackground(0.1, 0.1, 1.0)
 
 # Window + Interactor
 window = vtk.vtkRenderWindow()
