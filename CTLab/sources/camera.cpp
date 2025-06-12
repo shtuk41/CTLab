@@ -38,7 +38,7 @@ void Camera::setOffsetY(const float& offset)
 }
 
 
-/*void Camera::computeViewProjectionMatrices(bool moveback, bool moveforward, [[maybe_unused]] fov const& currentFov)
+void Camera::computeViewProjectionMatrices(bool moveback, bool moveforward)
 {
 	static double last_time = glfwGetTime();
 
@@ -85,28 +85,3 @@ void Camera::setOffsetY(const float& offset)
 	last_time = current_time;
 }
 
-void Camera::computeViewProjectionMatrices(float fovyRadians, [[maybe_unused]] fov const& currentFov)
-{
-	int width, height;
-	glfwGetWindowSize(window, &width, &height);
-
-	if (width <= 0 || height <= 0)
-		return;
-
-	g_projection_matrix = glm::perspective(fovyRadians, (float)(width ) / (float)height, 0.1f, 10000.0f);
-
-	//update the view matrix
-	g_view_matrix = glm::lookAt(g_position, g_position + g_direction, up);
-}
-
-void Camera::computeViewProjectionMatrices(float orthoLeft, float orthoRight, float orthoBottom, float orthoTop, float orthoNear, float orthoFar, [[maybe_unused]] fov const& currentFov)
-{
-	//float cam_view_x = 20.0f;
-	//float cam_view_y = 20.0f * 1.31912f;
-
-	//g_projection_matrix = glm::ortho(cam_view_x, -cam_view_x, -cam_view_y, cam_view_y, 0.1f, 10000.0f);
-	g_projection_matrix = glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, orthoNear, orthoFar);
-
-	g_view_matrix = glm::lookAt(g_position, g_position + g_direction, up);
-}
-*/

@@ -32,8 +32,8 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-	int window_width = 1920;
-	int window_height = 1536;
+	int window_width = 1024;
+	int window_height = 768;
 
 	Window window(window_width, window_height, Controls::key_callback, Controls::mouse_callback, Controls::mouse_button_callback, Controls::scroll_callback);
 
@@ -52,13 +52,16 @@ int main()
 		return 0;
 	}
 
+	Camera cameraGlobal(window.GetHandler());
+
+	Axes3d axes3d(20, 20, -100);
+	axes3d.Setup();
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO const& io = ImGui::GetIO(); (void)io;
 
 	ImGui::StyleColorsDark();
-
-
 
 	ImGui_ImplGlfw_InitForOpenGL(window.GetHandler(), true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
@@ -140,7 +143,30 @@ int main()
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
 
+		glm::mat4 projection_matrix;
+		glm::mat4 view_matrix;
+
+		cameraGlobal.rotateX(context->rotateX);
+		cameraGlobal.rotateY(context->rotateY);
+		cameraGlobal.setOffsetX(context->latShift);
+		cameraGlobal.setOffsetY(context->vertShift);
+		cameraGlobal.computeViewProjectionMatrices(Controls::moveback, Controls::moveforward);
+
+		projection_matrix = cameraGlobal.getProjectionMatrix();
+		view_matrix = cameraGlobal.getViewMatrix();
+
+		Controls::moveback = false;
+		Controls::moveforward = false;
+
+		glUseProgram(axes3d.GetProgramId());
+		axes3d.UpdateModel(view_matrix);
+		axes3d.SetProjection(projection_matrix);
+		axes3d.Draw();
+
 		glfwSwapBuffers(window.GetHandler());
+
+		context->rotateY = 0.0f;
+		context->rotateX = 0.0f;
 	}
 
 	ImGui_ImplOpenGL3_Shutdown();
