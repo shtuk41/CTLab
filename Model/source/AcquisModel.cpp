@@ -87,16 +87,16 @@ int main()
 		glm::vec3 detectorCenter(700, 0, 0);
 		Detector detector(detectorCenter);
 
-		std::vector<uint> slices = {0,45,90,135,180};
+		std::vector<int> slices = { 0,45,90 };
 
 		//scanning & reconstructing
 		//for (uint ii = 0; ii < numberOfSlices; ii++)
-		for (auto ii : slices)
+		for (int ii : slices)
 		{
 			rotateZ(insidePoints, center, float(360 / numberOfSlices));
 			cv::Mat detData = detector.getPixelsPyramidMethod(source, insidePoints);
 			std::ostringstream oss;
-			oss << "..\\Slices\\Slice" << numberOfSlices << "\\slice" << ii << ".png";
+			oss << "..\\Slices\\Slices" << numberOfSlices << "\\slice" << ii << ".png";
 			
 			saveMatToFile(detData, oss.str());
 

@@ -41,7 +41,7 @@ VolumeArea::VolumeArea(const glm::vec3& center, const glm::vec3& x_axis, const g
 				double y = center.y + h * zVoxelPitch - halfHeight;
 				double z = center.z + d * xVoxelPitch - halfDepth;
 
-				(*scanBox)[h][w][d] = std::pair<glm::vec3, int>(glm::vec3(x, y, z), 0);
+				(*scanBox)[h][w][d] = Voxel(glm::vec3(x, y, z), 0.0f, 0);
 			}
 		}
 	}
@@ -52,7 +52,7 @@ glm::vec3 VolumeArea::getPointLocation(int x, int y, int z)
 	if (x >= 0 && x < nVoxelsX &&
 		y >= 0 && y < nVoxelsY &&
 		z >= 0 && z < nVoxelsZ)
-		return (*scanBox)[z][y][x].first;
+		return (*scanBox)[z][y][x].location;
 
 	THROW_DETAILED_EXCEPTION("voxel location is outside of range");
 }
@@ -67,7 +67,7 @@ std::vector<glm::vec3> VolumeArea::getAllPoints() const
 		{
 			for (int d = 0; d < nVoxelsX; d++)
 			{
-				points.push_back((*scanBox)[h][w][d].first);
+				points.push_back((*scanBox)[h][w][d].location);
 			}
 		}
 	}
@@ -95,7 +95,7 @@ std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& objec
 			{
 				glm::vec4* ptr = object.GetTrianglesWithOffset();
 
-				glm::vec3 p = (*scanBox)[h][w][d].first;
+				glm::vec3 p = (*scanBox)[h][w][d].location;
 				//std::cout << "Point: " << p.x << " : " << p.y << " : " << p.z << '\n';
 
 				float totalSolidAngle = 0.0f;
@@ -182,7 +182,7 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 					{
 						auto& p = (*scanBox)[h][w][d];
 
-						glm::vec3 areaPoint = p.first;
+						glm::vec3 areaPoint = p.location;
 						glm::vec3 areaPointTSource = areaPoint - boxCenter;
 						glm::vec4 rotated_point = rot * glm::vec4(areaPointTSource, 1.0f);
 						glm::vec3 rotatedPoint = glm::vec3(rotated_point) + boxCenter;
@@ -197,7 +197,8 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 							fabs(py) <= half_side &&
 							fabs(pz) <= half_side)
 						{
-							p.second += static_cast<int>(65535 - data.at<ushort>(jj, ii));
+							p.value += static_cast<int>(65535 - data.at<ushort>(jj, ii));
+							p.count += 1;
 						}
 					}
 				}
@@ -220,7 +221,8 @@ void VolumeArea::writeFile(const std::string fileName)
 				{
 					for (int d = 0; d < nVoxelsX; d++)
 					{
-						int p = (*scanBox)[h][w][d].second;
+						Voxel & v = (*scanBox)[h][w][d];
+						float p = v.count > 0 ? v.value / static_cast<float>(v.count) : 0;
 						saveFile.write(reinterpret_cast<const char*>(&p), sizeof(p));
 					}
 				}

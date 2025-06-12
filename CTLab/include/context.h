@@ -4,7 +4,10 @@
 #include <vector>
 
 #include <camera.h>
+#include <axes3d.h>
 #include <GLFW/glfw3.h>
+
+
 
 struct Context
 {
@@ -12,6 +15,7 @@ struct Context
 	float rotateY;
 	float rotateX;
 	View view;
+
 	std::unique_ptr<Camera> cameraSensor;
 	float zOffset = 0.0f;
 	float previousZOffset = 0.0f;

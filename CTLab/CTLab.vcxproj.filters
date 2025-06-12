@@ -19,6 +19,9 @@
     <Filter Include="imgui_src">
       <UniqueIdentifier>{e68f0ec3-2d19-4a83-ba4c-a26767309132}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{033de883-e6e4-4ae4-9541-37816d00d88c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTLab.cpp">
@@ -53,6 +56,15 @@
     </ClCompile>
     <ClCompile Include="..\ThirdParty\imgui\backends\imgui_impl_opengl3.cpp">
       <Filter>imgui_src</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\axes3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\shaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\render_object.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,5 +104,22 @@
     <ClInclude Include="..\ThirdParty\imgui\backends\imgui_impl_opengl3_loader.h">
       <Filter>imgui_src</Filter>
     </ClInclude>
+    <ClInclude Include="include\axes3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\render_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\axis.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\axis.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

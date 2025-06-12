@@ -143,9 +143,12 @@
     <ClCompile Include="..\ThirdParty\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="CTLab.cpp" />
+    <ClCompile Include="sources\axes3d.cpp" />
     <ClCompile Include="sources\camera.cpp" />
     <ClCompile Include="sources\context.cpp" />
     <ClCompile Include="sources\optionsreader.cpp" />
+    <ClCompile Include="sources\render_object.cpp" />
+    <ClCompile Include="sources\shaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ThirdParty\imgui\backends\imgui_impl_glfw.h" />
@@ -154,12 +157,19 @@
     <ClInclude Include="..\ThirdParty\imgui\imconfig.h" />
     <ClInclude Include="..\ThirdParty\imgui\imgui.h" />
     <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="include\axes3d.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\context.h" />
     <ClInclude Include="include\controls.h" />
     <ClInclude Include="include\exceptions.h" />
     <ClInclude Include="include\optionsreader.h" />
+    <ClInclude Include="include\render_object.h" />
+    <ClInclude Include="include\shaders.h" />
     <ClInclude Include="include\window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\axis.frag" />
+    <None Include="shaders\axis.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
