@@ -68,8 +68,8 @@ void Camera::computeViewProjectionMatrices(bool moveback, bool moveforward)
 	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || moveback)
 	{
 		g_initial_fov -= 0.1f * delta_time * speed;
-		if (g_initial_fov < 0.01f)
-			g_initial_fov = 0.01f;
+		if (g_initial_fov < 0.001f)
+			g_initial_fov = 0.001f;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || moveforward)
 	{

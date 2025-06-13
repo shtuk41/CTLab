@@ -66,6 +66,9 @@
     <ClCompile Include="sources\render_object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sources\volume.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\window.h">
@@ -113,12 +116,21 @@
     <ClInclude Include="include\render_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\volume.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\axis.frag">
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\axis.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\volume.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\volume.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

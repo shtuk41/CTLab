@@ -149,6 +149,7 @@
     <ClCompile Include="sources\optionsreader.cpp" />
     <ClCompile Include="sources\render_object.cpp" />
     <ClCompile Include="sources\shaders.cpp" />
+    <ClCompile Include="sources\volume.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ThirdParty\imgui\backends\imgui_impl_glfw.h" />
@@ -165,11 +166,14 @@
     <ClInclude Include="include\optionsreader.h" />
     <ClInclude Include="include\render_object.h" />
     <ClInclude Include="include\shaders.h" />
+    <ClInclude Include="include\volume.h" />
     <ClInclude Include="include\window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\axis.frag" />
     <None Include="shaders\axis.vert" />
+    <None Include="shaders\volume.frag" />
+    <None Include="shaders\volume.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

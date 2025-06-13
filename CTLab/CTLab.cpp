@@ -13,6 +13,7 @@
 #include <iostream>
 #include <window.h>
 #include <controls.h>
+#include <volume.h>
 
 std::unique_ptr<Context> context;
 
@@ -52,10 +53,13 @@ int main()
 		return 0;
 	}
 
-	Camera cameraGlobal(window.GetHandler());
+	Camera cameraGlobal(window.GetHandler(), 2.0);
 
 	Axes3d axes3d(20, 20, -100);
 	axes3d.Setup();
+
+	Volume volume(100, 100, 100, &cameraGlobal);
+	volume.Setup();
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -66,9 +70,10 @@ int main()
 	ImGui_ImplGlfw_InitForOpenGL(window.GetHandler(), true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
 
-	auto backgroundColor = ImVec4(0.0f, 0.0f, 0.0f, 1.00f);
+	//auto backgroundColor = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
+	auto backgroundColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(window.GetHandler()))
 	{
@@ -162,6 +167,16 @@ int main()
 		axes3d.UpdateModel(view_matrix);
 		axes3d.SetProjection(projection_matrix);
 		axes3d.Draw();
+
+		//glDisable(GL_DEPTH_TEST); // optional: try disabling depth for translucent volume
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_DEPTH_TEST);
+
+		glUseProgram(volume.GetProgramId());
+		volume.UpdateModel(view_matrix);
+		volume.SetProjection(projection_matrix);
+		volume.Draw();
 
 		glfwSwapBuffers(window.GetHandler());
 
