@@ -2,7 +2,7 @@
 
 Camera::Camera(GLFWwindow* w, float speed) : speed(speed), window(w)
 {
-	g_position = glm::vec3(0, 0, 2000.0F);
+	g_position = glm::vec3(0, 0, 1000.0f);
 	g_initial_fov = glm::pi<float>() * 0.15f;
 	g_direction = glm::vec3(0.0f, 0.0f, -1.0f);
 	up = glm::vec3(0, 1, 0);
@@ -50,8 +50,6 @@ void Camera::computeViewProjectionMatrices(bool moveback, bool moveforward)
 
 	if (width <= 0 || height <= 0)
 		return;
-
-	glm::vec3 shiftLateral = glm::vec3(300.0f,0.0f,0.0f);
 
 	if (false && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 	{

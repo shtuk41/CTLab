@@ -30,13 +30,13 @@ void main()
     float stepSize = 0.01;
     float accumulated = 0.0;
 
-    for (int i = 0; i < 200; i++)
+    for (int i = 0; i < 100; i++)
     {
         // Sample volume
         float sample = texture(volumeTex, pos).r;
 
         // Accumulate color (simple additive)
-        accumulated += sample * stepSize;
+        accumulated += sample * stepSize * 5;
 
         // Advance ray
         pos += rayDir * stepSize;
@@ -47,5 +47,6 @@ void main()
     }
 
     // Output final color with alpha
-    FragColor = vec4(vec3(accumulated), accumulated * 0.8);
+    //FragColor = vec4(vec3(accumulated), accumulated * 0.8);
+    FragColor = vec4(vec3(accumulated,0,0), accumulated * 0.8);
 }

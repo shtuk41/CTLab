@@ -294,12 +294,12 @@ void Volume::Setup()
     program_id = LoadShaders(".\\shaders\\volume.vert", ".\\shaders\\volume.frag");
 
     // === 1. Generate Dummy Volume Data ===
-    const int width = 512;
-    const int height = 512;
-    const int depth = 512;
+    const int width = yLength;
+    const int height = zLength;
+    const int depth = xLength;
 
     std::vector<GLubyte> volumeData(width * height * depth, 0);
-    fillKleinBottlePinched(volumeData, width, height, depth);
+    fillKleinBottleFigure8(volumeData, width, height, depth);
    
 
     // === 2. Create 3D Texture ===

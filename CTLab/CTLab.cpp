@@ -53,12 +53,12 @@ int main()
 		return 0;
 	}
 
-	Camera cameraGlobal(window.GetHandler(), 2.0);
+	Camera cameraGlobal(window.GetHandler(), 1.0);
 
 	Axes3d axes3d(20, 20, -100);
 	axes3d.Setup();
 
-	Volume volume(100, 100, 100, &cameraGlobal);
+	Volume volume(256, 256, 256, &cameraGlobal);
 	volume.Setup();
 
 	IMGUI_CHECKVERSION();
