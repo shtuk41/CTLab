@@ -129,6 +129,11 @@ int main()
 			ImGui::Render();
 		}
 
+		if (saveFrameColorClicked > 0)
+		{
+			context->SaveImage();
+		}
+
 		int display_w, display_h;
 		glfwGetFramebufferSize(window.GetHandler(), &display_w, &display_h);
 		glViewport(0, 0, display_w, display_h);

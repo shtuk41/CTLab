@@ -104,14 +104,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/imgui;$(SolutionDir)/ThirdParty/imgui/backends;$(SolutionDir)/ThirdParty/GLFW/include;$(SolutionDir)/ThirdParty/GL/include;$(SolutionDir)/ThirdParty/glm/include;$(SolutionDir)/ThirdParty/rapidxml/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/imgui;$(SolutionDir)/ThirdParty/imgui/backends;$(SolutionDir)/ThirdParty/GLFW/include;$(SolutionDir)/ThirdParty/GL/include;$(SolutionDir)/ThirdParty/glm/include;$(SolutionDir)/ThirdParty/rapidxml/include;$(SolutionDir)/ThirdParty/SOIL/include/SOIL;$(SolutionDir)/ThirdParty/opencv48/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/GLFW/libs/Debug;$(SolutionDir)/ThirdParty/GL/libs/Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/GLFW/libs/Debug;$(SolutionDir)/ThirdParty/GL/libs/Debug;$(SolutionDir)/ThirdParty/SOIL/libs/Debug;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;glu32.lib;SoilBuild.lib;opencv_core480d.lib;opencv_highgui480d.lib;opencv_imgcodecs480d.lib;opencv_imgproc480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/imgui;$(SolutionDir)/ThirdParty/imgui/backends;$(SolutionDir)/ThirdParty/GLFW/include;$(SolutionDir)/ThirdParty/GL/include;$(SolutionDir)/ThirdParty/glm/include;$(SolutionDir)/ThirdParty/rapidxml/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(SolutionDir)/ThirdParty/imgui;$(SolutionDir)/ThirdParty/imgui/backends;$(SolutionDir)/ThirdParty/GLFW/include;$(SolutionDir)/ThirdParty/GL/include;$(SolutionDir)/ThirdParty/glm/include;$(SolutionDir)/ThirdParty/rapidxml/include;$(SolutionDir)/ThirdParty/SOIL/include/SOIL;$(SolutionDir)/ThirdParty/opencv48/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -130,8 +130,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/GLFW/libs/Release;$(SolutionDir)/ThirdParty/GL/libs/Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/GLFW/libs/Release;$(SolutionDir)/ThirdParty/GL/libs/Release;$(SolutionDir)/ThirdParty/SOIL/libs/Release;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;glu32.lib;SoilBuild.lib;opencv_core480.lib;opencv_highgui480.lib;opencv_imgcodecs480.lib;opencv_imgproc480.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -146,6 +146,7 @@
     <ClCompile Include="sources\axes3d.cpp" />
     <ClCompile Include="sources\camera.cpp" />
     <ClCompile Include="sources\context.cpp" />
+    <ClCompile Include="sources\framebufferCapture.cpp" />
     <ClCompile Include="sources\optionsreader.cpp" />
     <ClCompile Include="sources\render_object.cpp" />
     <ClCompile Include="sources\shaders.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="include\context.h" />
     <ClInclude Include="include\controls.h" />
     <ClInclude Include="include\exceptions.h" />
+    <ClInclude Include="include\framebufferCapture.h" />
     <ClInclude Include="include\optionsreader.h" />
     <ClInclude Include="include\render_object.h" />
     <ClInclude Include="include\shaders.h" />

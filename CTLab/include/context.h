@@ -5,6 +5,7 @@
 
 #include <camera.h>
 #include <axes3d.h>
+#include <framebufferCapture.h>
 #include <GLFW/glfw3.h>
 
 
@@ -21,6 +22,8 @@ struct Context
 	float previousZOffset = 0.0f;
 	float latShift = 0.0f;
 	float vertShift = 0.0f;
+
+	FramebufferCapture frameCapture;
 
 	//screenshot saving
 	char screenShotName[256];

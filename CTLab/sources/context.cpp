@@ -11,6 +11,7 @@
 Context::Context(GLFWwindow* window) : rotateX(0.0f), rotateY(0.0f), view(View::Global), startSavingAll(false)
 {
 	cameraSensor = std::make_unique<Camera>(window);
+	frameCapture.Setup(window);
 	strcpy_s(screenShotName, "notdefinedfilename.png");
 	strcpy_s(screenShotScalePercent, "0");
 	strcpy_s(saveWidth, "7920");
@@ -110,10 +111,13 @@ void Context::SaveImage()
 		{
 			int width = GetSaveWidth();
 			int height = GetSaveHeight();
+
+			frameCapture.SaveFrameToImageColorResizedToSize(tmp, width, height);
 		}
 		else
 		{
 			float percent = GetScreenshotScalePercent();
+			frameCapture.SaveFrameToImageColorResized(tmp, percent);
 		}
 	}
 	else
@@ -122,10 +126,13 @@ void Context::SaveImage()
 		{
 			int width = GetSaveWidth();
 			int height = GetSaveHeight();
+
+			frameCapture.SaveFrameToImageColorResizedToSize("incorrectFileName.png", width, height);
 		}
 		else
 		{
 			float percent = GetScreenshotScalePercent();
+			frameCapture.SaveFrameToImageColor("incorrectFileName.png");
 		}
 	}
 }
