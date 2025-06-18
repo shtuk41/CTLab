@@ -74,16 +74,15 @@ int main()
 
 	glDisable(GL_DEPTH_TEST);
 
+	int saveFrameColorClicked = 0;
+
 	while (!glfwWindowShouldClose(window.GetHandler()))
 	{
 		glFrontFace(GL_CW);
 		glfwPollEvents();
 
-		int saveFrameColorClicked = 0;
-
-		if (context->view == View::Global)
+		if (context->view == View::Global && saveFrameColorClicked == 0)
 		{
-
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
@@ -129,18 +128,13 @@ int main()
 			ImGui::Render();
 		}
 
-		if (saveFrameColorClicked > 0)
-		{
-			context->SaveImage();
-		}
-
 		int display_w, display_h;
 		glfwGetFramebufferSize(window.GetHandler(), &display_w, &display_h);
 		glViewport(0, 0, display_w, display_h);
 		glClearColor(backgroundColor.x * backgroundColor.w, backgroundColor.y * backgroundColor.w, backgroundColor.z * backgroundColor.w, backgroundColor.w);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		if (context->view == View::Global)
+		if (context->view == View::Global && saveFrameColorClicked == 0)
 		{
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
@@ -190,6 +184,14 @@ int main()
 		volume.UpdateModel(view_matrix);
 		volume.SetProjection(projection_matrix);
 		volume.Draw();
+
+		if (saveFrameColorClicked > 2)
+		{
+			context->SaveImage();
+			saveFrameColorClicked = 0;
+		}
+		else if (saveFrameColorClicked > 0)
+			saveFrameColorClicked++;
 
 		glfwSwapBuffers(window.GetHandler());
 
