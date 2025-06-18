@@ -83,3 +83,11 @@ void Camera::computeViewProjectionMatrices(bool moveback, bool moveforward)
 	last_time = current_time;
 }
 
+
+void Camera::computeViewProjectionMatrices(float orthoLeft, float orthoRight, float orthoBottom, float orthoTop, float orthoNear, float orthoFar)
+{
+	g_projection_matrix = glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, orthoNear, orthoFar);
+
+	g_view_matrix = glm::lookAt(g_position, g_position + g_direction, up);
+}
+

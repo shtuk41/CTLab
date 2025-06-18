@@ -70,7 +70,6 @@ int main()
 	ImGui_ImplGlfw_InitForOpenGL(window.GetHandler(), true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
 
-	//auto backgroundColor = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
 	auto backgroundColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	glDisable(GL_DEPTH_TEST);
@@ -119,17 +118,10 @@ int main()
 				ImGui::InputText("R", context->orthoRight, 4); ImGui::SameLine();
 				ImGui::InputText("B", context->orthoBottom, 4); ImGui::SameLine();
 				ImGui::InputText("T", context->orthoTop, 4); ImGui::SameLine();
-				ImGui::InputText("N", context->orthoNear, 4); ImGui::SameLine();
-				ImGui::InputText("F", context->orthoFar, 4);
+				ImGui::InputText("N", context->orthoNear, 5); ImGui::SameLine();
+				ImGui::InputText("F", context->orthoFar, 5);
 				ImGui::PushItemWidth(ImGui::GetWindowWidth());
 				ImGui::Separator();
-				ImGui::Checkbox("Use overlays", &context->useOverlays);
-				ImGui::Checkbox("Show mask", &context->showMask);
-				ImGui::Checkbox("Use adapting", &context->useSurfaceEdgeAdapting);
-				ImGui::InputText("Path", context->pathToOverlays, 255);
-				ImGui::InputText("Image", context->overlayImageName, 49);
-				ImGui::Separator();
-				ImGui::Checkbox("Normals all", &context->drawAllNormals);
 				ImGui::Separator();
 				ImGui::End();
 			}
@@ -155,7 +147,20 @@ int main()
 		cameraGlobal.rotateY(context->rotateY);
 		cameraGlobal.setOffsetX(context->latShift);
 		cameraGlobal.setOffsetY(context->vertShift);
-		cameraGlobal.computeViewProjectionMatrices(Controls::moveback, Controls::moveforward);
+
+		if (context->usePerspectiveProjection)
+		{
+			cameraGlobal.computeViewProjectionMatrices(Controls::moveback, Controls::moveforward);
+		}
+		else
+		{
+			cameraGlobal.computeViewProjectionMatrices(context->GetOrthoLeft(),
+				context->GetOrthoRight(),
+				context->GetOrthoBottom(),
+				context->GetOrthoTop(),
+				context->GetOrthoNear(),
+				context->GetOrthoFar());
+		}
 
 		projection_matrix = cameraGlobal.getProjectionMatrix();
 		view_matrix = cameraGlobal.getViewMatrix();

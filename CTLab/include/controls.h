@@ -105,7 +105,6 @@ public:
 			if (context->view == View::Global)
 			{
 				context->view = View::Sensor;
-				context->adaptSurfaceEdgeSingleShot = true;
 			}
 			else
 			{

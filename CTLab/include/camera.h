@@ -76,7 +76,7 @@ public:
 	void computeViewProjectionMatrices(bool moveback, bool moveforward);
 	//void computeViewProjectionMatrices(bool moveback, bool moveforward, [[maybe_unused]] fov const& currentFov);
 	//void computeViewProjectionMatrices(float fovyRadians, [[maybe_unused]] fov const& currentFov);
-	//void computeViewProjectionMatrices(float orthoLeft, float orthoRight, float orthoBottom, float orthoTop, float orthoNear, float orthoFar, [[maybe_unused]] fov const& currentFov);
+	void computeViewProjectionMatrices(float orthoLeft, float orthoRight, float orthoBottom, float orthoTop, float orthoNear, float orthoFar);
 };
 
 

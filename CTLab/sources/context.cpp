@@ -80,23 +80,6 @@ void Context::SetOutputDirectoryPath(const std::string& output_directory_path)
 	output_directory_path.copy(outputDirectoryPath, 255);
 }
 
-void Context::SetUseOverlays(const std::string& use_overlays)
-{
-	useOverlays = use_overlays.compare("true") == 0;
-}
-
-void Context::SetPathToOverlays(const std::string& path_overlays)
-{
-	memset(pathToOverlays, 0, 256);
-	path_overlays.copy(pathToOverlays, 255);
-}
-
-void Context::SetOverlayImageName(const std::string& overlay_image_name)
-{
-	memset(overlayImageName, 0, 50);
-	overlay_image_name.copy(overlayImageName, 49);
-}
-
 int Context::GetSaveWidth()
 {
 	std::stringstream iss(saveWidth);
@@ -175,7 +158,7 @@ float Context::GetOrthoLeft()
 	std::stringstream iss(orthoLeft);
 	int orthoLeftInteger;
 	iss >> orthoLeftInteger;
-	bool valid = iss.eof() && !iss.fail() && orthoLeftInteger > 0 && orthoLeftInteger <= 100;
+	bool valid = iss.eof() && !iss.fail() && orthoLeftInteger >= -100 && orthoLeftInteger <= 100;
 
 	return valid ? static_cast<float>(orthoLeftInteger) : -26.0f;
 }
@@ -185,7 +168,7 @@ float Context::GetOrthoRight()
 	std::stringstream iss(orthoRight);
 	int orthoRightInteger;
 	iss >> orthoRightInteger;
-	bool valid = iss.eof() && !iss.fail() && orthoRightInteger > 0 && orthoRightInteger <= 100;
+	bool valid = iss.eof() && !iss.fail() && orthoRightInteger >= -100 && orthoRightInteger <= 100;
 
 	return valid ? static_cast<float>(orthoRightInteger) : 26.0f;
 }
@@ -195,7 +178,7 @@ float Context::GetOrthoBottom()
 	std::stringstream iss(orthoBottom);
 	int orthoBottomInteger;
 	iss >> orthoBottomInteger;
-	bool valid = iss.eof() && !iss.fail() && orthoBottomInteger > 0 && orthoBottomInteger <= 100;
+	bool valid = iss.eof() && !iss.fail() && orthoBottomInteger >= -100 && orthoBottomInteger <= 100;
 
 	return valid ? static_cast<float>(orthoBottomInteger) : -20.0f;
 }
@@ -205,7 +188,7 @@ float Context::GetOrthoTop()
 	std::stringstream iss(orthoTop);
 	int orthoTopInteger;
 	iss >> orthoTopInteger;
-	bool valid = iss.eof() && !iss.fail() && orthoTopInteger > 0 && orthoTopInteger <= 100;
+	bool valid = iss.eof() && !iss.fail() && orthoTopInteger >= -100 && orthoTopInteger <= 100;
 
 	return valid ? static_cast<float>(orthoTopInteger) : 20.0f;
 }
@@ -215,7 +198,7 @@ float Context::GetOrthoNear()
 	std::stringstream iss(orthoNear);
 	int orthoNearInteger;
 	iss >> orthoNearInteger;
-	bool valid = iss.eof() && !iss.fail() && orthoNearInteger > 0 && orthoNearInteger <= 100;
+	bool valid = iss.eof() && !iss.fail() && orthoNearInteger >= -10000 && orthoNearInteger <= 10000;
 
 	return valid ? static_cast<float>(orthoNearInteger) : 1.0f;
 }
@@ -225,7 +208,7 @@ float Context::GetOrthoFar()
 	std::stringstream iss(orthoFar);
 	int orthoFarInteger;
 	iss >> orthoFarInteger;
-	bool valid = iss.eof() && !iss.fail() && orthoFarInteger > 0 && orthoFarInteger <= 100;
+	bool valid = iss.eof() && !iss.fail() && orthoFarInteger >=-10000  && orthoFarInteger <= 10000;
 
 	return valid ? static_cast<float>(orthoFarInteger) : 9999.0f;
 }

@@ -36,29 +36,13 @@ struct Context
 
 	//projection settings
 	float perspectiveFovyRadians = std::numbers::pi_v<float> / 2;
-	bool usePerspectiveProjection = true;
+	bool usePerspectiveProjection = false;
 	char orthoLeft[5];
 	char orthoRight[5];
 	char orthoBottom[5];
 	char orthoTop[5];
 	char orthoNear[5];
 	char orthoFar[5];
-
-	//overlay settings
-	bool useOverlays = false;
-	char pathToOverlays[256] = ".\\Acquired";
-	char overlayImageName[50] = "ASIS_Raw01.png";
-
-	//mask display flag
-	bool showMask = true;
-
-	//surface/edge adapting flag
-	bool useSurfaceEdgeAdapting = true;
-	bool adaptSurfaceEdgeSingleShot = false;
-
-	//normals
-	bool drawAllNormals = false;
-
 
 	Context(GLFWwindow* window);
 	void SaveImage();
@@ -73,11 +57,6 @@ struct Context
 	void SetOutputDirectoryPath(const std::string& output_directory_path);
 	float GetOverlayViewPercent();
 	void SetOverlayViewPercent(const std::string& overlay_view_percent);
-
-
-	void SetUseOverlays(const std::string& use_overlays);
-	void SetPathToOverlays(const std::string& path_overlays);
-	void SetOverlayImageName(const std::string& overlay_image_name);
 
 	int GetSaveWidth();
 	int GetSaveHeight();
