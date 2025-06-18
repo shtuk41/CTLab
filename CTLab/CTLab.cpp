@@ -140,27 +140,30 @@ int main()
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
 
+		if (!ImGui::GetIO().WantCaptureMouse)
+		{
+			cameraGlobal.rotateX(context->rotateX);
+			cameraGlobal.rotateY(context->rotateY);
+			cameraGlobal.setOffsetX(context->latShift);
+			cameraGlobal.setOffsetY(context->vertShift);
+
+			if (context->usePerspectiveProjection)
+			{
+				cameraGlobal.computeViewProjectionMatrices(Controls::moveback, Controls::moveforward);
+			}
+			else
+			{
+				cameraGlobal.computeViewProjectionMatrices(context->GetOrthoLeft(),
+					context->GetOrthoRight(),
+					context->GetOrthoBottom(),
+					context->GetOrthoTop(),
+					context->GetOrthoNear(),
+					context->GetOrthoFar());
+			}
+		}
+
 		glm::mat4 projection_matrix;
 		glm::mat4 view_matrix;
-
-		cameraGlobal.rotateX(context->rotateX);
-		cameraGlobal.rotateY(context->rotateY);
-		cameraGlobal.setOffsetX(context->latShift);
-		cameraGlobal.setOffsetY(context->vertShift);
-
-		if (context->usePerspectiveProjection)
-		{
-			cameraGlobal.computeViewProjectionMatrices(Controls::moveback, Controls::moveforward);
-		}
-		else
-		{
-			cameraGlobal.computeViewProjectionMatrices(context->GetOrthoLeft(),
-				context->GetOrthoRight(),
-				context->GetOrthoBottom(),
-				context->GetOrthoTop(),
-				context->GetOrthoNear(),
-				context->GetOrthoFar());
-		}
 
 		projection_matrix = cameraGlobal.getProjectionMatrix();
 		view_matrix = cameraGlobal.getViewMatrix();
