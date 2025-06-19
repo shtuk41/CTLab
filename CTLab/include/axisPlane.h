@@ -7,8 +7,8 @@
 class AxisPlane : public RenderObject
 {
 private:
-   	GLuint vertex_array_id = -1;
-    GLuint vertex_buffer[2];
+   	GLuint vertex_array_id[2];
+    GLuint vertex_buffer[4];
 	GLint position_attribute = -1;
 	GLint color_attribute = -1;
          

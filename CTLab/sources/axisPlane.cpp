@@ -10,8 +10,8 @@ AxisPlane::AxisPlane(glm::vec3 t, glm::vec3 bn, glm::vec4 c, float s) : tangent(
 
 AxisPlane::~AxisPlane()
 {
-    glDeleteBuffers(2, vertex_buffer);
-    glDeleteVertexArrays(1, &vertex_array_id);
+    glDeleteBuffers(4, vertex_buffer);
+    glDeleteVertexArrays(2, vertex_array_id);
     glDisableVertexAttribArray(position_attribute);
     glDisableVertexAttribArray(color_attribute);
 }
@@ -20,8 +20,8 @@ void AxisPlane::Setup()
 {
     program_id = LoadShaders(".\\shaders\\axisPlane.vert", ".\\shaders\\axisPlane.frag");
 
-    glGenVertexArrays(1, &vertex_array_id);
-    glBindVertexArray(vertex_array_id);
+    glGenVertexArrays(2, vertex_array_id);
+    glBindVertexArray(vertex_array_id[0]);
 
     float half_size = size / 2;
 
@@ -50,7 +50,7 @@ void AxisPlane::Setup()
                                 color[0], color[1], color[2], color[3]
     };
 
-    glGenBuffers(2, vertex_buffer);
+    glGenBuffers(4, vertex_buffer);
 
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(plane), plane, GL_STATIC_DRAW);
@@ -60,6 +60,42 @@ void AxisPlane::Setup()
 
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(planeColor), planeColor, GL_STATIC_DRAW);
+    color_attribute = glGetAttribLocation(program_id, "vColor");
+    glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
+    glEnableVertexAttribArray(color_attribute);
+
+    GLfloat axis_lines_lines[] = {
+                                t1.x, t1.y, t1.z,
+                                t2.x, t2.y, t2.z,
+                                t2.x, t2.y, t2.z,
+                                t3.x, t3.y, t3.z,
+                                t4.x, t4.y, t4.z,
+                                t5.x, t5.y, t5.z,
+                                t5.x, t5.y, t5.z,
+                                t6.x, t6.y, t6.z
+    };
+
+    GLfloat axis_colors_lines[] = {
+                                color[0], color[1], color[2], 1.0f,
+                                color[0], color[1], color[2], 1.0f,
+                                color[0], color[1], color[2], 1.0f,
+                                color[0], color[1], color[2], 1.0f,
+                                color[0], color[1], color[2], 1.0f,
+                                color[0], color[1], color[2], 1.0f,
+                                color[0], color[1], color[2], 1.0f,
+                                color[0], color[1], color[2], 1.0f
+    };
+
+    glBindVertexArray(vertex_array_id[1]);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[2]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(axis_lines_lines), axis_lines_lines, GL_STATIC_DRAW);
+    position_attribute = glGetAttribLocation(program_id, "vPosition");
+    glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
+    glEnableVertexAttribArray(position_attribute);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[3]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(axis_colors_lines), axis_colors_lines, GL_STATIC_DRAW);
     color_attribute = glGetAttribLocation(program_id, "vColor");
     glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(color_attribute);
@@ -97,6 +133,9 @@ void AxisPlane::Draw()
     glUniformMatrix4fv(model_view, 1, GL_FALSE, glm::value_ptr(model_view_matrix));
     glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(projection_matrix));
 
-    glBindVertexArray(vertex_array_id);
+    glBindVertexArray(vertex_array_id[0]);
     glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glBindVertexArray(vertex_array_id[1]);
+    glDrawArrays(GL_LINES, 0, 8);
 }
