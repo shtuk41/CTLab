@@ -11,9 +11,11 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-#include <window.h>
+
+#include <axisPlane.h>
 #include <controls.h>
 #include <volume.h>
+#include <window.h>
 
 std::unique_ptr<Context> context;
 
@@ -55,11 +57,24 @@ int main()
 
 	Camera cameraGlobal(window.GetHandler(), 1.0);
 
-	Axes3d axes3d(20, 20, -100);
+	Axes3d axes3d(10, 10, -10);
 	axes3d.Setup();
 
 	Volume volume(256, 256, 256, &cameraGlobal);
 	volume.Setup();
+
+	//Axis
+	AxisPlane planeXY(glm::vec3(1.0f,0.0f,0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.1f), 2);
+	planeXY.Setup();
+	//Coronal
+	AxisPlane planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 0.1f), 2);
+	planeXZ.Setup();
+	//Sagittal
+	AxisPlane planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 2);
+	planeYZ.Setup();
+
+
+	planeXY.Setup();
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -184,6 +199,21 @@ int main()
 		volume.UpdateModel(view_matrix);
 		volume.SetProjection(projection_matrix);
 		volume.Draw();
+
+		glUseProgram(planeXY.GetProgramId());
+		planeXY.UpdateModel(view_matrix);
+		planeXY.SetProjection(projection_matrix);
+		planeXY.Draw();
+
+		planeXZ.UpdateModel(view_matrix);
+		planeXZ.SetProjection(projection_matrix);
+		planeXZ.Draw();
+
+		planeYZ.UpdateModel(view_matrix);
+		planeYZ.SetProjection(projection_matrix);
+		planeYZ.Draw();
+
+
 
 		if (saveFrameColorClicked > 2)
 		{

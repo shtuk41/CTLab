@@ -72,6 +72,9 @@
     <ClCompile Include="sources\framebufferCapture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sources\axisPlane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\window.h">
@@ -125,6 +128,9 @@
     <ClInclude Include="include\framebufferCapture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\axisPlane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\axis.frag">
@@ -137,6 +143,12 @@
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\volume.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\axisPlane.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\axisPlane.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

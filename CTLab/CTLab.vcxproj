@@ -144,6 +144,7 @@
     <ClCompile Include="..\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="CTLab.cpp" />
     <ClCompile Include="sources\axes3d.cpp" />
+    <ClCompile Include="sources\axisPlane.cpp" />
     <ClCompile Include="sources\camera.cpp" />
     <ClCompile Include="sources\context.cpp" />
     <ClCompile Include="sources\framebufferCapture.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\ThirdParty\imgui\imgui.h" />
     <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h" />
     <ClInclude Include="include\axes3d.h" />
+    <ClInclude Include="include\axisPlane.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\context.h" />
     <ClInclude Include="include\controls.h" />
@@ -174,6 +176,8 @@
   <ItemGroup>
     <None Include="shaders\axis.frag" />
     <None Include="shaders\axis.vert" />
+    <None Include="shaders\axisPlane.frag" />
+    <None Include="shaders\axisPlane.vert" />
     <None Include="shaders\volume.frag" />
     <None Include="shaders\volume.vert" />
   </ItemGroup>
