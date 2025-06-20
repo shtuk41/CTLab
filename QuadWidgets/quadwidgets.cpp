@@ -45,6 +45,8 @@ QuadWidgets::QuadWidgets(QWidget *parent)
         ui.toolboxDock->setVisible(checked);
         });
 
+    this->showMaximized();
+
 }
 
 QuadWidgets::~QuadWidgets()
