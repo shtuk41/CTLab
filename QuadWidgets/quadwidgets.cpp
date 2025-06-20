@@ -1,10 +1,15 @@
-#include "quadwidgets.h"
-#include "MyGLView.h"
+#include <quadwidgets.h>
+#include <glview.h>
+#include <context.h>
 #include <QStandardItemModel>
+
 
 QuadWidgets::QuadWidgets(QWidget *parent)
     : QMainWindow(parent)
 {
+
+    Context context;
+
     ui.setupUi(this);
 
     ui.quad_horizontal_top_splitter->setSizes({ 100, 100 });
@@ -13,23 +18,60 @@ QuadWidgets::QuadWidgets(QWidget *parent)
 
     populateTree();
 
+    enum QUAD_VIEW
+    {
+        AXIAL = 0,
+        SAGITTAL = 1,
+        CORONAL = 2,
+        V3D = 3
+
+    };
+
     // Replace placeholders with MyGLView instances
     struct ViewInfo {
         QString placeholderName;
         QColor color;
+        QUAD_VIEW view;
     };
 
+    
+
     QVector<ViewInfo> views = {
-        { "quadGLTopLeft_axial", Qt::red },
-        { "quadGLTopRight_sagittal", Qt::blue },
-        { "quadGLBottomLeft_coronal", Qt::green },
-        { "quadGLBottomRight_3D", Qt::yellow }
+        { "quadGLTopLeft_axial", Qt::red, QUAD_VIEW::AXIAL},
+        { "quadGLTopRight_sagittal", Qt::blue, QUAD_VIEW::SAGITTAL},
+        { "quadGLBottomLeft_coronal", Qt::green, QUAD_VIEW::CORONAL},
+        { "quadGLBottomRight_3D", Qt::yellow, QUAD_VIEW::V3D}
     };
 
     for (const auto& view : views) {
         QWidget* placeholder = ui.centralWidget->findChild<QWidget*>(view.placeholderName);
+
+        GLView* glView = nullptr;
+        
         if (placeholder) {
-            auto* glView = new MyGLView(view.color, placeholder->parentWidget());
+            if (view.view == QUAD_VIEW::AXIAL)
+            {
+                context.glViewQuadAxial = new GLViewQuadAxial(view.color, placeholder->parentWidget());
+                glView = (GLView*)context.glViewQuadAxial;
+            }
+            else if (view.view == QUAD_VIEW::SAGITTAL)
+            {
+                context.glViewQuadSagittal = new GLViewQuadSagittal(view.color, placeholder->parentWidget());
+                glView = (GLView*)context.glViewQuadSagittal;
+            }
+            else if (view.view == QUAD_VIEW::CORONAL)
+            {
+                context.glViewQuadCoronal = new GLViewQuadCoronal(view.color, placeholder->parentWidget());
+                glView = (GLView*)context.glViewQuadCoronal;
+            }
+            else if (view.view == QUAD_VIEW::V3D)
+            {
+                context.glViewQuad3d = new GLViewQuad3D(view.color, placeholder->parentWidget());
+                glView = (GLView*)context.glViewQuad3d;
+            }
+            else
+                throw std::exception("view doesn't exists");
+
             glView->setObjectName(view.placeholderName);
             glView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             glView->setMinimumSize(0, 0);

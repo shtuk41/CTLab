@@ -46,13 +46,66 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyGLView.cpp">
+    <ClCompile Include="source\glview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\glviewquad3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\glviewquadaxial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\glviewquadcoronal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\glviewquadsagittal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\glviewquadpane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="MyGLView.h">
+    <QtMoc Include="include\glview.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="include\glviewquad3d.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\glviewquadaxial.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\glviewquadcoronal.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\glviewquadpane.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\glviewquadsagittal.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\axes3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\axisPlane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\render_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\volume.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\context.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

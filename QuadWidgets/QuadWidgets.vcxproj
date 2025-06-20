@@ -63,6 +63,26 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)\ThirdParty\glm\include;$(SolutionDir)\ThirdParty\SOIL\include\SOIL;$(SolutionDir)\ThirdParty\opencv48\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/SOIL/libs/Debug;$(SolutionDir)\ThirdParty\opencv48\x64\vc17\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SoilBuild.lib;opencv_core480d.lib;opencv_highgui480d.lib;opencv_imgcodecs480d.lib;opencv_imgproc480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)\ThirdParty\glm\include;$(SolutionDir)\ThirdParty\SOIL\include\SOIL;$(SolutionDir)\ThirdParty\opencv48\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/SOIL/libs/Release;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SoilBuild.lib;opencv_core480.lib;opencv_highgui480.lib;opencv_imgcodecs480.lib;opencv_imgproc480.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -92,17 +112,61 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\context.cpp" />
+    <ClCompile Include="source\glview.cpp" />
+    <ClCompile Include="source\glviewquad3d.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
+    <ClCompile Include="source\glviewquadaxial.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
+    <ClCompile Include="source\glviewquadcoronal.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
+    <ClCompile Include="source\glviewquadpane.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
+    <ClCompile Include="source\glviewquadsagittal.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
     <QtRcc Include="quadwidgets.qrc" />
     <QtUic Include="quadwidgets.ui" />
     <QtMoc Include="quadwidgets.h" />
-    <ClCompile Include="MyGLView.cpp" />
     <ClCompile Include="quadwidgets.cpp" />
     <ClCompile Include="main.cpp" />
     <None Include="QuadWidgets.ico" />
     <ResourceCompile Include="QuadWidgets.rc" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="MyGLView.h" />
+    <QtMoc Include="include\glview.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\axes3d.h" />
+    <ClInclude Include="include\axisPlane.h" />
+    <ClInclude Include="include\camera.h" />
+    <ClInclude Include="include\context.h" />
+    <QtMoc Include="include\glviewquadsagittal.h" />
+    <QtMoc Include="include\glviewquadpane.h" />
+    <QtMoc Include="include\glviewquadcoronal.h" />
+    <QtMoc Include="include\glviewquadaxial.h" />
+    <QtMoc Include="include\glviewquad3d.h" />
+    <ClInclude Include="include\render_object.h" />
+    <ClInclude Include="include\volume.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

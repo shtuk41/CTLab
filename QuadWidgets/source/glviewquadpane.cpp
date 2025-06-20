@@ -1,4 +1,4 @@
-#include "MyGLView.h"
+#include <glviewquadpane.h>
 
 static const char* vertexShaderSource = R"(
 #version 330 core
@@ -17,12 +17,11 @@ void main() {
 }
 )";
 
-MyGLView::MyGLView(const QColor& color, QWidget* parent)
-    : QOpenGLWidget(parent), baseColor(color)
-{
-}
+GLViewQuadPane::GLViewQuadPane(QWidget* parent)
+    : GLView(parent)
+{}
 
-MyGLView::~MyGLView()
+GLViewQuadPane::~GLViewQuadPane()
 {
     makeCurrent();
     glDeleteBuffers(1, &vbo);
@@ -31,7 +30,7 @@ MyGLView::~MyGLView()
     doneCurrent();
 }
 
-void MyGLView::initializeGL()
+void GLViewQuadPane::initializeGL()
 {
     initializeOpenGLFunctions();
 
@@ -60,12 +59,12 @@ void MyGLView::initializeGL()
     glBindVertexArray(0);
 }
 
-void MyGLView::resizeGL(int w, int h)
+void GLViewQuadPane::resizeGL(int w, int h)
 {
     glViewport(0, 0, w, h);
 }
 
-void MyGLView::paintGL()
+void GLViewQuadPane::paintGL()
 {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);

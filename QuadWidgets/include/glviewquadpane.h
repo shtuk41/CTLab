@@ -3,13 +3,14 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
 #include <QColor>
+#include <GLView.h>
 
-class MyGLView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
+class GLViewQuadPane : public GLView
 {
     Q_OBJECT
 public:
-    explicit MyGLView(const QColor& color, QWidget* parent = nullptr);
-    ~MyGLView();
+    explicit GLViewQuadPane(QWidget* parent = nullptr);
+    ~GLViewQuadPane();
 
 protected:
     void initializeGL() override;
