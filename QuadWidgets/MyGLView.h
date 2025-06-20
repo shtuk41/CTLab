@@ -1,25 +1,24 @@
 #pragma once
-
-// MyGLView.h
 #include <QOpenGLWidget>
-#include <QOpenGLFunctions>
+#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLShaderProgram>
+#include <QColor>
 
-class MyGLView : public QOpenGLWidget, protected QOpenGLFunctions {
+class MyGLView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
+{
     Q_OBJECT
 public:
-    explicit MyGLView(const QColor& clearColor, QWidget* parent = nullptr)
-        : QOpenGLWidget(parent), m_clearColor(clearColor) {}
+    explicit MyGLView(const QColor& color, QWidget* parent = nullptr);
+    ~MyGLView();
 
 protected:
-    void initializeGL() override {
-        initializeOpenGLFunctions();
-    }
-    void paintGL() override {
-        glClearColor(m_clearColor.redF(), m_clearColor.greenF(), m_clearColor.blueF(), 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
+    void initializeGL() override;
+    void resizeGL(int w, int h) override;
+    void paintGL() override;
 
 private:
-    QColor m_clearColor;
+    QOpenGLShaderProgram* shaderProgram = nullptr;
+    GLuint vao = 0;
+    GLuint vbo = 0;
+    QColor baseColor;
 };
-

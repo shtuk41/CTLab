@@ -95,6 +95,7 @@
     <QtRcc Include="quadwidgets.qrc" />
     <QtUic Include="quadwidgets.ui" />
     <QtMoc Include="quadwidgets.h" />
+    <ClCompile Include="MyGLView.cpp" />
     <ClCompile Include="quadwidgets.cpp" />
     <ClCompile Include="main.cpp" />
     <None Include="QuadWidgets.ico" />

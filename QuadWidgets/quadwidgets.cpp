@@ -6,6 +6,11 @@ QuadWidgets::QuadWidgets(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+
+    ui.quad_horizontal_top_splitter->setSizes({ 100, 100 });
+    ui.quad_horizontal_bottom_splitter->setSizes({ 100, 100 });
+    ui.quad_splitter->setSizes({ 100, 100 });
+
     populateTree();
 
     // Replace placeholders with MyGLView instances
@@ -15,25 +20,32 @@ QuadWidgets::QuadWidgets(QWidget *parent)
     };
 
     QVector<ViewInfo> views = {
-        { "widgetTopLeft", Qt::red },
-        { "widgetTopRight", Qt::green },
-        { "widgetBottomLeft", Qt::blue },
-        { "widgetBottomRight", Qt::yellow }
+        { "quadGLTopLeft_axial", Qt::red },
+        { "quadGLTopRight_sagittal", Qt::blue },
+        { "quadGLBottomLeft_coronal", Qt::green },
+        { "quadGLBottomRight_3D", Qt::yellow }
     };
 
     for (const auto& view : views) {
         QWidget* placeholder = ui.centralWidget->findChild<QWidget*>(view.placeholderName);
         if (placeholder) {
             auto* glView = new MyGLView(view.color, placeholder->parentWidget());
-            glView->setMinimumSize(100, 100);
             glView->setObjectName(view.placeholderName);
-            auto* layout = new QVBoxLayout(placeholder->parentWidget());
-            layout->setContentsMargins(0, 0, 0, 0);
-            placeholder->parentWidget()->setLayout(layout);
-            layout->addWidget(glView);
+            glView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            glView->setMinimumSize(0, 0);
+
+            if (auto* layout = placeholder->parentWidget()->layout()) {
+                layout->removeWidget(placeholder);
+                layout->addWidget(glView);
+            }
+
             placeholder->deleteLater();
         }
     }
+
+
+
+
 
     ui.toolboxDock->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
 
