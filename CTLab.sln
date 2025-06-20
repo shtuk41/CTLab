@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CTLab", "CTLab\CTLab.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcquisModel", "Model\Model.vcxproj", "{6E009D4F-DFF8-422A-A494-F3AE3700052A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuadQml", "QuadQml\QuadQml.vcxproj", "{8A46DE0F-6E0A-4D29-A627-8B2286671697}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{6E009D4F-DFF8-422A-A494-F3AE3700052A}.Release|x64.Build.0 = Release|x64
 		{6E009D4F-DFF8-422A-A494-F3AE3700052A}.Release|x86.ActiveCfg = Release|Win32
 		{6E009D4F-DFF8-422A-A494-F3AE3700052A}.Release|x86.Build.0 = Release|Win32
+		{8A46DE0F-6E0A-4D29-A627-8B2286671697}.Debug|x64.ActiveCfg = Debug|x64
+		{8A46DE0F-6E0A-4D29-A627-8B2286671697}.Debug|x64.Build.0 = Debug|x64
+		{8A46DE0F-6E0A-4D29-A627-8B2286671697}.Debug|x86.ActiveCfg = Debug|x64
+		{8A46DE0F-6E0A-4D29-A627-8B2286671697}.Debug|x86.Build.0 = Debug|x64
+		{8A46DE0F-6E0A-4D29-A627-8B2286671697}.Release|x64.ActiveCfg = Release|x64
+		{8A46DE0F-6E0A-4D29-A627-8B2286671697}.Release|x64.Build.0 = Release|x64
+		{8A46DE0F-6E0A-4D29-A627-8B2286671697}.Release|x86.ActiveCfg = Release|x64
+		{8A46DE0F-6E0A-4D29-A627-8B2286671697}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

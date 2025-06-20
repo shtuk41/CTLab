@@ -32,9 +32,15 @@
     <None Include="main.qml">
       <Filter>Source Files</Filter>
     </None>
+    <ClCompile Include="glitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="treeviewmodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="glitem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

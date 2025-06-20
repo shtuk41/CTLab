@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.9.1_msvc2022_64</QtInstall>
-    <QtModules>quick;quickcontrols2</QtModules>
+    <QtModules>quick;quickcontrols2;opengl</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
     <QtQMLDebugEnable>true</QtQMLDebugEnable>
   </PropertyGroup>
@@ -93,12 +93,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="glitem.cpp" />
     <ClCompile Include="main.cpp" />
     <QtRcc Include="qml.qrc" />
     <None Include="main.qml" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="treeviewmodel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="glitem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

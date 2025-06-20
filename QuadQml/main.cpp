@@ -1,8 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "treeviewmodel.h"
 #include <QItemSelectionModel>
+#include <QtQml>
+#include <QQuickWindow>
+
+#include "treeviewmodel.h"
+#include "glitem.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +14,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
     QGuiApplication app(argc, argv);
+
+    qmlRegisterType<GLItem>("CustomItems", 1, 0, "GLItem");
 
 
     TreeViewModel* model = new TreeViewModel();
