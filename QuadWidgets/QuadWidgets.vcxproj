@@ -112,6 +112,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\context.cpp" />
     <ClCompile Include="source\glview.cpp" />
     <ClCompile Include="source\glviewquad3d.cpp">
@@ -132,18 +133,21 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
-    <ClCompile Include="source\glviewquadpane.cpp">
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
-    </ClCompile>
     <ClCompile Include="source\glviewquadsagittal.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
+    <ClCompile Include="source\shaders.cpp" />
+    <None Include="shaders\axis.frag" />
+    <None Include="shaders\axis.vert" />
+    <None Include="shaders\axisPlane.frag" />
+    <None Include="shaders\axisPlane.vert" />
+    <None Include="shaders\quadview.frag" />
+    <None Include="shaders\quadview.vert" />
+    <None Include="shaders\volume.frag" />
+    <None Include="shaders\volume.vert" />
     <QtRcc Include="quadwidgets.qrc" />
     <QtUic Include="quadwidgets.ui" />
     <QtMoc Include="quadwidgets.h" />
@@ -161,11 +165,11 @@
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\context.h" />
     <QtMoc Include="include\glviewquadsagittal.h" />
-    <QtMoc Include="include\glviewquadpane.h" />
     <QtMoc Include="include\glviewquadcoronal.h" />
     <QtMoc Include="include\glviewquadaxial.h" />
     <QtMoc Include="include\glviewquad3d.h" />
     <ClInclude Include="include\render_object.h" />
+    <ClInclude Include="include\shaders.h" />
     <ClInclude Include="include\volume.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

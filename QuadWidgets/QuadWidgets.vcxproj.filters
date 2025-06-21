@@ -21,6 +21,9 @@
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{034018cf-e884-4208-aeec-d7e6f2d93ee2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="quadwidgets.qrc">
@@ -64,7 +67,10 @@
     <ClCompile Include="source\glviewquadsagittal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\glviewquadpane.cpp">
+    <ClCompile Include="source\shaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -79,9 +85,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="include\glviewquadcoronal.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="include\glviewquadpane.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="include\glviewquadsagittal.h">
@@ -107,5 +110,34 @@
     <ClInclude Include="include\context.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\axis.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\axis.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\axisPlane.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\axisPlane.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\quadview.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\quadview.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\volume.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\volume.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

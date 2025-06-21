@@ -1,14 +1,9 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-enum View
-{
-	Global,
-	Sensor
-};
+#include <qevent.h>
 
 class Camera
 {
@@ -19,7 +14,7 @@ private:
 	glm::vec3 g_direction;
 	glm::vec3 up;
     float speed;
-    float g_initial_fov;
+	float g_initial_fov;
     glm::mat4 g_view_matrix;
     glm::mat4 g_projection_matrix;
     
@@ -71,11 +66,6 @@ public:
 	void rotateZ(const float z);
 	void setOffsetX(const float&);
 	void setOffsetY(const float&);
-	void computeViewProjectionMatrices(bool moveback, bool moveforward);
-	//void computeViewProjectionMatrices(bool moveback, bool moveforward, [[maybe_unused]] fov const& currentFov);
-	//void computeViewProjectionMatrices(float fovyRadians, [[maybe_unused]] fov const& currentFov);
+	void computeViewProjectionMatrices(int width, int height, bool moveback, bool moveforward, double deltaTime, QKeyEvent* keyEvent);
 	void computeViewProjectionMatrices(float orthoLeft, float orthoRight, float orthoBottom, float orthoTop, float orthoNear, float orthoFar);
 };
-
-
-#endif /* CAMERA_H */

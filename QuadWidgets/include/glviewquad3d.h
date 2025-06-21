@@ -3,9 +3,10 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
 #include <QColor>
-#include <GLViewQuadPane.h>
+#include <GLView.h>
+#include <QEvent>
 
-class GLViewQuad3D : public GLViewQuadPane
+class GLViewQuad3D : public GLView
 {
     Q_OBJECT
 public:
@@ -16,6 +17,11 @@ protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
+
+    void mousePressEvent(QMouseEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
+    void enterEvent(QEnterEvent* event) override;
+    void leaveEvent(QEvent* event) override;
 
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;

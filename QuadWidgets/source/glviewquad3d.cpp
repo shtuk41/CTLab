@@ -1,25 +1,11 @@
 #include <glviewquad3d.h>
-
-static const char* vertexShaderSource = R"(
-#version 330 core
-layout(location = 0) in vec3 pos;
-void main() {
-    gl_Position = vec4(pos, 1.0);
-}
-)";
-
-static const char* fragmentShaderSource = R"(
-#version 330 core
-uniform vec3 baseColor;
-out vec4 fragColor;
-void main() {
-    fragColor = vec4(baseColor, 1.0);
-}
-)";
+#include <shaders.h>
+#include <QMouseEvent>
 
 GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent)
-    : GLViewQuadPane(parent), baseColor(color)
+    : GLView(parent), baseColor(color)
 {
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 GLViewQuad3D::~GLViewQuad3D()
@@ -35,10 +21,13 @@ void GLViewQuad3D::initializeGL()
 {
     initializeOpenGLFunctions();
 
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\quadview.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\quadview.frag");
+
     shaderProgram = new QOpenGLShaderProgram(this);
-    shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
-    shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
-    shaderProgram->link();
+    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
+    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
+    success = shaderProgram->link();
 
     GLfloat vertices[] = {
         0.0f,  0.5f, 0.0f,  // top
@@ -79,4 +68,37 @@ void GLViewQuad3D::paintGL()
     glBindVertexArray(0);
 
     shaderProgram->release();
+}
+
+// Mouse click changes color to red
+void GLViewQuad3D::mousePressEvent(QMouseEvent* event) 
+{
+    //GLView::mousePressEvent(event);
+
+    if (event->button() == Qt::LeftButton) 
+    {
+        update();  // trigger repaint
+    }
+}
+
+// Pressing 'G' sets color to green
+void GLViewQuad3D::keyPressEvent(QKeyEvent* event) 
+{
+    //GLView::keyPressEvent(event);
+    if (event->key() == Qt::Key_G) 
+    {
+        update();
+    }
+}
+
+void GLViewQuad3D::enterEvent(QEnterEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuad3D::leaveEvent(QEvent* event) 
+{
+    Q_UNUSED(event);
+    clearFocus();
 }

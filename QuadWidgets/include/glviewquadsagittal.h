@@ -3,9 +3,9 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
 #include <QColor>
-#include <GLViewQuadPane.h>
+#include <GLView.h>
 
-class GLViewQuadSagittal : public GLViewQuadPane
+class GLViewQuadSagittal : public GLView
 {
     Q_OBJECT
 public:
