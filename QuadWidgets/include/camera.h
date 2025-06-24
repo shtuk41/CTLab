@@ -61,6 +61,8 @@ public:
 		up = u;
 	}
 
+	void rotate(glm::vec3 a, float angle);
+	void rotate2(const float x, const float y);
 	void rotateX(const float x);
 	void rotateY(const float y);
 	void rotateZ(const float z);

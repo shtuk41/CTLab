@@ -85,10 +85,6 @@ QuadWidgets::QuadWidgets(QWidget *parent)
         }
     }
 
-
-
-
-
     ui.toolboxDock->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
 
     // Set the initial check state based on visibility

@@ -1,10 +1,12 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLShaderProgram>
 #include <glm/glm.hpp>
 #include <render_object.h>
 
-class Axes3d : public RenderObject
+class Axes3d : public RenderObject, public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
 private:
    	GLuint vertex_array_id = -1;
@@ -22,7 +24,6 @@ public:
     ~Axes3d();
     
     void SetProjection(glm::mat4 p);
-
     virtual void UpdateModel(const glm::mat4& cam_view);
     virtual void Setup();
     virtual void Draw();

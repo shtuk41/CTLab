@@ -73,6 +73,12 @@
     <ClCompile Include="source\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\axes3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\render_object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\glview.h">
@@ -92,9 +98,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\axes3d.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\axisPlane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\axes3d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

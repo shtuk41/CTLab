@@ -1,7 +1,8 @@
-#include <shaders.h>
-#include <axes3d.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <shaders.h>
+#include <axes3d.h>
+
 
 Axes3d::Axes3d(float x, float y, float z) : xLength(x), yLength(y), zLength(z)
 {
@@ -9,15 +10,25 @@ Axes3d::Axes3d(float x, float y, float z) : xLength(x), yLength(y), zLength(z)
 
 Axes3d::~Axes3d()
 {
+    makeCurrent();
     glDeleteBuffers(2, vertex_buffer);
     glDeleteVertexArrays(1, &vertex_array_id);
     glDisableVertexAttribArray(position_attribute);
     glDisableVertexAttribArray(color_attribute);
+    doneCurrent();
 }
 
 void Axes3d::Setup()
 {
-    program_id = LoadShaders(".\\shaders\\axis.vert", ".\\shaders\\axis.frag");
+    initializeOpenGLFunctions();
+
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\axis.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axis.frag");
+
+    shaderProgram = new QOpenGLShaderProgram(this);
+    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
+    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
+    success = shaderProgram->link();
 
     glGenVertexArrays(1, &vertex_array_id);
 
@@ -33,30 +44,30 @@ void Axes3d::Setup()
     };
 
     GLfloat axis_colors[] = {
-                                1.0f,0.0f,0.0f,
-                                1.0f,0.0f,0.0f,
                                 0.0f,1.0f,0.0f,
                                 0.0f,1.0f,0.0f,
                                 0.0f,0.0f,1.0f,
-                                0.0f,0.0f,1.0f
+                                0.0f,0.0f,1.0f,
+                                1.0f,0.0f,0.0f,
+                                1.0f,0.0f,0.0f
     };
 
     glGenBuffers(2, vertex_buffer);
 
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(axis_lines), axis_lines, GL_STATIC_DRAW);
-    position_attribute = glGetAttribLocation(program_id, "vPosition");
+    position_attribute = glGetAttribLocation(shaderProgram->programId(), "vPosition");
     glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(position_attribute);
 
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(axis_colors), axis_colors, GL_STATIC_DRAW);
-    color_attribute = glGetAttribLocation(program_id, "vColor");
+    color_attribute = glGetAttribLocation(shaderProgram->programId(), "vColor");
     glVertexAttribPointer(color_attribute, 3, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(color_attribute);
 
-    model_view = glGetUniformLocation(program_id, "model_view");
-    projection = glGetUniformLocation(program_id, "projection");
+    model_view = glGetUniformLocation(shaderProgram->programId(), "model_view");
+    projection = glGetUniformLocation(shaderProgram->programId(), "projection");
 
     model_matrix = glm::mat4(1.0f);
 }
@@ -75,7 +86,7 @@ void Axes3d::UpdateModel(const glm::mat4& cam_view)
 
     //mm = glm::rotate(mm, -theta, cross);
     mm = glm::rotate(mm, -theta, glm::vec3(1,0,0));
-    model_view_matrix = cam_view * mm;
+    model_view_matrix = cam_view *mm;
 }
 
 void Axes3d::SetProjection(glm::mat4 p)
@@ -85,9 +96,13 @@ void Axes3d::SetProjection(glm::mat4 p)
 
 void Axes3d::Draw()
 {
+    shaderProgram->bind();
+
     glUniformMatrix4fv(model_view, 1, GL_FALSE, glm::value_ptr(model_view_matrix));
     glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(projection_matrix));
 
     glBindVertexArray(vertex_array_id);
     glDrawArrays(GL_LINES, 0, 6);
+
+    shaderProgram->release();
 }

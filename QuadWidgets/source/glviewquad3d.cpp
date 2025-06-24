@@ -3,50 +3,30 @@
 #include <QMouseEvent>
 
 GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent)
-    : GLView(parent), baseColor(color)
+    : GLView(parent), axes3d(100,100,100)
 {
     setFocusPolicy(Qt::StrongFocus);
+
+    previous_xpos = 0.0;
+    previous_ypos = 0.0;
+    rotateEnable = false;
+    moveback = false;
+    moveforward = false;
+    rotateX = 0.0f;
+    rotateY = 0.0f;
 }
 
 GLViewQuad3D::~GLViewQuad3D()
 {
-    makeCurrent();
-    glDeleteBuffers(1, &vbo);
-    glDeleteVertexArrays(1, &vao);
-    delete shaderProgram;
-    doneCurrent();
+   
 }
 
 void GLViewQuad3D::initializeGL()
 {
     initializeOpenGLFunctions();
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\quadview.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\quadview.frag");
-
-    shaderProgram = new QOpenGLShaderProgram(this);
-    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
-    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
-    success = shaderProgram->link();
-
-    GLfloat vertices[] = {
-        0.0f,  0.5f, 0.0f,  // top
-       -0.5f, -0.5f, 0.0f,  // left
-        0.5f, -0.5f, 0.0f   // right
-    };
-
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &vbo);
-
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    //glEnable(GL_DEPTH_TEST);
+    axes3d.Setup();
 }
 
 void GLViewQuad3D::resizeGL(int w, int h)
@@ -57,37 +37,96 @@ void GLViewQuad3D::resizeGL(int w, int h)
 void GLViewQuad3D::paintGL()
 {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    shaderProgram->bind();
-    QVector3D colorVec(baseColor.redF(), baseColor.greenF(), baseColor.blueF());
-    shaderProgram->setUniformValue("baseColor", colorVec);
+    camera.rotate2(rotateX, rotateY);
 
-    glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glBindVertexArray(0);
+    camera.computeViewProjectionMatrices(-200, 200, -200, 200, -1500, 1500);
 
-    shaderProgram->release();
+    glm::mat4 projection_matrix;
+    glm::mat4 view_matrix;
+
+    projection_matrix = camera.getProjectionMatrix();
+    view_matrix = camera.getViewMatrix();
+
+    axes3d.UpdateModel(view_matrix);
+    axes3d.SetProjection(projection_matrix);
+    axes3d.Draw();
 }
 
 // Mouse click changes color to red
+void GLViewQuad3D::mouseMoveEvent(QMouseEvent* event)
+{
+    //GLView::mouseMoveEvent(event);
+
+    if (rotateEnable)
+    {
+        QPoint mouse_pos = event->pos();
+
+        int w = width();
+        int h = height();
+
+        int delta_x = mouse_pos.x() - previous_xpos;
+        int delta_y = mouse_pos.y() - previous_ypos;
+
+        // Normalize mouse movement to [-1,1] relative to window size
+        float norm_dx = float(delta_x) / float(w);
+        float norm_dy = float(delta_y) / float(h);
+
+        // Sensitivity factor for rotation speed
+        float sensitivity = 3.0f;  
+
+        float ry = sensitivity * norm_dx * glm::pi<float>();  // rotate around Y
+        float rx = sensitivity * norm_dy * glm::pi<float>();  // rotate around X
+
+        rotateY += ry;
+        rotateX += rx;
+
+        //this is important
+        float maxPitch = glm::radians(89.0f);
+        rotateX = glm::clamp(rotateX, -maxPitch, maxPitch);
+
+        previous_xpos = mouse_pos.x();
+        previous_ypos = mouse_pos.y();
+
+        update();
+    }
+}
+
+
 void GLViewQuad3D::mousePressEvent(QMouseEvent* event) 
 {
     //GLView::mousePressEvent(event);
-
+    
     if (event->button() == Qt::LeftButton) 
     {
-        update();  // trigger repaint
+        previous_xpos = event->pos().x();
+        previous_ypos = event->pos().y();
+
+        rotateEnable = true;
+    }
+}
+
+void GLViewQuad3D::mouseReleaseEvent(QMouseEvent* event)
+{
+    //GLView::mouseReleaseEvent(event);
+
+    if (event->button() == Qt::LeftButton)
+    {
+        rotateEnable = false;
     }
 }
 
 // Pressing 'G' sets color to green
 void GLViewQuad3D::keyPressEvent(QKeyEvent* event) 
 {
+    auto key = event->key();
     //GLView::keyPressEvent(event);
-    if (event->key() == Qt::Key_G) 
+    
+    if (key == Qt::Key_Space)
     {
-        update();
+        rotateX = 0;
+        rotateY = 0;
     }
 }
 

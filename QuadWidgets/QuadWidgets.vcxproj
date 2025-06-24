@@ -112,6 +112,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\axes3d.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\context.cpp" />
     <ClCompile Include="source\glview.cpp" />
@@ -139,6 +140,7 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
+    <ClCompile Include="source\render_object.cpp" />
     <ClCompile Include="source\shaders.cpp" />
     <None Include="shaders\axis.frag" />
     <None Include="shaders\axis.vert" />

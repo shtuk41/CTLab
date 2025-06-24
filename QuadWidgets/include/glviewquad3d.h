@@ -5,6 +5,8 @@
 #include <QColor>
 #include <GLView.h>
 #include <QEvent>
+#include <axes3d.h>
+#include <camera.h>
 
 class GLViewQuad3D : public GLView
 {
@@ -18,14 +20,24 @@ protected:
     void resizeGL(int w, int h) override;
     void paintGL() override;
 
+    void mouseMoveEvent(QMouseEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
     void keyPressEvent(QKeyEvent* event) override;
     void enterEvent(QEnterEvent* event) override;
     void leaveEvent(QEvent* event) override;
 
 private:
-    QOpenGLShaderProgram* shaderProgram = nullptr;
-    GLuint vao = 0;
-    GLuint vbo = 0;
-    QColor baseColor;
+
+    Camera camera;
+    Axes3d axes3d;
+
+    //controls
+    int previous_xpos;
+    int previous_ypos;
+    bool rotateEnable;
+    bool moveback;
+    bool moveforward;
+    float rotateX;
+    float rotateY;
 };

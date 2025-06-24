@@ -1,12 +1,12 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <QOpenGLShaderProgram>
 #include <glm/glm.hpp>
 
 class RenderObject
 {
 protected:
-	GLuint program_id;
+	QOpenGLShaderProgram* shaderProgram = nullptr;
 	GLuint model_view;
 	GLuint projection;
 	glm::mat4 model_matrix;
@@ -57,7 +57,7 @@ public:
 	{
 	}
 
-	GLuint GetProgramId() const { return program_id;  }
+	QOpenGLShaderProgram* GetProgramId() const { return shaderProgram;  }
 	void SetRotation(const float angle, glm::vec3 axis) { angleRotation = angle;  axisRotation = axis; }
 };
 
