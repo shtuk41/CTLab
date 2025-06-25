@@ -73,9 +73,6 @@ int main()
 	AxisPlane planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 2);
 	planeYZ.Setup();
 
-
-	planeXY.Setup();
-
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO const& io = ImGui::GetIO(); (void)io;
