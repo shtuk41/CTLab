@@ -7,6 +7,7 @@
 #include <QEvent>
 #include <axes3d.h>
 #include <camera.h>
+#include <axisPlane.h>
 
 class GLViewQuad3D : public GLView
 {
@@ -31,6 +32,10 @@ private:
 
     Camera camera;
     Axes3d axes3d;
+    AxisPlane planeXY;
+    AxisPlane planeXZ;
+    AxisPlane planeYZ;
+
 
     //controls
     int previous_xpos;

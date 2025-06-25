@@ -1,9 +1,12 @@
 #pragma once
 
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLShaderProgram>
 #include <glm/glm.hpp>
 #include <render_object.h>
 
-class AxisPlane : public RenderObject
+class AxisPlane : public RenderObject, public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
 private:
    	GLuint vertex_array_id[2];

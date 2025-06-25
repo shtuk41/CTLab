@@ -40,16 +40,16 @@ void Axes3d::Setup()
                                 0.0f,0.0f,0.0f,
                                 0.0f,1.0f * yLength,0.0f,
                                 0.0f,0.0f,0.0f,
-                                0.0f,0.0f,1.0f * zLength
+                                0.0f,0.0f,-1.0f * zLength
     };
 
     GLfloat axis_colors[] = {
-                                0.0f,1.0f,0.0f,
-                                0.0f,1.0f,0.0f,
-                                0.0f,0.0f,1.0f,
-                                0.0f,0.0f,1.0f,
                                 1.0f,0.0f,0.0f,
-                                1.0f,0.0f,0.0f
+                                1.0f,0.0f,0.0f,
+                                0.0f,0.0f,1.0f,
+                                0.0f,0.0f,1.0f,
+                                0.0f,1.0f,0.0f,
+                                0.0f,1.0f,0.0f
     };
 
     glGenBuffers(2, vertex_buffer);
@@ -86,7 +86,7 @@ void Axes3d::UpdateModel(const glm::mat4& cam_view)
 
     //mm = glm::rotate(mm, -theta, cross);
     mm = glm::rotate(mm, -theta, glm::vec3(1,0,0));
-    model_view_matrix = cam_view *mm;
+    model_view_matrix = cam_view;
 }
 
 void Axes3d::SetProjection(glm::mat4 p)

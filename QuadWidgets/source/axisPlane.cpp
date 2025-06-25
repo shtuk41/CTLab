@@ -10,15 +10,25 @@ AxisPlane::AxisPlane(glm::vec3 t, glm::vec3 bn, glm::vec4 c, float s) : tangent(
 
 AxisPlane::~AxisPlane()
 {
+    makeCurrent();
     glDeleteBuffers(4, vertex_buffer);
     glDeleteVertexArrays(2, vertex_array_id);
     glDisableVertexAttribArray(position_attribute);
     glDisableVertexAttribArray(color_attribute);
+    doneCurrent();
 }
 
 void AxisPlane::Setup()
 {
-    program_id = LoadShaders(".\\shaders\\axisPlane.vert", ".\\shaders\\axisPlane.frag");
+    initializeOpenGLFunctions();
+
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\axisPlane.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axisPlane.frag");
+
+    shaderProgram = new QOpenGLShaderProgram(this);
+    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
+    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
+    success = shaderProgram->link();
 
     glGenVertexArrays(2, vertex_array_id);
     glBindVertexArray(vertex_array_id[0]);
@@ -54,13 +64,13 @@ void AxisPlane::Setup()
 
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(plane), plane, GL_STATIC_DRAW);
-    position_attribute = glGetAttribLocation(program_id, "vPosition");
+    position_attribute = glGetAttribLocation(shaderProgram->programId(), "vPosition");
     glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(position_attribute);
 
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(planeColor), planeColor, GL_STATIC_DRAW);
-    color_attribute = glGetAttribLocation(program_id, "vColor");
+    color_attribute = glGetAttribLocation(shaderProgram->programId(), "vColor");
     glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(color_attribute);
 
@@ -90,18 +100,18 @@ void AxisPlane::Setup()
 
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[2]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(axis_lines_lines), axis_lines_lines, GL_STATIC_DRAW);
-    position_attribute = glGetAttribLocation(program_id, "vPosition");
+    position_attribute = glGetAttribLocation(shaderProgram->programId(), "vPosition");
     glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(position_attribute);
 
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer[3]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(axis_colors_lines), axis_colors_lines, GL_STATIC_DRAW);
-    color_attribute = glGetAttribLocation(program_id, "vColor");
+    color_attribute = glGetAttribLocation(shaderProgram->programId(), "vColor");
     glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 0, (void*)nullptr);
     glEnableVertexAttribArray(color_attribute);
 
-    model_view = glGetUniformLocation(program_id, "model_view");
-    projection = glGetUniformLocation(program_id, "projection");
+    model_view = glGetUniformLocation(shaderProgram->programId(), "model_view");
+    projection = glGetUniformLocation(shaderProgram->programId(), "projection");
 
     model_matrix = glm::mat4(1.0f);
 }
@@ -130,6 +140,8 @@ void AxisPlane::SetProjection(glm::mat4 p)
 
 void AxisPlane::Draw()
 {
+    shaderProgram->bind();
+
     glUniformMatrix4fv(model_view, 1, GL_FALSE, glm::value_ptr(model_view_matrix));
     glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(projection_matrix));
 
@@ -138,4 +150,6 @@ void AxisPlane::Draw()
 
     glBindVertexArray(vertex_array_id[1]);
     glDrawArrays(GL_LINES, 0, 8);
+
+    shaderProgram->release();
 }

@@ -113,6 +113,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\axes3d.cpp" />
+    <ClCompile Include="source\axisPlane.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\context.cpp" />
     <ClCompile Include="source\glview.cpp" />

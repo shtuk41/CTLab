@@ -79,6 +79,9 @@
     <ClCompile Include="source\render_object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\axisPlane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\glview.h">
