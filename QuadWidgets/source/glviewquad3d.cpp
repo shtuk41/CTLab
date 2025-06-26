@@ -3,14 +3,15 @@
 #include <QMouseEvent>
 
 GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent)
-    : GLView(parent), 
-        axes3d(100,100,100),
+    : GLView(parent),
+    axes3d(100, 100, 100),
     //Axis
     planeXY(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec4(0.0f, 1.0f, 0.0f, 0.1f), 100),
     //Coronal
     planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.1f), 100),
     //Sagittal
-    planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 100)
+    planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 100),
+    volume(256, 256, 256, &camera)
 {
     setFocusPolicy(Qt::StrongFocus);
 
@@ -41,6 +42,8 @@ void GLViewQuad3D::initializeGL()
     planeXZ.Setup();
     //Sagittal
     planeYZ.Setup();
+
+    volume.Setup();
 }
 
 void GLViewQuad3D::resizeGL(int w, int h)
@@ -63,13 +66,17 @@ void GLViewQuad3D::paintGL()
     projection_matrix = camera.getProjectionMatrix();
     view_matrix = camera.getViewMatrix();
 
-    axes3d.UpdateModel(view_matrix);
-    axes3d.SetProjection(projection_matrix);
-    axes3d.Draw();
-
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
+
+    volume.UpdateModel(view_matrix);
+    volume.SetProjection(projection_matrix);
+    volume.Draw();
+
+    axes3d.UpdateModel(view_matrix);
+    axes3d.SetProjection(projection_matrix);
+    axes3d.Draw();
 
     planeXY.UpdateModel(view_matrix);
     planeXY.SetProjection(projection_matrix);
@@ -80,6 +87,8 @@ void GLViewQuad3D::paintGL()
     planeYZ.UpdateModel(view_matrix);
     planeYZ.SetProjection(projection_matrix);
     planeYZ.Draw();
+
+    
 }
 
 // Mouse click changes color to red

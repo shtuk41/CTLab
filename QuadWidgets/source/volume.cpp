@@ -10,8 +10,12 @@ Volume::Volume(int x, int y, int z, Camera* c) : xLength(x), yLength(y), zLength
 
 Volume::~Volume()
 {
+    makeCurrent();
     glDeleteBuffers(1, &vertex_buffer);
     glDeleteVertexArrays(1, &vertex_array_id);
+    glDisableVertexAttribArray(aPos_attribute);
+    glDisableVertexAttribArray(aTexCoord_attribute);
+    doneCurrent();
 }
 
 void fillCylinder(std::vector<GLubyte>& volumeData, int width, int height, int depth)
@@ -38,7 +42,7 @@ void fillSphere(std::vector<GLubyte>& volumeData, int width, int height, int dep
     float cx = width / 2.0f;
     float cy = height / 2.0f;
     float cz = depth / 2.0f;
-    float radius = 150.0f;
+    float radius = 20.0f;
 
     for (int z = 0; z < depth; ++z) {
         for (int y = 0; y < height; ++y) {
@@ -283,15 +287,17 @@ void fillKleinBottlePinched(std::vector<GLubyte>& volumeData, int width, int hei
     }
 }
 
-
-
-
-
-
-
 void Volume::Setup()
 {
-    program_id = LoadShaders(".\\shaders\\volume.vert", ".\\shaders\\volume.frag");
+    initializeOpenGLFunctions();
+
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\volume.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\volume.frag");
+
+    shaderProgram = new QOpenGLShaderProgram(this);
+    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
+    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
+    success = shaderProgram->link();
 
     // === 1. Generate Dummy Volume Data ===
     const int width = yLength;
@@ -347,6 +353,13 @@ void Volume::Setup()
          -1, 1,-1,0,1,0,  1, 1, 1,1,1,1,  1, 1,-1,1,1,0
     };
 
+    for (int ii = 0; ii < 18 * 12; ii+=6)
+    {
+        cube[ii + 0] *= 100; // u
+        cube[ii + 1] *= 100; // v
+        cube[ii + 2] *= 100; // w
+    }
+
     glGenVertexArrays(1, &vertex_array_id);
     glBindVertexArray(vertex_array_id);
 
@@ -354,22 +367,18 @@ void Volume::Setup()
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(cube), cube, GL_STATIC_DRAW);
 
-    // pos (location = 0)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    aPos_attribute = glGetAttribLocation(shaderProgram->programId(), "aPos");
+    glVertexAttribPointer(aPos_attribute, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(aPos_attribute);
 
-    // texcoord (location = 1)
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    aTexCoord_attribute = glGetAttribLocation(shaderProgram->programId(), "aTexCoord");
+    glVertexAttribPointer(aTexCoord_attribute, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(aTexCoord_attribute);
 
-    model_view = glGetUniformLocation(program_id, "model_view");
-    projection = glGetUniformLocation(program_id, "projection");
-    invModelViewProj = glGetUniformLocation(program_id, "invMVP");
-    cameraPos = glGetUniformLocation(program_id, "cameraPos");
-
-
-
-    
+    model_view = glGetUniformLocation(shaderProgram->programId(), "model_view");
+    projection = glGetUniformLocation(shaderProgram->programId(), "projection");
+    invModelViewProj = glGetUniformLocation(shaderProgram->programId(), "invMVP");
+    cameraPos = glGetUniformLocation(shaderProgram->programId(), "cameraPos");
 
     model_matrix = glm::mat4(1.0f);
 }
@@ -389,6 +398,8 @@ void Volume::SetProjection(glm::mat4 p)
 
 void Volume::Draw()
 {
+    shaderProgram->bind();
+
     glUniformMatrix4fv(model_view, 1, GL_FALSE, glm::value_ptr(model_view_matrix));
     glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(projection_matrix));
 
@@ -402,9 +413,11 @@ void Volume::Draw()
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, tex3D);
-    GLuint te = glGetUniformLocation(program_id, "volumeTex");
+    GLuint te = glGetUniformLocation(shaderProgram->programId(), "volumeTex");
     glUniform1i(te, 0);
 
     glBindVertexArray(vertex_array_id);
     glDrawArrays(GL_TRIANGLES, 0, 36);  // full cube
+
+    shaderProgram->release();
 }

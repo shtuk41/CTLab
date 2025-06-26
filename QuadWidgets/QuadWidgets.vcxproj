@@ -143,6 +143,7 @@
     </ClCompile>
     <ClCompile Include="source\render_object.cpp" />
     <ClCompile Include="source\shaders.cpp" />
+    <ClCompile Include="source\volume.cpp" />
     <None Include="shaders\axis.frag" />
     <None Include="shaders\axis.vert" />
     <None Include="shaders\axisPlane.frag" />
