@@ -379,8 +379,18 @@ void Volume::Setup()
     projection = glGetUniformLocation(shaderProgram->programId(), "projection");
     invModelViewProj = glGetUniformLocation(shaderProgram->programId(), "invMVP");
     cameraPos = glGetUniformLocation(shaderProgram->programId(), "cameraPos");
+    windowWidth = glGetUniformLocation(shaderProgram->programId(), "windowWidth");
+    windowHeight = glGetUniformLocation(shaderProgram->programId(), "windowHeight");
 
     model_matrix = glm::mat4(1.0f);
+}
+
+void Volume::UpdateModel(const glm::mat4& cam_view, int winWidth, int winHeight)
+{
+    UpdateModel(cam_view);
+
+    windowWidthValue = winWidth;
+    windowHeightValue = winHeight;
 }
 
 void Volume::UpdateModel(const glm::mat4& cam_view)
@@ -410,6 +420,10 @@ void Volume::Draw()
 
     glm::vec3 camPosition = cam->getPosition();
     glUniform3fv(cameraPos, 1, glm::value_ptr(camPosition));
+
+    glUniform1i(windowWidth, windowWidthValue);
+    glUniform1i(windowHeight, windowHeightValue);
+
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, tex3D);

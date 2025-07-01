@@ -38,6 +38,9 @@ private:
     AxisPlane planeYZ;
     Volume volume;
 
+    int windowWidth;
+    int windowHeight;
+
 
     //controls
     int previous_xpos;

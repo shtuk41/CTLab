@@ -6,11 +6,13 @@ out vec4 FragColor;
 uniform sampler3D volumeTex;
 uniform mat4 invMVP;
 uniform vec3 cameraPos;
+uniform int windowWidth;
+uniform int windowHeight;
 
 void main()
 {
     // 1. Convert gl_FragCoord.xy from screen pixel coords to NDC [-1,1]
-    vec2 ndc = (gl_FragCoord.xy / vec2(642,467)) * 2.0 - 1.0;
+    vec2 ndc = (gl_FragCoord.xy / vec2(windowWidth,windowHeight)) * 2.0 - 1.0;
     
     // 2. Use actual depth from gl_FragCoord.z (0 to 1)
     float depth = gl_FragCoord.z;

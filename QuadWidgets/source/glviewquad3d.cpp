@@ -48,6 +48,9 @@ void GLViewQuad3D::initializeGL()
 
 void GLViewQuad3D::resizeGL(int w, int h)
 {
+    windowWidth = w;
+    windowHeight = h;
+
     glViewport(0, 0, w, h);
 }
 
@@ -70,7 +73,7 @@ void GLViewQuad3D::paintGL()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
 
-    volume.UpdateModel(view_matrix);
+    volume.UpdateModel(view_matrix, windowWidth, windowHeight);
     volume.SetProjection(projection_matrix);
     volume.Draw();
 
