@@ -11,7 +11,8 @@ GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent)
     planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.1f), 100),
     //Sagittal
     planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 100),
-    volume(256, 256, 256, &camera)
+    volume(256, 256, 256, &camera),
+    cameraBoundaries(200)
 {
     setFocusPolicy(Qt::StrongFocus);
 
@@ -61,7 +62,7 @@ void GLViewQuad3D::paintGL()
 
     camera.rotate2(rotateX, rotateY);
 
-    camera.computeViewProjectionMatrices(-200, 200, -200, 200, -1500, 1500);
+    camera.computeViewProjectionMatrices(-cameraBoundaries, cameraBoundaries, -cameraBoundaries, cameraBoundaries, -1500, 1500);
 
     glm::mat4 projection_matrix;
     glm::mat4 view_matrix;
@@ -180,4 +181,12 @@ void GLViewQuad3D::leaveEvent(QEvent* event)
 {
     Q_UNUSED(event);
     clearFocus();
+}
+
+void GLViewQuad3D::wheelEvent(QWheelEvent* event)
+{
+    int deltaY = event->angleDelta().y();
+    cameraBoundaries += deltaY * 0.1;
+    cameraBoundaries = __max(50, __min(300, cameraBoundaries));
+    update();
 }
