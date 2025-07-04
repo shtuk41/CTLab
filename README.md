@@ -1,6 +1,8 @@
 # CTLab
 Simulation of CT acquisition process and volume reconstruction.  
 
+- Points inside the model:
+
 ![Screenshot](Readme/PointsInsideModel.png)
 
 - Initial scanning configuration:
@@ -19,7 +21,11 @@ Simulation of CT acquisition process and volume reconstruction.
 
 ![Screenshot](Readme/ReconstructedSimpleITK.png)
 
-- Points inside the model:
+- Volume rendered in quad view
+
+![Screenshot](Readme/cupVolume.png)
+
+
 
 References:
 I can't find where the 3d model came from.  
@@ -35,6 +41,8 @@ I can't find where the 3d model came from.
     pip install napari[all]
 
     CUDA 12.8
+
+    Qt 6.9.1
 
 
 
