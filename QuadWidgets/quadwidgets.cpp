@@ -43,6 +43,11 @@ QuadWidgets::QuadWidgets(QWidget *parent)
         { "quadGLBottomRight_3D", Qt::yellow, QUAD_VIEW::V3D}
     };
 
+    QSurfaceFormat format;
+    format.setAlphaBufferSize(8); // crucial!
+    format.setRenderableType(QSurfaceFormat::OpenGL);
+    QSurfaceFormat::setDefaultFormat(format);
+
     for (const auto& view : views) {
         QWidget* placeholder = ui.centralWidget->findChild<QWidget*>(view.placeholderName);
 
@@ -96,6 +101,42 @@ QuadWidgets::QuadWidgets(QWidget *parent)
         });
 
     this->showMaximized();
+
+    connect(ui.minVoxelValueSlider,
+        &QSlider::valueChanged, this,
+        [this, context](int value)
+            { 
+                ui.minVoxelValueLabel->setText(QString::number(value));
+            
+                if (ui.maxVoxelValueSlider->value() < value)
+                {
+                    ui.maxVoxelValueSlider->setValue(value + 1);
+                }
+
+                context.glViewQuad3d->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
+            }
+        );
+
+    ui.minVoxelValueSlider->setValue(0);
+
+    connect(ui.maxVoxelValueSlider,
+        &QSlider::valueChanged, this,
+        [this, context](int value)
+        {
+            ui.maxVoxelValueLabel->setText(QString::number(value));
+
+            if (ui.minVoxelValueSlider->value() > value)
+            {
+                ui.minVoxelValueSlider->setValue(value - 1);
+            }
+
+            context.glViewQuad3d->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
+        }
+    );
+
+    ui.maxVoxelValueSlider->setValue(std::numeric_limits<unsigned short>::max());
+
+
 
 }
 

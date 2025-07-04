@@ -42,7 +42,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.9.1_msvc2022_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;openglwidgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -141,6 +141,7 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
+    <ClCompile Include="source\io\ioData.cpp" />
     <ClCompile Include="source\render_object.cpp" />
     <ClCompile Include="source\shaders.cpp" />
     <ClCompile Include="source\volume.cpp" />
@@ -172,6 +173,7 @@
     <QtMoc Include="include\glviewquadcoronal.h" />
     <QtMoc Include="include\glviewquadaxial.h" />
     <QtMoc Include="include\glviewquad3d.h" />
+    <ClInclude Include="include\io\ioData.h" />
     <ClInclude Include="include\render_object.h" />
     <ClInclude Include="include\shaders.h" />
     <ClInclude Include="include\volume.h" />

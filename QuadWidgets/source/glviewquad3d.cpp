@@ -11,7 +11,7 @@ GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent)
     planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.1f), 100),
     //Sagittal
     planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 100),
-    volume(256, 256, 256, &camera),
+    volume(&camera, R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)"),
     cameraBoundaries(200)
 {
     setFocusPolicy(Qt::StrongFocus);
@@ -57,12 +57,12 @@ void GLViewQuad3D::resizeGL(int w, int h)
 
 void GLViewQuad3D::paintGL()
 {
-    glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     camera.rotate2(rotateX, rotateY);
 
-    camera.computeViewProjectionMatrices(-cameraBoundaries, cameraBoundaries, -cameraBoundaries, cameraBoundaries, -1500, 1500);
+    camera.computeViewProjectionMatrices(-cameraBoundaries, cameraBoundaries, -cameraBoundaries, cameraBoundaries, -2000, 2000);
 
     glm::mat4 projection_matrix;
     glm::mat4 view_matrix;
@@ -72,11 +72,13 @@ void GLViewQuad3D::paintGL()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDisable(GL_DEPTH_TEST);
+    glEnable (GL_DEPTH_TEST);
 
-    volume.UpdateModel(view_matrix, windowWidth, windowHeight);
+    volume.UpdateModel(view_matrix, windowWidth, windowHeight, float(minVoxelThresholdValue) / 65535, float(maxVoxelThresholdValue)/ 65535);
     volume.SetProjection(projection_matrix);
     volume.Draw();
+
+    glDisable(GL_DEPTH_TEST);
 
     axes3d.UpdateModel(view_matrix);
     axes3d.SetProjection(projection_matrix);
@@ -187,6 +189,14 @@ void GLViewQuad3D::wheelEvent(QWheelEvent* event)
 {
     int deltaY = event->angleDelta().y();
     cameraBoundaries += deltaY * 0.1;
-    cameraBoundaries = __max(50, __min(300, cameraBoundaries));
+    cameraBoundaries = __max(1, __min(2000, cameraBoundaries));
+    update();
+}
+
+void GLViewQuad3D::UpdateMinMaxVoxelValues(int min, int max)
+{
+    minVoxelThresholdValue = min;
+    maxVoxelThresholdValue = max;
+
     update();
 }

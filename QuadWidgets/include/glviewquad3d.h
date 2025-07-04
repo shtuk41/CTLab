@@ -17,6 +17,8 @@ public:
     explicit GLViewQuad3D(const QColor& color, QWidget* parent = nullptr);
     ~GLViewQuad3D();
 
+    void UpdateMinMaxVoxelValues(int min, int max);
+
 protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
@@ -42,6 +44,10 @@ private:
     int windowWidth;
     int windowHeight;
 
+    //view parameters
+
+    int minVoxelThresholdValue;
+    int maxVoxelThresholdValue;
 
     //controls
     int previous_xpos;

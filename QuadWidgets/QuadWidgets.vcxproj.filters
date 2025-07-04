@@ -24,6 +24,12 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{034018cf-e884-4208-aeec-d7e6f2d93ee2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\io">
+      <UniqueIdentifier>{efc6159f-86ed-4abf-91f9-5e594706a7b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\io">
+      <UniqueIdentifier>{6d21c5be-6324-4a0b-b7c9-dcf93ba57916}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="quadwidgets.qrc">
@@ -85,6 +91,9 @@
     <ClCompile Include="source\volume.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\io\ioData.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\glview.h">
@@ -124,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="include\axes3d.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\io\ioData.h">
+      <Filter>Header Files\io</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
