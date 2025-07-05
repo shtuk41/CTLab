@@ -25,11 +25,6 @@ VolumeData::VolumeData(const std::string filePath)
         data.resize(size / 2);
 
         file.read(reinterpret_cast<char*>(data.data()), size);
-
-        for (uint16_t& val : data)
-        {
-            val = (val >> 8) | (val << 8);
-        }
     }
 }
 
@@ -38,40 +33,44 @@ const uint16_csv_volume* VolumeData::getHeader() const
     return &header;
 }
 
-void VolumeData::fillBuffer(std::vector<GLubyte>& volData, int width, int height, int depth)
+void VolumeData::fillBuffer(std::vector<GLubyte>& volData, int width, int height, int depth) 
 {
-    int w = header.recoX;
-    int h = header.recoY;
-    int d = header.recoZ;
+    const int volumeWidth = header.recoX;
+    const int volumeHeight = header.recoY;
+    const int volumeDepth = header.recoZ;
 
-    if (volData.size() != size_t(width * height * depth))
+    if (volData.size() != static_cast<size_t>(width * height * depth)) 
     {
-        throw std::exception("VolumeData fillBuffer: destination size doesn't match volume dimensions.");
+        throw std::runtime_error("VolumeData::fillBuffer: destination size doesn't match specified dimensions.");
+    }
+
+    if (data.empty()) 
+    {
+        throw std::runtime_error("VolumeData::fillBuffer: source data is empty.");
     }
 
     auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
-    unsigned short min = *minIt;
-    unsigned short max = *maxIt;
+    const uint16_t minVal = *minIt;
+    const uint16_t maxVal = *maxIt;
+    const float range = static_cast<float>(std::max(1, maxVal - minVal));
 
-    // Fill volume with normalized data + zero padding
-    for (int z = 0; z < depth; ++z)
+    for (int z = 0; z < depth; ++z) 
     {
-        for (int y = 0; y < height; ++y)
+        for (int y = 0; y < height; ++y) 
         {
-            for (int x = 0; x < width; ++x)
+            for (int x = 0; x < width; ++x) 
             {
-                int dstIdx = x + y * width + z * width * height;
+                size_t dstIdx = x + y * width + z * width * height;
 
-                if (x < w && y < h && z < d)
+                if (x < volumeWidth && y < volumeHeight && z < volumeDepth)
                 {
-                    int srcIdx = x + y * w + z * w * h;
-                    float norm = float(data[srcIdx] - min) / float(max - min);
-                    norm = std::clamp(norm, 0.0f, 1.0f);
-                    volData[dstIdx] = static_cast<GLubyte>(norm * 255.0f);
+                    size_t srcIdx = x + volumeWidth * (y + volumeHeight * z); // Fortran-order
+                    float norm = (static_cast<float>(data[srcIdx]) - minVal) / range;
+                    volData[dstIdx] = static_cast<GLubyte>(std::clamp(norm, 0.0f, 1.0f) * 255.0f);
                 }
-                else
+                else 
                 {
-                    volData[dstIdx] = 0; // padding
+                    volData[dstIdx] = 0;
                 }
             }
         }

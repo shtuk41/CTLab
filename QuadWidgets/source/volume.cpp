@@ -501,17 +501,17 @@ void Volume::Setup()
     success = shaderProgram->link();
 
     // === 1. Generate Dummy Volume Data ===
-    const int width = 256; xLength;
-    const int height = 256; yLength;
-    const int depth = 256; zLength;
+    //const int width = 256; xLength;
+    //const int height = 256; yLength;
+    //const int depth = 256; zLength;
 
-    //const int width = 288; xLength;
-    //const int height = 824; yLength;
-    //const int depth = 1876; zLength;
+    const int width = 288; xLength;
+    const int height = 824; yLength;
+    const int depth = 1876; zLength;
 
     std::vector<GLubyte> volumeDataTex(width * height * depth, 0);
-    //volumeData.fillBuffer(volumeDataTex, width, height, depth);
-    fillCupWithHandle2(volumeDataTex, width, height, depth);
+    volumeData.fillBuffer(volumeDataTex, width, height, depth);
+    //fillCupWithHandle2(volumeDataTex, width, height, depth);
     //fillHollowCylinder(volumeDataTex, width, height, depth);
    
 

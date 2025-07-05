@@ -25,6 +25,10 @@ Simulation of CT acquisition process and volume reconstruction.
 
 ![Screenshot](Readme/cupVolume.png)
 
+- Real volume captured with Zeiss Metrotom rendered in quad view
+
+![Screenshot](Readme/ceasarsMetrotom.png)
+
 
 
 References:
