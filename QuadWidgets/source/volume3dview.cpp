@@ -1,17 +1,19 @@
 #include <shaders.h>
-#include <volume.h>
+#include <volume3dview.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Volume::Volume(Camera* c, std::string dataPath) : cam(c), volumeData(dataPath)
+Volume3dView::Volume3dView(Camera* c, std::string dataPath) : cam(c), volumeData(dataPath)
 {
     auto volumeHeader = volumeData.getHeader();
+    volumeData.saveHeaderToFile("volumeHeader.txt");
+
     xLength = volumeHeader->recoX;
     yLength = volumeHeader->recoY;
     zLength = volumeHeader->recoZ;
 }
 
-Volume::~Volume()
+Volume3dView::~Volume3dView()
 {
     makeCurrent();
     glDeleteBuffers(1, &vertex_buffer);
@@ -483,12 +485,12 @@ void fillCupWithHandle2(std::vector<GLubyte>& volumeData, int width, int height,
     }
 }
 
-void Volume::Setup()
+void Volume3dView::Setup()
 {
     initializeOpenGLFunctions();
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\volume.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\volume.frag");
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\volume3dview.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\volume3dview.frag");
 
     shaderProgram = new QOpenGLShaderProgram(this);
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
@@ -500,9 +502,9 @@ void Volume::Setup()
     //const int height = 256; yLength;
     //const int depth = 256; zLength;
 
-    const int width = 288; xLength;
-    const int height = 824; yLength;
-    const int depth = 1876; zLength;
+    const int width = xLength;
+    const int height = yLength;
+    const int depth = zLength;
 
     std::vector<GLubyte> volumeDataTex(width * height * depth, 0);
     volumeData.fillBuffer(volumeDataTex, width, height, depth);
@@ -511,8 +513,10 @@ void Volume::Setup()
    
 
     // === 2. Create 3D Texture ===
+    
     glGenTextures(1, &tex3D);
     glBindTexture(GL_TEXTURE_3D, tex3D);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0,
         GL_RED, GL_UNSIGNED_BYTE, volumeDataTex.data());
 
@@ -557,8 +561,8 @@ void Volume::Setup()
 
     for (int ii = 0; ii < 36; ++ii) 
     {
-        cube[ii * 6 + 0] *= (100 * 0.5);   // x
-        cube[ii * 6 + 1] *= (100 * 0.5);  // y
+        cube[ii * 6 + 0] *= (100 * 0.076);   // x
+        cube[ii * 6 + 1] *= (100 * 0.219);  // y
         cube[ii * 6 + 2] *= (100 * 0.5);   // z
     }
 
@@ -589,7 +593,7 @@ void Volume::Setup()
     model_matrix = glm::mat4(1.0f);
 }
 
-void Volume::UpdateModel(const glm::mat4& cam_view, int winWidth, int winHeight, float minVoxelThreshold, float maxVoxelThreshold)
+void Volume3dView::UpdateModel(const glm::mat4& cam_view, int winWidth, int winHeight, float minVoxelThreshold, float maxVoxelThreshold)
 {
     UpdateModel(cam_view);
 
@@ -599,7 +603,7 @@ void Volume::UpdateModel(const glm::mat4& cam_view, int winWidth, int winHeight,
     maxVoxelThresholdValue = maxVoxelThreshold;
 }
 
-void Volume::UpdateModel(const glm::mat4& cam_view)
+void Volume3dView::UpdateModel(const glm::mat4& cam_view)
 {
     SetPosition(0, 0, 0);
 
@@ -607,12 +611,12 @@ void Volume::UpdateModel(const glm::mat4& cam_view)
     model_view_matrix = cam_view * mm;
 }
 
-void Volume::SetProjection(glm::mat4 p)
+void Volume3dView::SetProjection(glm::mat4 p)
 {
     projection_matrix = p;
 }
 
-void Volume::Draw()
+void Volume3dView::Draw()
 {
     shaderProgram->bind();
 

@@ -8,7 +8,7 @@
 #include <axes3d.h>
 #include <camera.h>
 #include <axisPlane.h>
-#include <volume.h>
+#include <volume3dview.h>
 
 class GLViewQuad3D : public GLView
 {
@@ -39,7 +39,7 @@ private:
     AxisPlane planeXY;
     AxisPlane planeXZ;
     AxisPlane planeYZ;
-    Volume volume;
+    Volume3dView volume3dview;
 
     int windowWidth;
     int windowHeight;

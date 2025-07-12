@@ -11,7 +11,7 @@ GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent)
     planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.1f), 100),
     //Sagittal
     planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 100),
-    volume(&camera, R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)"),
+    volume3dview(&camera, R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)"),
     cameraBoundaries(200)
 {
     setFocusPolicy(Qt::StrongFocus);
@@ -44,7 +44,7 @@ void GLViewQuad3D::initializeGL()
     //Sagittal
     planeYZ.Setup();
 
-    volume.Setup();
+    volume3dview.Setup();
 }
 
 void GLViewQuad3D::resizeGL(int w, int h)
@@ -74,9 +74,9 @@ void GLViewQuad3D::paintGL()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable (GL_DEPTH_TEST);
 
-    volume.UpdateModel(view_matrix, windowWidth, windowHeight, float(minVoxelThresholdValue) / 65535, float(maxVoxelThresholdValue)/ 65535);
-    volume.SetProjection(projection_matrix);
-    volume.Draw();
+    volume3dview.UpdateModel(view_matrix, windowWidth, windowHeight, float(minVoxelThresholdValue) / 65535, float(maxVoxelThresholdValue)/ 65535);
+    volume3dview.SetProjection(projection_matrix);
+    volume3dview.Draw();
 
     glDisable(GL_DEPTH_TEST);
 

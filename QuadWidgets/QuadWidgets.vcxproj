@@ -144,15 +144,19 @@
     <ClCompile Include="source\io\ioData.cpp" />
     <ClCompile Include="source\render_object.cpp" />
     <ClCompile Include="source\shaders.cpp" />
-    <ClCompile Include="source\volume.cpp" />
+    <ClCompile Include="source\volume.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\volume3dview.cpp" />
     <None Include="shaders\axis.frag" />
     <None Include="shaders\axis.vert" />
     <None Include="shaders\axisPlane.frag" />
     <None Include="shaders\axisPlane.vert" />
     <None Include="shaders\quadview.frag" />
     <None Include="shaders\quadview.vert" />
-    <None Include="shaders\volume.frag" />
-    <None Include="shaders\volume.vert" />
+    <None Include="shaders\volume3dview.frag" />
+    <None Include="shaders\volume3dview.vert" />
     <QtRcc Include="quadwidgets.qrc" />
     <QtUic Include="quadwidgets.ui" />
     <QtMoc Include="quadwidgets.h" />
@@ -169,6 +173,7 @@
     <ClInclude Include="include\axisPlane.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\context.h" />
+    <ClInclude Include="include\volume3dview.h" />
     <QtMoc Include="include\glviewquadsagittal.h" />
     <QtMoc Include="include\glviewquadcoronal.h" />
     <QtMoc Include="include\glviewquadaxial.h" />

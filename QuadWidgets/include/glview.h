@@ -3,7 +3,7 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
 #include <QColor>
-#include <Camera.h>
+#include <camera.h>
 
 class GLView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
@@ -16,7 +16,7 @@ protected:
     //void initializeGL() override;
     //void resizeGL(int w, int h) override;
     //void paintGL() override;
-    //Camera camera;
+    Camera camera;
 
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;

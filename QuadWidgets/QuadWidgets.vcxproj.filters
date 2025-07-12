@@ -94,6 +94,9 @@
     <ClCompile Include="source\io\ioData.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
+    <ClCompile Include="source\volume3dview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\glview.h">
@@ -137,6 +140,9 @@
     <ClInclude Include="include\io\ioData.h">
       <Filter>Header Files\io</Filter>
     </ClInclude>
+    <ClInclude Include="include\volume3dview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\axis.frag">
@@ -157,10 +163,10 @@
     <None Include="shaders\quadview.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\volume.frag">
+    <None Include="shaders\volume3dview.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\volume.vert">
+    <None Include="shaders\volume3dview.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

@@ -69,6 +69,8 @@ private:
 public: 
     VolumeData(const std::string filePath);
     const uint16_csv_volume* getHeader() const;
+    std::string getHeaderString() const;
+    void saveHeaderToFile(std::string fileName);
     void fillBuffer(std::vector<GLubyte>& volumeData, int width, int height, int depth);
 };
 

@@ -1,12 +1,16 @@
 #pragma once
 
+#include <memory>
 #include <numbers>
 #include <vector>
+
 #include <glviewquadaxial.h>
 #include <glviewquadcoronal.h>
 #include <glviewquadsagittal.h>
 #include <glviewquad3d.h>
-#include <context.h>
+
+#include <volume.h>
+
 
 struct Context
 {
@@ -16,5 +20,7 @@ struct Context
 	GLViewQuadCoronal* glViewQuadCoronal;
 	GLViewQuadSagittal* glViewQuadSagittal;
 	GLViewQuad3D* glViewQuad3d;
+
+	std::shared_ptr<Volume> volume;
 };
 
