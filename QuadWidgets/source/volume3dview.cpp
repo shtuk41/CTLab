@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <shaders.h>
 #include <volume3dview.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -5,12 +6,7 @@
 
 Volume3dView::Volume3dView(Camera* c, std::string dataPath) : cam(c), volumeData(dataPath)
 {
-    auto volumeHeader = volumeData.getHeader();
     volumeData.saveHeaderToFile("volumeHeader.txt");
-
-    xLength = volumeHeader->recoX;
-    yLength = volumeHeader->recoY;
-    zLength = volumeHeader->recoZ;
 }
 
 Volume3dView::~Volume3dView()
@@ -498,13 +494,15 @@ void Volume3dView::Setup()
     success = shaderProgram->link();
 
     // === 1. Generate Dummy Volume Data ===
-    //const int width = 256; xLength;
-    //const int height = 256; yLength;
-    //const int depth = 256; zLength;
+    //const int width = 256; 
+    //const int height = 256;
+    //const int depth = 256; 
 
-    const int width = xLength;
-    const int height = yLength;
-    const int depth = zLength;
+    auto volumeHeader = volumeData.getHeader();
+
+    const int width = volumeHeader->recoX;
+    const int height = volumeHeader->recoY;
+    const int depth = volumeHeader->recoZ;
 
     std::vector<GLubyte> volumeDataTex(width * height * depth, 0);
     volumeData.fillBuffer(volumeDataTex, width, height, depth);
@@ -559,12 +557,21 @@ void Volume3dView::Setup()
          -1, 1,-1,0,1,0,  1, 1, 1,1,1,1,  1, 1,-1,1,1,0
     };
 
+    int dims[3] = { width, height, depth };
+
+    int maxDimElement = *std::max_element(dims, dims + 3);
+    size_t dispSize = 50;
+
     for (int ii = 0; ii < 36; ++ii) 
     {
-        cube[ii * 6 + 0] *= (100 * 0.076);   // x
-        cube[ii * 6 + 1] *= (100 * 0.219);  // y
-        cube[ii * 6 + 2] *= (100 * 0.5);   // z
+        cube[ii * 6 + 0] *= (dispSize * width / maxDimElement);   // x
+        cube[ii * 6 + 1] *= (dispSize * height / maxDimElement);  // y
+        cube[ii * 6 + 2] *= (dispSize * depth / maxDimElement);   // z
     }
+
+    cubeWorldVec = { dispSize * width / maxDimElement,
+                        dispSize* height / maxDimElement,
+                        dispSize* depth / maxDimElement };
 
     glGenVertexArrays(1, &vertex_array_id);
     glBindVertexArray(vertex_array_id);
@@ -589,6 +596,7 @@ void Volume3dView::Setup()
     windowHeight = glGetUniformLocation(shaderProgram->programId(), "windowHeight");
     minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
     maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
+    cubeWorld = glGetUniformLocation(shaderProgram->programId(), "cubeWorld");
 
     model_matrix = glm::mat4(1.0f);
 }
@@ -636,6 +644,8 @@ void Volume3dView::Draw()
 
     glUniform1f(minVal, minVoxelThresholdValue);
     glUniform1f(maxVal, maxVoxelThresholdValue);
+
+    glUniform3fv(cubeWorld, 1, glm::value_ptr(cubeWorldVec));
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, tex3D);

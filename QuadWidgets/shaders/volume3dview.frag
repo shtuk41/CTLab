@@ -18,7 +18,7 @@ const int maxSteps = 512;
 
 // These constants define the full world-space extents of your cube geometry.
 // They are derived from your C++ cube scaling: 2.0 * (100 * 0.076), etc.
-const vec3 CUBE_WORLD_FULL_EXTENTS = vec3(
+const vec3 cubeWorld = vec3(
     2.0 * (100.0 * 0.076),
     2.0 * (100.0 * 0.219),
     2.0 * (100.0 * 0.5)
@@ -41,7 +41,7 @@ void main()
     // Transform world-space ray direction into texture-space units
     // This accounts for the cube's non-uniform scaling in world space,
     // making the raymarch steps proportional in texture space.
-    vec3 rayDir_texture = normalize(rayDir_world / CUBE_WORLD_FULL_EXTENTS);
+    vec3 rayDir_texture = normalize(rayDir_world / cubeWorld);
 
     // Set starting point in texture space
     vec3 pos = TexCoord;

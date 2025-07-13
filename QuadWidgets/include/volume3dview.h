@@ -25,11 +25,9 @@ private:
     GLuint windowHeight;
     GLuint minVal;
     GLuint maxVal;
+    GLuint cubeWorld;
+    glm::vec3 cubeWorldVec;
          
-    int xLength;
-    int yLength;
-    int zLength;
-
     int windowWidthValue;
     int windowHeightValue;
     float minVoxelThresholdValue;
