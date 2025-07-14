@@ -9,7 +9,7 @@ class GLViewQuadAxial : public GLView
 {
     Q_OBJECT
 public:
-    explicit GLViewQuadAxial(const QColor& color, QWidget* parent = nullptr);
+    explicit GLViewQuadAxial(const QColor& color, QWidget* parent, Context* c);
     ~GLViewQuadAxial();
 
 protected:

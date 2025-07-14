@@ -6,15 +6,15 @@
 #include <GLView.h>
 #include <QEvent>
 #include <axes3d.h>
-#include <camera.h>
 #include <axisPlane.h>
+#include <camera.h>
 #include <volume3dview.h>
 
 class GLViewQuad3D : public GLView
 {
     Q_OBJECT
 public:
-    explicit GLViewQuad3D(const QColor& color, QWidget* parent = nullptr);
+    explicit GLViewQuad3D(const QColor& color, QWidget* parent, Context* c);
     ~GLViewQuad3D();
 
     void UpdateMinMaxVoxelValues(int min, int max);

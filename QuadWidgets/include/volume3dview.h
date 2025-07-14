@@ -7,6 +7,7 @@
 #include <QOpenGLShaderProgram>
 #include <glm/glm.hpp>
 #include <camera.h>
+#include <context.h>
 #include <render_object.h>
 #include <io/ioData.h>
 
@@ -36,9 +37,7 @@ private:
 
     Camera* cam;
 
-    std::shared_ptr<VolumeData> volumeData;
-
-    
+    Context* context;
 public:
 
     Volume3dView(Camera *cam);
@@ -54,7 +53,7 @@ public:
     virtual void Setup();
     virtual void Draw();
 
-    void Setup(std::shared_ptr<VolumeData> vd);
+    void Setup(Context *c);
 };
 
 

@@ -2,20 +2,19 @@
 
 #include <memory>
 #include <numbers>
+#include <string>
 #include <vector>
-
-#include <glviewquadaxial.h>
-#include <glviewquadcoronal.h>
-#include <glviewquadsagittal.h>
-#include <glviewquad3d.h>
+#include <io/ioData.h>
 
 struct Context
 {
-	Context();
+	Context(std::string volumePath);
+
+	VolumeData volumeData;
 	//views
-	GLViewQuadAxial* glViewQuadAxial;
-	GLViewQuadCoronal* glViewQuadCoronal;
-	GLViewQuadSagittal* glViewQuadSagittal;
-	GLViewQuad3D* glViewQuad3d;
+	//GLViewQuadAxial* glViewQuadAxial;
+	//GLViewQuadCoronal* glViewQuadCoronal;
+	//GLViewQuadSagittal* glViewQuadSagittal;
+	//GLViewQuad3D* glViewQuad3d;
 };
 

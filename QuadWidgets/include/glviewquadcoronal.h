@@ -9,7 +9,7 @@ class GLViewQuadCoronal : public GLView
 {
     Q_OBJECT
 public:
-    explicit GLViewQuadCoronal(const QColor& color, QWidget* parent = nullptr);
+    explicit GLViewQuadCoronal(const QColor& color, QWidget* parent, Context* c);
     ~GLViewQuadCoronal();
 
 protected:

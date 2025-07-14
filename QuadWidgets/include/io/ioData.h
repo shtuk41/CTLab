@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <QOpenGLFunctions_3_3_Core>
 
 #pragma pack(push, 1)
 struct uint16_csv_volume

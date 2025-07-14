@@ -1,7 +1,9 @@
 #include <glview.h>
 
-GLView::GLView(QWidget* parent)
-    : QOpenGLWidget(parent)
+GLView::GLView(QWidget* parent, Context *c)
+    : QOpenGLWidget(parent),
+    context(c)
+
 {
 }
 

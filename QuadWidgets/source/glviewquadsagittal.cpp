@@ -1,8 +1,8 @@
 #include <glviewquadsagittal.h>
 #include <shaders.h>
 
-GLViewQuadSagittal::GLViewQuadSagittal(const QColor& color, QWidget* parent)
-    : GLView(parent), baseColor(color)
+GLViewQuadSagittal::GLViewQuadSagittal(const QColor& color, QWidget* parent, Context *c)
+    : GLView(parent, c), baseColor(color)
 {
 }
 

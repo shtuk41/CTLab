@@ -22,8 +22,6 @@ private:
     glm::vec3 binormal;
     glm::vec4 color;
 
-    std::shared_ptr<VolumeData> volumeData;
-    
 public:
 
     AxisPlane(glm::vec3 t, glm::vec3 bn, glm::vec4 c, float s);
@@ -40,8 +38,6 @@ public:
     virtual void UpdateModel(const glm::mat4& cam_view);
     virtual void Setup();
     virtual void Draw();
-
-    void Setup(std::shared_ptr<VolumeData> vd);
 };
 
 

@@ -1,8 +1,8 @@
 #include <glviewquadcoronal.h>
 #include <shaders.h>
 
-GLViewQuadCoronal::GLViewQuadCoronal(const QColor& color, QWidget* parent)
-    : GLView(parent), baseColor(color)
+GLViewQuadCoronal::GLViewQuadCoronal(const QColor& color, QWidget* parent, Context *c)
+    : GLView(parent, c), baseColor(color)
 {
 }
 

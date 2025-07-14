@@ -480,9 +480,9 @@ void fillCupWithHandle2(std::vector<GLubyte>& volumeData, int width, int height,
     }
 }
 
-void Volume3dView::Setup(std::shared_ptr<VolumeData> vd)
+void Volume3dView::Setup(Context* ctx)
 {
-    volumeData = std::move(vd);
+    context = ctx;
 
     Setup();
 }
@@ -504,9 +504,9 @@ void Volume3dView::Setup()
     //const int height = 256;
     //const int depth = 256; 
 
-    const int width = volumeData->getHeader()->recoX;
-    const int height = volumeData->getHeader()->recoY;
-    const int depth = volumeData->getHeader()->recoZ;
+    const int width = context->volumeData.getHeader()->recoX;
+    const int height = context->volumeData.getHeader()->recoY;
+    const int depth = context->volumeData.getHeader()->recoZ;
 
     //fillCupWithHandle2(volumeDataTex, width, height, depth);
     //fillHollowCylinder(volumeDataTex, width, height, depth);
@@ -517,7 +517,7 @@ void Volume3dView::Setup()
     glBindTexture(GL_TEXTURE_3D, tex3D);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0,
-        GL_RED, GL_UNSIGNED_BYTE, volumeData->getVolumeDataTex().data());
+        GL_RED, GL_UNSIGNED_BYTE, context->volumeData.getVolumeDataTex().data());
 
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

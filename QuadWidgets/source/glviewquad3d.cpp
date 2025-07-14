@@ -3,8 +3,8 @@
 #include <QMouseEvent>
 #include <io/ioData.h>
 
-GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent)
-    : GLView(parent),
+GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent, Context*c)
+    : GLView(parent, c),
     axes3d(100, 100, 100),
     //Axis
     planeXY(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec4(0.0f, 1.0f, 0.0f, 0.1f), 100),
@@ -38,19 +38,14 @@ void GLViewQuad3D::initializeGL()
     //glEnable(GL_DEPTH_TEST);
     axes3d.Setup();
 
-    std::shared_ptr<VolumeData> volumeData = std::make_shared<VolumeData>(R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)");
-    volumeData->saveHeaderToFile("volumeHeader.txt");
-    auto volumeHeader = volumeData->getHeader();
-    volumeData->fillBuffer();
-
     //Axis
-    planeXY.Setup(volumeData);
+    planeXY.Setup();
     //Coronal
-    planeXZ.Setup(volumeData);
+    planeXZ.Setup();
     //Sagittal
-    planeYZ.Setup(volumeData);
+    planeYZ.Setup();
     //3d view
-    volume3dview.Setup(volumeData);
+    volume3dview.Setup(context);
 }
 
 void GLViewQuad3D::resizeGL(int w, int h)

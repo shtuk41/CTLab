@@ -9,7 +9,7 @@ class GLViewQuadSagittal : public GLView
 {
     Q_OBJECT
 public:
-    explicit GLViewQuadSagittal(const QColor& color, QWidget* parent = nullptr);
+    explicit GLViewQuadSagittal(const QColor& color, QWidget* parent, Context* c);
     ~GLViewQuadSagittal();
 
 protected:

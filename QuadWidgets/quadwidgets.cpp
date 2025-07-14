@@ -8,7 +8,9 @@ QuadWidgets::QuadWidgets(QWidget *parent)
     : QMainWindow(parent)
 {
 
-    Context context;
+    Context context(R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)");
+    context.volumeData.saveHeaderToFile("volumeHeader.txt");
+    context.volumeData.fillBuffer();
 
     ui.setupUi(this);
 
@@ -56,23 +58,23 @@ QuadWidgets::QuadWidgets(QWidget *parent)
         if (placeholder) {
             if (view.view == QUAD_VIEW::AXIAL)
             {
-                context.glViewQuadAxial = new GLViewQuadAxial(view.color, placeholder->parentWidget());
-                glView = (GLView*)context.glViewQuadAxial;
+                glViewQuadAxial = new GLViewQuadAxial(view.color, placeholder->parentWidget(), &context);
+                glView = (GLView*)glViewQuadAxial;
             }
             else if (view.view == QUAD_VIEW::SAGITTAL)
             {
-                context.glViewQuadSagittal = new GLViewQuadSagittal(view.color, placeholder->parentWidget());
-                glView = (GLView*)context.glViewQuadSagittal;
+                glViewQuadSagittal = new GLViewQuadSagittal(view.color, placeholder->parentWidget(), &context);
+                glView = (GLView*)glViewQuadSagittal;
             }
             else if (view.view == QUAD_VIEW::CORONAL)
             {
-                context.glViewQuadCoronal = new GLViewQuadCoronal(view.color, placeholder->parentWidget());
-                glView = (GLView*)context.glViewQuadCoronal;
+                glViewQuadCoronal = new GLViewQuadCoronal(view.color, placeholder->parentWidget(), &context);
+                glView = (GLView*)glViewQuadCoronal;
             }
             else if (view.view == QUAD_VIEW::V3D)
             {
-                context.glViewQuad3d = new GLViewQuad3D(view.color, placeholder->parentWidget());
-                glView = (GLView*)context.glViewQuad3d;
+                glViewQuad3d = new GLViewQuad3D(view.color, placeholder->parentWidget(), &context);
+                glView = (GLView*)glViewQuad3d;
             }
             else
                 throw std::exception("view doesn't exists");
@@ -104,7 +106,7 @@ QuadWidgets::QuadWidgets(QWidget *parent)
 
     connect(ui.minVoxelValueSlider,
         &QSlider::valueChanged, this,
-        [this, context](int value)
+        [this](int value)
             { 
                 ui.minVoxelValueLabel->setText(QString::number(value));
             
@@ -113,7 +115,7 @@ QuadWidgets::QuadWidgets(QWidget *parent)
                     ui.maxVoxelValueSlider->setValue(value + 1);
                 }
 
-                context.glViewQuad3d->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
+                glViewQuad3d->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
             }
         );
 
@@ -121,7 +123,7 @@ QuadWidgets::QuadWidgets(QWidget *parent)
 
     connect(ui.maxVoxelValueSlider,
         &QSlider::valueChanged, this,
-        [this, context](int value)
+        [this](int value)
         {
             ui.maxVoxelValueLabel->setText(QString::number(value));
 
@@ -130,14 +132,11 @@ QuadWidgets::QuadWidgets(QWidget *parent)
                 ui.minVoxelValueSlider->setValue(value - 1);
             }
 
-            context.glViewQuad3d->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
+            glViewQuad3d->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
         }
     );
 
     ui.maxVoxelValueSlider->setValue(std::numeric_limits<unsigned short>::max());
-
-
-
 }
 
 QuadWidgets::~QuadWidgets()

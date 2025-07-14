@@ -18,13 +18,6 @@ AxisPlane::~AxisPlane()
     doneCurrent();
 }
 
-void AxisPlane::Setup(std::shared_ptr<VolumeData> vd)
-{
-    volumeData = std::move(vd);
-
-    Setup();
-}
-
 void AxisPlane::Setup()
 {
     initializeOpenGLFunctions();

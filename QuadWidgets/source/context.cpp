@@ -6,7 +6,7 @@
 
 #include <context.h>
 
-Context::Context() 
+Context::Context(std::string volumePath) : volumeData(volumePath)
 {
 	
 }

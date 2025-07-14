@@ -4,19 +4,18 @@
 #include <QOpenGLShaderProgram>
 #include <QColor>
 #include <camera.h>
+#include <context.h>
 
 class GLView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
     Q_OBJECT
 public:
-    explicit GLView(QWidget* parent = nullptr);
+    explicit GLView(QWidget* parent, Context*c);
     ~GLView();
 
 protected:
-    //void initializeGL() override;
-    //void resizeGL(int w, int h) override;
-    //void paintGL() override;
     Camera camera;
+    Context* context;
 
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;
