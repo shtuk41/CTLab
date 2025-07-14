@@ -1,6 +1,7 @@
 #include <glviewquad3d.h>
 #include <shaders.h>
 #include <QMouseEvent>
+#include <io/ioData.h>
 
 GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent)
     : GLView(parent),
@@ -11,7 +12,7 @@ GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent)
     planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.1f), 100),
     //Sagittal
     planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 100),
-    volume3dview(&camera, R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)"),
+    volume3dview(&camera),
     cameraBoundaries(200)
 {
     setFocusPolicy(Qt::StrongFocus);
@@ -37,14 +38,19 @@ void GLViewQuad3D::initializeGL()
     //glEnable(GL_DEPTH_TEST);
     axes3d.Setup();
 
-    //Axis
-    planeXY.Setup();
-    //Coronal
-    planeXZ.Setup();
-    //Sagittal
-    planeYZ.Setup();
+    std::shared_ptr<VolumeData> volumeData = std::make_shared<VolumeData>(R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)");
+    volumeData->saveHeaderToFile("volumeHeader.txt");
+    auto volumeHeader = volumeData->getHeader();
+    volumeData->fillBuffer();
 
-    volume3dview.Setup();
+    //Axis
+    planeXY.Setup(volumeData);
+    //Coronal
+    planeXZ.Setup(volumeData);
+    //Sagittal
+    planeYZ.Setup(volumeData);
+    //3d view
+    volume3dview.Setup(volumeData);
 }
 
 void GLViewQuad3D::resizeGL(int w, int h)

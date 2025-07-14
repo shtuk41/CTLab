@@ -147,16 +147,13 @@ std::string VolumeData::getHeaderString() const
     return output;
 }
 
-void VolumeData::fillBuffer(std::vector<GLubyte>& volData, int width, int height, int depth) 
+void VolumeData::fillBuffer() 
 {
-    const int volumeWidth = header.recoX;
-    const int volumeHeight = header.recoY;
-    const int volumeDepth = header.recoZ;
+    const int width = header.recoX;
+    const int height = header.recoY;
+    const int depth = header.recoZ;
 
-    if (volData.size() != static_cast<size_t>(width * height * depth)) 
-    {
-        throw std::runtime_error("VolumeData::fillBuffer: destination size doesn't match specified dimensions.");
-    }
+    volumeDataTex.resize(width * height * depth, 0);
 
     if (data.empty()) 
     {
@@ -168,25 +165,31 @@ void VolumeData::fillBuffer(std::vector<GLubyte>& volData, int width, int height
     const uint16_t maxVal = *maxIt;
     const float range = static_cast<float>(std::max(1, maxVal - minVal));
 
-    for (int z = 0; z < depth; ++z) 
+    for (int z = 0; z < depth; ++z)
     {
-        for (int y = 0; y < height; ++y) 
+        for (int y = 0; y < height; ++y)
         {
-            for (int x = 0; x < width; ++x) 
+            for (int x = 0; x < width; ++x)
             {
                 size_t dstIdx = x + width * (y + height * z);
 
-                if (x < volumeWidth && y < volumeHeight && z < volumeDepth) 
+                if (x < width && y < height && z < depth)
                 {
-                    size_t srcIdx = x + volumeWidth * (y + volumeHeight * z); // Fortran-order
+                    size_t srcIdx = x + width * (y + height * z); // Fortran-order
                     //size_t srcIdx = z + volumeDepth * (y + volumeHeight * x);
                     float norm = (static_cast<float>(data[srcIdx]) - minVal) / range;
-                    volData[dstIdx] = static_cast<GLubyte>(std::clamp(norm, 0.0f, 1.0f) * 255.0f);
+                    volumeDataTex[dstIdx] = static_cast<GLubyte>(std::clamp(norm, 0.0f, 1.0f) * 255.0f);
                 }
                 else {
-                    volData[dstIdx] = 0;
+                    volumeDataTex[dstIdx] = 0;
                 }
             }
         }
     }
 }
+
+const std::vector<GLubyte>& VolumeData::getVolumeDataTex() const
+{
+    return volumeDataTex;
+}
+

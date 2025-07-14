@@ -9,9 +9,6 @@
 #include <glviewquadsagittal.h>
 #include <glviewquad3d.h>
 
-#include <volume.h>
-
-
 struct Context
 {
 	Context();
@@ -20,7 +17,5 @@ struct Context
 	GLViewQuadCoronal* glViewQuadCoronal;
 	GLViewQuadSagittal* glViewQuadSagittal;
 	GLViewQuad3D* glViewQuad3d;
-
-	std::shared_ptr<Volume> volume;
 };
 

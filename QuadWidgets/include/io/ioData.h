@@ -64,6 +64,7 @@ class VolumeData
 private:
     uint16_csv_volume   header;
     std::vector<unsigned short> data;
+    std::vector<GLubyte> volumeDataTex;
 
 
 public: 
@@ -71,6 +72,7 @@ public:
     const uint16_csv_volume* getHeader() const;
     std::string getHeaderString() const;
     void saveHeaderToFile(std::string fileName);
-    void fillBuffer(std::vector<GLubyte>& volumeData, int width, int height, int depth);
+    void fillBuffer();
+    const std::vector<GLubyte>& getVolumeDataTex() const;
 };
 

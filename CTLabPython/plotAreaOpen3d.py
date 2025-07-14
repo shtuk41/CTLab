@@ -27,4 +27,4 @@ color3 = np.array([[0.0, 0.0, 1.0]])  # Green
 pcd3.colors = o3d.utility.Vector3dVector(np.tile(color3, (len(points3), 1)))
 
 # Visualize both
-o3d.visualization.draw_geometries([pcd3])
+o3d.visualization.draw_geometries([pcd1, pcd3])

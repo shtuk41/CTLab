@@ -1,10 +1,12 @@
 #pragma once
 
+#include <memory>
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
 #include <glm/glm.hpp>
 #include <render_object.h>
+#include <io/ioData.h>
 
 class AxisPlane : public RenderObject, public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
@@ -19,6 +21,8 @@ private:
     glm::vec3 normal;
     glm::vec3 binormal;
     glm::vec4 color;
+
+    std::shared_ptr<VolumeData> volumeData;
     
 public:
 
@@ -36,6 +40,8 @@ public:
     virtual void UpdateModel(const glm::mat4& cam_view);
     virtual void Setup();
     virtual void Draw();
+
+    void Setup(std::shared_ptr<VolumeData> vd);
 };
 
 

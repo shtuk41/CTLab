@@ -60,9 +60,6 @@ int main()
 	Axes3d axes3d(10, 10, -10);
 	axes3d.Setup();
 
-	Volume volume(256, 256, 256, &cameraGlobal);
-	volume.Setup();
-
 	//Axis
 	AxisPlane planeXY(glm::vec3(1.0f,0.0f,0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.1f), 2);
 	planeXY.Setup();

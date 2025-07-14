@@ -4,9 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Volume3dView::Volume3dView(Camera* c, std::string dataPath) : cam(c), volumeData(dataPath)
+Volume3dView::Volume3dView(Camera* c) : cam(c)
 {
-    volumeData.saveHeaderToFile("volumeHeader.txt");
 }
 
 Volume3dView::~Volume3dView()
@@ -481,6 +480,13 @@ void fillCupWithHandle2(std::vector<GLubyte>& volumeData, int width, int height,
     }
 }
 
+void Volume3dView::Setup(std::shared_ptr<VolumeData> vd)
+{
+    volumeData = std::move(vd);
+
+    Setup();
+}
+
 void Volume3dView::Setup()
 {
     initializeOpenGLFunctions();
@@ -498,25 +504,20 @@ void Volume3dView::Setup()
     //const int height = 256;
     //const int depth = 256; 
 
-    auto volumeHeader = volumeData.getHeader();
+    const int width = volumeData->getHeader()->recoX;
+    const int height = volumeData->getHeader()->recoY;
+    const int depth = volumeData->getHeader()->recoZ;
 
-    const int width = volumeHeader->recoX;
-    const int height = volumeHeader->recoY;
-    const int depth = volumeHeader->recoZ;
-
-    std::vector<GLubyte> volumeDataTex(width * height * depth, 0);
-    volumeData.fillBuffer(volumeDataTex, width, height, depth);
     //fillCupWithHandle2(volumeDataTex, width, height, depth);
     //fillHollowCylinder(volumeDataTex, width, height, depth);
    
-
     // === 2. Create 3D Texture ===
     
     glGenTextures(1, &tex3D);
     glBindTexture(GL_TEXTURE_3D, tex3D);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0,
-        GL_RED, GL_UNSIGNED_BYTE, volumeDataTex.data());
+        GL_RED, GL_UNSIGNED_BYTE, volumeData->getVolumeDataTex().data());
 
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

@@ -10,6 +10,7 @@
 #include <render_object.h>
 #include <io/ioData.h>
 
+
 class Volume3dView : public RenderObject, public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
 private:
@@ -35,22 +36,25 @@ private:
 
     Camera* cam;
 
-    VolumeData volumeData;
+    std::shared_ptr<VolumeData> volumeData;
+
     
 public:
 
-    Volume3dView(Camera *cam, std::string dataPath);
+    Volume3dView(Camera *cam);
     ~Volume3dView();
     
     void SetProjection(glm::mat4 p);
-    void UpdateModel(const glm::mat4& cam_view, 
-                        int winWidth, 
-                        int winHeight, 
-                        float minVoxelThreshold, 
-                        float maxVoxelThreshold);
+    void UpdateModel(const glm::mat4& cam_view,
+        int winWidth,
+        int winHeight,
+        float minVoxelThreshold,
+        float maxVoxelThreshold);
     virtual void UpdateModel(const glm::mat4& cam_view);
     virtual void Setup();
     virtual void Draw();
+
+    void Setup(std::shared_ptr<VolumeData> vd);
 };
 
 

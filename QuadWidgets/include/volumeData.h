@@ -10,7 +10,7 @@
 #include <render_object.h>
 #include <io/ioData.h>
 
-class Volume : public RenderObject, public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
+class Volume3dView : public RenderObject, public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
 private:
 
@@ -25,11 +25,9 @@ private:
     GLuint windowHeight;
     GLuint minVal;
     GLuint maxVal;
+    GLuint cubeWorld;
+    glm::vec3 cubeWorldVec;
          
-    int xLength;
-    int yLength;
-    int zLength;
-
     int windowWidthValue;
     int windowHeightValue;
     float minVoxelThresholdValue;
@@ -41,8 +39,8 @@ private:
     
 public:
 
-    Volume(Camera *cam, std::string dataPath);
-    ~Volume();
+    Volume3dView(Camera *cam, std::string dataPath);
+    ~Volume3dView();
     
     void SetProjection(glm::mat4 p);
     void UpdateModel(const glm::mat4& cam_view, 
