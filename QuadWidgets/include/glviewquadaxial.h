@@ -19,7 +19,16 @@ protected:
 
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;
-    GLuint vao = 0;
-    GLuint vbo = 0;
     QColor baseColor;
+
+    GLuint vertex_array_id;
+    GLuint vertex_buffer;
+    GLint position_attribute = -1;
+    GLuint tex3D;
+
+    GLuint windowWidth;
+    GLuint windowHeight;
+
+    int windowWidthValue;
+    int windowHeightValue;
 };

@@ -163,5 +163,11 @@
     <None Include="shaders\volume3dview.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\axialXY.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\axialXY.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -145,6 +145,8 @@
     <ClCompile Include="source\render_object.cpp" />
     <ClCompile Include="source\shaders.cpp" />
     <ClCompile Include="source\volume3dview.cpp" />
+    <None Include="shaders\axialXY.frag" />
+    <None Include="shaders\axialXY.vert" />
     <None Include="shaders\axis.frag" />
     <None Include="shaders\axis.vert" />
     <None Include="shaders\axisPlane.frag" />
