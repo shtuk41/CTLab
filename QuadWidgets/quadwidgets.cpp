@@ -116,6 +116,7 @@ QuadWidgets::QuadWidgets(QWidget *parent)
                 }
 
                 glViewQuad3d->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
+                glViewQuadAxial->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
             }
         );
 
@@ -133,6 +134,7 @@ QuadWidgets::QuadWidgets(QWidget *parent)
             }
 
             glViewQuad3d->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
+            glViewQuadAxial->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
         }
     );
 

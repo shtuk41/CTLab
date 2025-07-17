@@ -1,20 +1,18 @@
 #version 330 core
 
 uniform sampler3D volumeTex;
-uniform int windowWidth;
-uniform int windowHeight;
+uniform float minVal;
+uniform float maxVal;
+uniform float zSlice;
 
-in vec4 colorOut;
-out vec4 color_out;
-
+in vec2 vTexCoord;
+out vec4 FragColor;
 
 void main()
 {
-	vec2 uv = gl_FragCoord.xy / vec2(windowWidth, windowHeight);
-	float sliceZ = 0.5;
+    vec3 texCoord3D = vec3(vTexCoord, zSlice);
+    float sample = texture(volumeTex, texCoord3D).r;
+    float normVal = clamp((sample - minVal) / (maxVal - minVal), 0.0, 1.0);
 
-	vec3 pos = vec3(uv, sliceZ);
-	
-	float sample = texture(volumeTex, pos).r;
-	color_out = vec4(vec3(sample), 1.0);
+    FragColor = vec4(vec3(normVal), 1.0);
 }

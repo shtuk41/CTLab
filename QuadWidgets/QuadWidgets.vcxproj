@@ -144,6 +144,7 @@
     <ClCompile Include="source\io\ioData.cpp" />
     <ClCompile Include="source\render_object.cpp" />
     <ClCompile Include="source\shaders.cpp" />
+    <ClCompile Include="source\viewBorder.cpp" />
     <ClCompile Include="source\volume3dview.cpp" />
     <None Include="shaders\axialXY.frag" />
     <None Include="shaders\axialXY.vert" />
@@ -153,6 +154,8 @@
     <None Include="shaders\axisPlane.vert" />
     <None Include="shaders\quadview.frag" />
     <None Include="shaders\quadview.vert" />
+    <None Include="shaders\viewBorder.frag" />
+    <None Include="shaders\viewBorder.vert" />
     <None Include="shaders\volume3dview.frag" />
     <None Include="shaders\volume3dview.vert" />
     <QtRcc Include="quadwidgets.qrc" />
@@ -171,6 +174,7 @@
     <ClInclude Include="include\axisPlane.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\context.h" />
+    <ClInclude Include="include\viewBorder.h" />
     <ClInclude Include="include\volume3dview.h" />
     <QtMoc Include="include\glviewquadsagittal.h" />
     <QtMoc Include="include\glviewquadcoronal.h" />

@@ -2,7 +2,7 @@
 #include <shaders.h>
 
 GLViewQuadAxial::GLViewQuadAxial(const QColor& color, QWidget* parent, Context*c)
-    : GLView(parent, c), baseColor(color)
+    : GLView(parent, c), baseColor(color), border(0.015f, color)
 {
 }
 
@@ -13,6 +13,14 @@ GLViewQuadAxial::~GLViewQuadAxial()
     glDeleteVertexArrays(1, &vertex_array_id);
     delete shaderProgram;
     doneCurrent();
+}
+
+void GLViewQuadAxial::UpdateMinMaxVoxelValues(int min, int max)
+{
+    minVoxelThresholdValue = float(min)/ 65535;
+    maxVoxelThresholdValue = float(max)/ 65535;
+
+    update();
 }
 
 void GLViewQuadAxial::initializeGL()
@@ -27,15 +35,13 @@ void GLViewQuadAxial::initializeGL()
     success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
     success = shaderProgram->link();
 
-
-
     GLfloat planeVertices[] = {
-       -1.0f,  -1.0f, 0.0f,  
-       1.0f, -1.0f, 0.0f,  
-       1.0f, 1.0f, 0.0f,
-       1.0f, 1.0f, 0.0f,
-       -1.0f, 1.0f, 0.0f,
-       -1.0f, -1.0f, 0.0f,
+       -0.439f, -1.0f, 0.0f, 0,0,
+       0.439f, -1.0f, 0.0f,  1,0,
+        0.439f, 1.0f, 0.0f, 1,1,
+       0.439f, 1.0f, 0.0f, 1,1,
+       -0.439f, 1.0f, 0.0f, 0,1,
+       -0.439f, -1.0f, 0.0f, 0,0
     };
 
     glGenVertexArrays(1, &vertex_array_id);
@@ -45,13 +51,15 @@ void GLViewQuadAxial::initializeGL()
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
  
-
     const int width = context->volumeData.getHeader()->recoX;
     const int height = context->volumeData.getHeader()->recoY;
     const int depth = context->volumeData.getHeader()->recoZ;
@@ -70,15 +78,22 @@ void GLViewQuadAxial::initializeGL()
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    windowWidth = glGetUniformLocation(shaderProgram->programId(), "windowWidth");
-    windowHeight = glGetUniformLocation(shaderProgram->programId(), "windowHeight");
+    zSlice = glGetUniformLocation(shaderProgram->programId(), "zSlice");
+    minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
+    maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
+
+    shaderProgram->bind();
+    // Set the uniform sampler to use texture unit 1
+    GLuint loc = glGetUniformLocation(shaderProgram->programId(), "volumeTex");
+    glUniform1i(loc, 1);
+
+    shaderProgram->release();
+
+    border.Setup();
 }
 
 void GLViewQuadAxial::resizeGL(int w, int h)
 {
-    windowWidthValue = w;
-    windowHeightValue = h;
-
     glViewport(0, 0, w, h);
 }
 
@@ -88,23 +103,66 @@ void GLViewQuadAxial::paintGL()
     glClear(GL_COLOR_BUFFER_BIT);
 
     shaderProgram->bind();
-    QVector3D colorVec(baseColor.redF(), baseColor.greenF(), baseColor.blueF());
-    shaderProgram->setUniformValue("baseColor", colorVec);
 
-    glUniform1i(windowWidth, windowWidthValue);
-    glUniform1i(windowHeight, windowHeightValue);
+    glUniform1f(minVal, minVoxelThresholdValue);
+    glUniform1f(maxVal, maxVoxelThresholdValue);
+
+    glUniform1f(zSlice, zDistance);
+
+    QVector3D colorVec(baseColor.redF(), baseColor.greenF(), baseColor.blueF());
 
     // Activate texture unit 1 and bind your 3D texture
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_3D, tex3D);
-
-    // Set the uniform sampler to use texture unit 1
-    GLuint loc = glGetUniformLocation(shaderProgram->programId(), "volumeTex");
-    glUniform1i(loc, 1);
 
     glBindVertexArray(vertex_array_id);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
 
     shaderProgram->release();
+
+    border.Draw();
+}
+
+void GLViewQuadAxial::mouseMoveEvent(QMouseEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadAxial::mousePressEvent(QMouseEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadAxial::mouseReleaseEvent(QMouseEvent* event) 
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+void GLViewQuadAxial::keyPressEvent(QKeyEvent* event) 
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadAxial::enterEvent(QEnterEvent* event) 
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadAxial::leaveEvent(QEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadAxial::wheelEvent(QWheelEvent* event) 
+{
+    int deltaY = event->angleDelta().y();
+    zDistance += deltaY * 0.00005f;
+    zDistance = __max(0.0, __min(1.0f, zDistance));
+    update();
 }

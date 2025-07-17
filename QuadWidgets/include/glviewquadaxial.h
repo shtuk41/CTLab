@@ -4,6 +4,7 @@
 #include <QOpenGLShaderProgram>
 #include <QColor>
 #include <GLView.h>
+#include <viewBorder.h>
 
 class GLViewQuadAxial : public GLView
 {
@@ -12,23 +13,34 @@ public:
     explicit GLViewQuadAxial(const QColor& color, QWidget* parent, Context* c);
     ~GLViewQuadAxial();
 
+    void UpdateMinMaxVoxelValues(int min, int max);
+
 protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
 
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
+    void enterEvent(QEnterEvent* event) override;
+    void leaveEvent(QEvent* event) override;
+    void wheelEvent(QWheelEvent* event) override;
+
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;
     QColor baseColor;
+    float minVoxelThresholdValue;
+    float maxVoxelThresholdValue;
+    float zDistance;
 
     GLuint vertex_array_id;
     GLuint vertex_buffer;
-    GLint position_attribute = -1;
     GLuint tex3D;
+    GLuint zSlice;
+    GLuint minVal;
+    GLuint maxVal;
 
-    GLuint windowWidth;
-    GLuint windowHeight;
-
-    int windowWidthValue;
-    int windowHeightValue;
+    ViewBorder border;
 };
