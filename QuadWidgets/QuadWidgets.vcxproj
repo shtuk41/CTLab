@@ -148,6 +148,10 @@
     <ClCompile Include="source\volume3dview.cpp" />
     <None Include="shaders\axialXY.frag" />
     <None Include="shaders\axialXY.vert" />
+    <None Include="shaders\axialXZ.frag" />
+    <None Include="shaders\axialXZ.vert" />
+    <None Include="shaders\axialYZ.frag" />
+    <None Include="shaders\axialYZ.vert" />
     <None Include="shaders\axis.frag" />
     <None Include="shaders\axis.vert" />
     <None Include="shaders\axisPlane.frag" />

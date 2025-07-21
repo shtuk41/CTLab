@@ -28,8 +28,8 @@ void GLViewQuadCoronal::initializeGL()
 {
     initializeOpenGLFunctions();
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\axialXY.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialXY.frag");
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\axialYZ.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialYZ.frag");
 
     shaderProgram = new QOpenGLShaderProgram(this);
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
@@ -37,12 +37,12 @@ void GLViewQuadCoronal::initializeGL()
     success = shaderProgram->link();
 
     GLfloat planeVertices[] = {
-       -0.439f, -1.0f, 0.0f, 0,0,
-       0.439f, -1.0f, 0.0f,  1,0,
-        0.439f, 1.0f, 0.0f, 1,1,
-       0.439f, 1.0f, 0.0f, 1,1,
-       -0.439f, 1.0f, 0.0f, 0,1,
-       -0.439f, -1.0f, 0.0f, 0,0
+       -0.161f, -1.0f, 0.0f, 0,0,
+       0.161f, -1.0f, 0.0f,  1,0,
+        0.161f, 1.0f, 0.0f, 1,1,
+       0.161f, 1.0f, 0.0f, 1,1,
+       -0.161f, 1.0f, 0.0f, 0,1,
+       -0.161f, -1.0f, 0.0f, 0,0
     };
 
     glGenVertexArrays(1, &vertex_array_id);
@@ -79,7 +79,7 @@ void GLViewQuadCoronal::initializeGL()
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    zSlice = glGetUniformLocation(shaderProgram->programId(), "zSlice");
+    xSlice = glGetUniformLocation(shaderProgram->programId(), "xSlice");
     minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
     maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
 
@@ -108,7 +108,7 @@ void GLViewQuadCoronal::paintGL()
     glUniform1f(minVal, minVoxelThresholdValue);
     glUniform1f(maxVal, maxVoxelThresholdValue);
 
-    glUniform1f(zSlice, zDistance);
+    glUniform1f(xSlice, xDistance);
 
     // Activate texture unit 1 and bind your 3D texture
     glActiveTexture(GL_TEXTURE0);
@@ -161,7 +161,7 @@ void GLViewQuadCoronal::leaveEvent(QEvent* event)
 void GLViewQuadCoronal::wheelEvent(QWheelEvent* event)
 {
     int deltaY = event->angleDelta().y();
-    zDistance += deltaY * 0.00005f;
-    zDistance = __max(0.0, __min(1.0f, zDistance));
+    xDistance += deltaY * 0.00005f;
+    xDistance = __max(0.0, __min(1.0f, xDistance));
     update();
 }

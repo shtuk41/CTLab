@@ -32,12 +32,12 @@ private:
     QColor baseColor;
     float minVoxelThresholdValue;
     float maxVoxelThresholdValue;
-    float zDistance;
+    float yDistance;
 
     GLuint vertex_array_id;
     GLuint vertex_buffer;
     GLuint tex3D;
-    GLuint zSlice;
+    GLuint ySlice;
     GLuint minVal;
     GLuint maxVal;
 };

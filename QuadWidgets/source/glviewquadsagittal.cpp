@@ -27,8 +27,8 @@ void GLViewQuadSagittal::initializeGL()
 {
     initializeOpenGLFunctions();
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\axialXY.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialXY.frag");
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\axialXZ.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialXZ.frag");
 
     shaderProgram = new QOpenGLShaderProgram(this);
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
@@ -36,12 +36,12 @@ void GLViewQuadSagittal::initializeGL()
     success = shaderProgram->link();
 
     GLfloat planeVertices[] = {
-       -0.439f, -1.0f, 0.0f, 0,0,
-       0.439f, -1.0f, 0.0f,  1,0,
-        0.439f, 1.0f, 0.0f, 1,1,
-       0.439f, 1.0f, 0.0f, 1,1,
-       -0.439f, 1.0f, 0.0f, 0,1,
-       -0.439f, -1.0f, 0.0f, 0,0
+          -0.055f, -1.0f, 0.0f, 0,0,
+          0.055f, -1.0f, 0.0f,  1,0,
+           0.055f, 1.0f, 0.0f, 1,1,
+          0.055f, 1.0f, 0.0f, 1,1,
+          -0.055f, 1.0f, 0.0f, 0,1,
+          -0.055f, -1.0f, 0.0f, 0,0
     };
 
     glGenVertexArrays(1, &vertex_array_id);
@@ -78,7 +78,7 @@ void GLViewQuadSagittal::initializeGL()
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    zSlice = glGetUniformLocation(shaderProgram->programId(), "zSlice");
+    ySlice = glGetUniformLocation(shaderProgram->programId(), "ySlice");
     minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
     maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
 
@@ -107,7 +107,7 @@ void GLViewQuadSagittal::paintGL()
     glUniform1f(minVal, minVoxelThresholdValue);
     glUniform1f(maxVal, maxVoxelThresholdValue);
 
-    glUniform1f(zSlice, zDistance);
+    glUniform1f(ySlice, yDistance);
 
     // Activate texture unit 1 and bind your 3D texture
     glActiveTexture(GL_TEXTURE0);
@@ -160,7 +160,7 @@ void GLViewQuadSagittal::leaveEvent(QEvent* event)
 void GLViewQuadSagittal::wheelEvent(QWheelEvent* event)
 {
     int deltaY = event->angleDelta().y();
-    zDistance += deltaY * 0.00005f;
-    zDistance = __max(0.0, __min(1.0f, zDistance));
+    yDistance += deltaY * 0.00005f;
+    yDistance = __max(0.0, __min(1.0f, yDistance));
     update();
 }
