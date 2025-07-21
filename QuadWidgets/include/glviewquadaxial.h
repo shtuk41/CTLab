@@ -4,7 +4,7 @@
 #include <QOpenGLShaderProgram>
 #include <QColor>
 #include <GLView.h>
-#include <viewBorder.h>
+
 
 class GLViewQuadAxial : public GLView
 {
@@ -41,6 +41,4 @@ private:
     GLuint zSlice;
     GLuint minVal;
     GLuint maxVal;
-
-    ViewBorder border;
 };

@@ -12,14 +12,32 @@ public:
     explicit GLViewQuadSagittal(const QColor& color, QWidget* parent, Context* c);
     ~GLViewQuadSagittal();
 
+    void UpdateMinMaxVoxelValues(int min, int max);
+
 protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
 
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
+    void enterEvent(QEnterEvent* event) override;
+    void leaveEvent(QEvent* event) override;
+    void wheelEvent(QWheelEvent* event) override;
+
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;
-    GLuint vao = 0;
-    GLuint vbo = 0;
     QColor baseColor;
+    float minVoxelThresholdValue;
+    float maxVoxelThresholdValue;
+    float zDistance;
+
+    GLuint vertex_array_id;
+    GLuint vertex_buffer;
+    GLuint tex3D;
+    GLuint zSlice;
+    GLuint minVal;
+    GLuint maxVal;
 };

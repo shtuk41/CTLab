@@ -2,7 +2,7 @@
 #include <shaders.h>
 
 GLViewQuadAxial::GLViewQuadAxial(const QColor& color, QWidget* parent, Context*c)
-    : GLView(parent, c), baseColor(color), border(0.015f, color)
+    : GLView(parent, c, color), baseColor(color)
 {
 }
 
@@ -85,7 +85,7 @@ void GLViewQuadAxial::initializeGL()
     shaderProgram->bind();
     // Set the uniform sampler to use texture unit 1
     GLuint loc = glGetUniformLocation(shaderProgram->programId(), "volumeTex");
-    glUniform1i(loc, 1);
+    glUniform1i(loc, 0);
 
     shaderProgram->release();
 
@@ -109,10 +109,8 @@ void GLViewQuadAxial::paintGL()
 
     glUniform1f(zSlice, zDistance);
 
-    QVector3D colorVec(baseColor.redF(), baseColor.greenF(), baseColor.blueF());
-
     // Activate texture unit 1 and bind your 3D texture
-    glActiveTexture(GL_TEXTURE1);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, tex3D);
 
     glBindVertexArray(vertex_array_id);

@@ -4,7 +4,7 @@
 #include <io/ioData.h>
 
 GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent, Context*c)
-    : GLView(parent, c),
+    : GLView(parent, c, color),
     axes3d(100, 100, 100),
     //Axis
     planeXY(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec4(0.0f, 1.0f, 0.0f, 0.1f), 100),
@@ -46,6 +46,8 @@ void GLViewQuad3D::initializeGL()
     planeYZ.Setup();
     //3d view
     volume3dview.Setup(context);
+
+    border.Setup();
 }
 
 void GLViewQuad3D::resizeGL(int w, int h)
@@ -95,7 +97,7 @@ void GLViewQuad3D::paintGL()
     planeYZ.SetProjection(projection_matrix);
     planeYZ.Draw();
 
-    
+    //border.Draw();
 }
 
 // Mouse click changes color to red
