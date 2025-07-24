@@ -32,7 +32,7 @@ Simulation of CT acquisition process and volume reconstruction.
 
 
 References:
-I can't find where the 3d model came from.  
+I can't find where the wolf's 3d model came from.  
 
 - Dependencies
 
