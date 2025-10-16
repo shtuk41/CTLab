@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8A46DE0F-6E0A-4D29-A627-8B2286671697}</ProjectGuid>
+    <ProjectGuid>{10691A52-F984-4D2F-B96D-E50A8FE0C99D}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
@@ -43,7 +43,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.9.1_msvc2022_64</QtInstall>
-    <QtModules>quick;quickcontrols2;quicklayouts</QtModules>
+    <QtModules>quick</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -93,16 +93,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="glitem.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="glrenderer.cpp" />
+    <ClCompile Include="volumeViewControl.cpp" />
     <QtRcc Include="qml.qrc" />
     <None Include="main.qml" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="treeviewmodel.h" />
+    <QtMoc Include="volumeViewControl.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="glitem.h" />
+    <ClInclude Include="glrenderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

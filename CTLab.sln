@@ -11,6 +11,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuadQml", "QuadQml\QuadQml.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuadWidgets", "QuadWidgets\QuadWidgets.vcxproj", "{2EC77835-C58E-4137-B023-CFADDF0CE605}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VolumeViewControl", "VolumeViewControl\VolumeViewControl.vcxproj", "{10691A52-F984-4D2F-B96D-E50A8FE0C99D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuadLib", "QuadLib\QuadLib.vcxproj", "{A311CAC9-C447-3B33-9916-2FE526D62F9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +55,22 @@ Global
 		{2EC77835-C58E-4137-B023-CFADDF0CE605}.Release|x64.Build.0 = Release|x64
 		{2EC77835-C58E-4137-B023-CFADDF0CE605}.Release|x86.ActiveCfg = Release|x64
 		{2EC77835-C58E-4137-B023-CFADDF0CE605}.Release|x86.Build.0 = Release|x64
+		{10691A52-F984-4D2F-B96D-E50A8FE0C99D}.Debug|x64.ActiveCfg = Debug|x64
+		{10691A52-F984-4D2F-B96D-E50A8FE0C99D}.Debug|x64.Build.0 = Debug|x64
+		{10691A52-F984-4D2F-B96D-E50A8FE0C99D}.Debug|x86.ActiveCfg = Debug|x64
+		{10691A52-F984-4D2F-B96D-E50A8FE0C99D}.Debug|x86.Build.0 = Debug|x64
+		{10691A52-F984-4D2F-B96D-E50A8FE0C99D}.Release|x64.ActiveCfg = Release|x64
+		{10691A52-F984-4D2F-B96D-E50A8FE0C99D}.Release|x64.Build.0 = Release|x64
+		{10691A52-F984-4D2F-B96D-E50A8FE0C99D}.Release|x86.ActiveCfg = Release|x64
+		{10691A52-F984-4D2F-B96D-E50A8FE0C99D}.Release|x86.Build.0 = Release|x64
+		{A311CAC9-C447-3B33-9916-2FE526D62F9A}.Debug|x64.ActiveCfg = Debug|x64
+		{A311CAC9-C447-3B33-9916-2FE526D62F9A}.Debug|x64.Build.0 = Debug|x64
+		{A311CAC9-C447-3B33-9916-2FE526D62F9A}.Debug|x86.ActiveCfg = Debug|x64
+		{A311CAC9-C447-3B33-9916-2FE526D62F9A}.Debug|x86.Build.0 = Debug|x64
+		{A311CAC9-C447-3B33-9916-2FE526D62F9A}.Release|x64.ActiveCfg = Release|x64
+		{A311CAC9-C447-3B33-9916-2FE526D62F9A}.Release|x64.Build.0 = Release|x64
+		{A311CAC9-C447-3B33-9916-2FE526D62F9A}.Release|x86.ActiveCfg = Release|x64
+		{A311CAC9-C447-3B33-9916-2FE526D62F9A}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

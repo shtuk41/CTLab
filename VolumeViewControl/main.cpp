@@ -1,15 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
-#include <QItemSelectionModel>
-#include <QtQml>
 #include <QQuickWindow>
-
-#include "treeviewmodel.h"
-#include "glitem.h"
+#include "glrenderer.h"
+#include "volumeViewControl.h"
 
 int main(int argc, char *argv[])
 {
+
 #if defined(Q_OS_WIN) && QT_VERSION_CHECK(5, 6, 0) <= QT_VERSION && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -17,23 +14,13 @@ int main(int argc, char *argv[])
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<GLItem>("CustomItems", 1, 0, "GLItem");
-
-
-    TreeViewModel* model = new TreeViewModel();
-    QItemSelectionModel* selectionModel = new QItemSelectionModel(model);
-
-
-    qDebug() << "Row count:" << model->rowCount();
-
+    qmlRegisterType<VolumeViewControl>("VolumeViewControl", 1, 0, "VolumeViewControl");
 
     QQmlApplicationEngine engine;
     engine.addImportPath("C:/Qt/6.9.1/msvc2022_64/qml");
     engine.addImportPath("C:/Qt/6.9.1/msvc2022_64/qml/QtQuick/Controls.2");
     engine.addImportPath("C:/Qt/6.9.1/msvc2022_64/qml/QtQuick/Layouts");
-    engine.rootContext()->setContextProperty("yourTreeModel", model);
-    engine.rootContext()->setContextProperty("yourSelectionModel", selectionModel);
-    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/quadqml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/volumeviewcontrol/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 
