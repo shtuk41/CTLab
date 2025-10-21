@@ -2,7 +2,8 @@
 #include <QQuickFramebufferObject>
 #include "GLRenderer.h"
 
-class VolumeViewControl : public QQuickFramebufferObject {
+class VolumeViewControl : public QQuickFramebufferObject 
+{
     Q_OBJECT
     QML_ELEMENT
 

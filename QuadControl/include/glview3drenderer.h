@@ -1,0 +1,50 @@
+#pragma once
+#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLShaderProgram>
+#include <QColor>
+#include <GLView.h>
+#include <QEvent>
+#include <axes3d.h>
+#include <axisPlane.h>
+#include <camera.h>
+#include <volume3dview.h>
+
+class GLView3DRenderer : public GLView
+{
+public:
+    explicit GLView3DRenderer(const QColor& color, Context* c);
+    ~GLView3DRenderer() noexcept override = default;
+
+    void UpdateMinMaxVoxelValues(int min, int max);
+
+protected:
+    void initializeGL();
+    void render() override;
+
+private:
+
+    Camera camera;
+    Axes3d axes3d;
+    AxisPlane planeXY;
+    AxisPlane planeXZ;
+    AxisPlane planeYZ;
+    Volume3dView volume3dview;
+
+    int windowWidth;
+    int windowHeight;
+
+    //view parameters
+
+    int minVoxelThresholdValue;
+    int maxVoxelThresholdValue;
+
+    //controls
+    int previous_xpos;
+    int previous_ypos;
+    bool rotateEnable;
+    bool moveback;
+    bool moveforward;
+    float rotateX;
+    float rotateY;
+    float cameraBoundaries;
+};

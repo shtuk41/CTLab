@@ -181,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="glrenderer.h" />
+    <ClInclude Include="quadlib_global.h" />
     <QtMoc Include="volumeViewControl.h" />
   </ItemGroup>
   <ItemGroup>

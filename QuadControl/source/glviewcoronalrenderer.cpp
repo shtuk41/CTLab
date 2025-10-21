@@ -1,0 +1,167 @@
+#include <glviewquadcoronal.h>
+#include <shaders.h>
+
+GLViewQuadCoronal::GLViewQuadCoronal(const QColor& color, QWidget* parent, Context *c)
+    : GLView(parent, c, color), baseColor(color)
+{
+}
+
+GLViewQuadCoronal::~GLViewQuadCoronal()
+{
+    makeCurrent();
+    glDeleteBuffers(1, &vertex_buffer);
+    glDeleteVertexArrays(1, &vertex_array_id);
+    delete shaderProgram;
+    doneCurrent();
+}
+
+
+void GLViewQuadCoronal::UpdateMinMaxVoxelValues(int min, int max)
+{
+    minVoxelThresholdValue = float(min) / 65535;
+    maxVoxelThresholdValue = float(max) / 65535;
+
+    update();
+}
+
+void GLViewQuadCoronal::initializeGL()
+{
+    initializeOpenGLFunctions();
+
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\axialYZ.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialYZ.frag");
+
+    shaderProgram = new QOpenGLShaderProgram(this);
+    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
+    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
+    success = shaderProgram->link();
+
+    GLfloat planeVertices[] = {
+       -0.161f, -1.0f, 0.0f, 0,0,
+       0.161f, -1.0f, 0.0f,  1,0,
+        0.161f, 1.0f, 0.0f, 1,1,
+       0.161f, 1.0f, 0.0f, 1,1,
+       -0.161f, 1.0f, 0.0f, 0,1,
+       -0.161f, -1.0f, 0.0f, 0,0
+    };
+
+    glGenVertexArrays(1, &vertex_array_id);
+    glGenBuffers(1, &vertex_buffer);
+
+    glBindVertexArray(vertex_array_id);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    const int width = context->volumeData.getHeader()->recoX;
+    const int height = context->volumeData.getHeader()->recoY;
+    const int depth = context->volumeData.getHeader()->recoZ;
+
+    // === 2. Create 3D Texture ===
+
+    glGenTextures(1, &tex3D);
+    glBindTexture(GL_TEXTURE_3D, tex3D);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0,
+        GL_RED, GL_UNSIGNED_BYTE, context->volumeData.getVolumeDataTex().data());
+
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    xSlice = glGetUniformLocation(shaderProgram->programId(), "xSlice");
+    minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
+    maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
+
+    shaderProgram->bind();
+    // Set the uniform sampler to use texture unit 1
+    GLuint loc = glGetUniformLocation(shaderProgram->programId(), "volumeTex");
+    glUniform1i(loc, 0);
+
+    shaderProgram->release();
+
+    border.Setup();
+}
+
+void GLViewQuadCoronal::resizeGL(int w, int h)
+{
+    glViewport(0, 0, w, h);
+}
+
+void GLViewQuadCoronal::paintGL()
+{
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    shaderProgram->bind();
+
+    glUniform1f(minVal, minVoxelThresholdValue);
+    glUniform1f(maxVal, maxVoxelThresholdValue);
+
+    glUniform1f(xSlice, xDistance);
+
+    // Activate texture unit 1 and bind your 3D texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_3D, tex3D);
+
+    glBindVertexArray(vertex_array_id);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+
+    shaderProgram->release();
+
+    border.Draw();
+}
+
+void GLViewQuadCoronal::mouseMoveEvent(QMouseEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadCoronal::mousePressEvent(QMouseEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadCoronal::mouseReleaseEvent(QMouseEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+void GLViewQuadCoronal::keyPressEvent(QKeyEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadCoronal::enterEvent(QEnterEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadCoronal::leaveEvent(QEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadCoronal::wheelEvent(QWheelEvent* event)
+{
+    int deltaY = event->angleDelta().y();
+    xDistance += deltaY * 0.00005f;
+    xDistance = __max(0.0, __min(1.0f, xDistance));
+    update();
+}
