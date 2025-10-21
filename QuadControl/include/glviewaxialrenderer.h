@@ -9,7 +9,7 @@ class GLViewAxialRenderer : public GLView
 {
 public:
     explicit GLViewAxialRenderer(const QColor& color, Context* c);
-    ~GLViewAxialRenderer();
+    ~GLViewAxialRenderer() noexcept override = default;
 
     void UpdateMinMaxVoxelValues(int min, int max);
 
@@ -17,20 +17,9 @@ protected:
     void initializeGL();
     void render() override;
 
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
-    void keyPressEvent(QKeyEvent* event) override;
-    void enterEvent(QEnterEvent* event) override;
-    void leaveEvent(QEvent* event) override;
-    void wheelEvent(QWheelEvent* event) override;
-
 private:
-    QOpenGLShaderProgram* shaderProgram = nullptr;
+    QOpenGLShaderProgram* shaderProgram;
     QColor baseColor;
-    float minVoxelThresholdValue;
-    float maxVoxelThresholdValue;
-    float zDistance;
 
     GLuint vertex_array_id;
     GLuint vertex_buffer;
@@ -38,4 +27,8 @@ private:
     GLuint zSlice;
     GLuint minVal;
     GLuint maxVal;
+
+    float minVoxelThresholdValue;
+    float maxVoxelThresholdValue;
+    float zDistance;
 };

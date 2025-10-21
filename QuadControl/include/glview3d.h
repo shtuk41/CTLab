@@ -37,7 +37,7 @@ public:
         context.volumeData.fillBuffer();
 
         qDebug() << "GLView3D";
-        return new GLView3DRenderer(Qt::red, &context);
+        return new GLView3DRenderer(Qt::yellow, &context);
     }
 
 protected:
