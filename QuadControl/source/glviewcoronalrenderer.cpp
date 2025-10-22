@@ -1,37 +1,21 @@
-#include <glviewquadcoronal.h>
+#include <glviewcoronal.h>
 #include <shaders.h>
+#include <QMouseEvent>
+#include <io/ioData.h>
 
-GLViewQuadCoronal::GLViewQuadCoronal(const QColor& color, QWidget* parent, Context *c)
-    : GLView(parent, c, color), baseColor(color)
+GLViewCoronalRenderer::GLViewCoronalRenderer(const QColor& color, Context *c)
+    : GLView(c, color), baseColor(color)
 {
 }
 
-GLViewQuadCoronal::~GLViewQuadCoronal()
-{
-    makeCurrent();
-    glDeleteBuffers(1, &vertex_buffer);
-    glDeleteVertexArrays(1, &vertex_array_id);
-    delete shaderProgram;
-    doneCurrent();
-}
-
-
-void GLViewQuadCoronal::UpdateMinMaxVoxelValues(int min, int max)
-{
-    minVoxelThresholdValue = float(min) / 65535;
-    maxVoxelThresholdValue = float(max) / 65535;
-
-    update();
-}
-
-void GLViewQuadCoronal::initializeGL()
+void GLViewCoronalRenderer::initializeGL()
 {
     initializeOpenGLFunctions();
 
     std::string vertexShaderSource = readSourceFile(".\\shaders\\axialYZ.vert");
     std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialYZ.frag");
 
-    shaderProgram = new QOpenGLShaderProgram(this);
+    shaderProgram = new QOpenGLShaderProgram();
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
     success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
     success = shaderProgram->link();
@@ -93,12 +77,12 @@ void GLViewQuadCoronal::initializeGL()
     border.Setup();
 }
 
-void GLViewQuadCoronal::resizeGL(int w, int h)
-{
-    glViewport(0, 0, w, h);
-}
+//void GLViewCoronalRenderer::resizeGL(int w, int h)
+//{
+//    glViewport(0, 0, w, h);
+//}
 
-void GLViewQuadCoronal::paintGL()
+void GLViewCoronalRenderer::render()
 {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -121,47 +105,4 @@ void GLViewQuadCoronal::paintGL()
     shaderProgram->release();
 
     border.Draw();
-}
-
-void GLViewQuadCoronal::mouseMoveEvent(QMouseEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadCoronal::mousePressEvent(QMouseEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadCoronal::mouseReleaseEvent(QMouseEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-void GLViewQuadCoronal::keyPressEvent(QKeyEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadCoronal::enterEvent(QEnterEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadCoronal::leaveEvent(QEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadCoronal::wheelEvent(QWheelEvent* event)
-{
-    int deltaY = event->angleDelta().y();
-    xDistance += deltaY * 0.00005f;
-    xDistance = __max(0.0, __min(1.0f, xDistance));
-    update();
 }
