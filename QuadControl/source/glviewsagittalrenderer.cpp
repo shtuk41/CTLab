@@ -1,21 +1,14 @@
-#include <glviewquadsagittal.h>
+#include <glviewsagittal.h>
 #include <shaders.h>
+#include <QMouseEvent>
+#include <io/ioData.h>
 
-GLViewQuadSagittal::GLViewQuadSagittal(const QColor& color, QWidget* parent, Context *c)
-    : GLView(parent, c, color), baseColor(color)
+GLViewSagittalRenderer::GLViewSagittalRenderer(const QColor& color, Context *c)
+    : GLView(c, color), baseColor(color)
 {
 }
 
-GLViewQuadSagittal::~GLViewQuadSagittal()
-{
-    makeCurrent();
-    glDeleteBuffers(1, &vertex_buffer);
-    glDeleteVertexArrays(1, &vertex_array_id);
-    delete shaderProgram;
-    doneCurrent();
-}
-
-void GLViewQuadSagittal::UpdateMinMaxVoxelValues(int min, int max)
+void GLViewSagittalRenderer::UpdateMinMaxVoxelValues(int min, int max)
 {
     minVoxelThresholdValue = float(min) / 65535;
     maxVoxelThresholdValue = float(max) / 65535;
@@ -23,14 +16,14 @@ void GLViewQuadSagittal::UpdateMinMaxVoxelValues(int min, int max)
     update();
 }
 
-void GLViewQuadSagittal::initializeGL()
+void GLViewSagittalRenderer::initializeGL()
 {
     initializeOpenGLFunctions();
 
     std::string vertexShaderSource = readSourceFile(".\\shaders\\axialXZ.vert");
     std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialXZ.frag");
 
-    shaderProgram = new QOpenGLShaderProgram(this);
+    shaderProgram = new QOpenGLShaderProgram();
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
     success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
     success = shaderProgram->link();
@@ -92,12 +85,12 @@ void GLViewQuadSagittal::initializeGL()
     border.Setup();
 }
 
-void GLViewQuadSagittal::resizeGL(int w, int h)
-{
-    glViewport(0, 0, w, h);
-}
+//void GLViewSagittal::resizeGL(int w, int h)
+//{
+//    glViewport(0, 0, w, h);
+//}
 
-void GLViewQuadSagittal::paintGL()
+void GLViewSagittalRenderer::render()
 {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -120,47 +113,4 @@ void GLViewQuadSagittal::paintGL()
     shaderProgram->release();
 
     border.Draw();
-}
-
-void GLViewQuadSagittal::mouseMoveEvent(QMouseEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadSagittal::mousePressEvent(QMouseEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadSagittal::mouseReleaseEvent(QMouseEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-void GLViewQuadSagittal::keyPressEvent(QKeyEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadSagittal::enterEvent(QEnterEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadSagittal::leaveEvent(QEvent* event)
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadSagittal::wheelEvent(QWheelEvent* event)
-{
-    int deltaY = event->angleDelta().y();
-    yDistance += deltaY * 0.00005f;
-    yDistance = __max(0.0, __min(1.0f, yDistance));
-    update();
 }

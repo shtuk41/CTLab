@@ -8,22 +8,13 @@ class GLViewSagittalRenderer : public GLView
 {
 public:
     explicit GLViewSagittalRenderer(const QColor& color, Context* c);
-    ~GLViewSagittalRenderer();
+    ~GLViewSagittalRenderer() noexcept override = default;
 
     void UpdateMinMaxVoxelValues(int min, int max);
-    void render() override;
 
 protected:
     void initializeGL();
     void render() override;
-
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
-    void keyPressEvent(QKeyEvent* event) override;
-    void enterEvent(QEnterEvent* event) override;
-    void leaveEvent(QEvent* event) override;
-    void wheelEvent(QWheelEvent* event) override;
 
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;
