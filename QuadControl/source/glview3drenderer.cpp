@@ -15,7 +15,7 @@ GLView3DRenderer::GLView3DRenderer(const QColor& color, Context*c)
     volume3dview(&camera),
     cameraBoundaries(200)
 {
-   
+    initializeGL();
 }
 
 void GLView3DRenderer::initializeGL()
@@ -23,7 +23,10 @@ void GLView3DRenderer::initializeGL()
     initializeOpenGLFunctions();
 
     //glEnable(GL_DEPTH_TEST);
+
+    qDebug() << "Before axes3d setup";
     axes3d.Setup();
+    qDebug() << "After axes3d setup";
 
     //Axis
     planeXY.Setup();

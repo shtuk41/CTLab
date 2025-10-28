@@ -2,9 +2,17 @@ import sys
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtCore import QUrl
+from PySide6.QtCore import qInstallMessageHandler
+
 import os
 os.environ["QSG_RHI_BACKEND"] = "opengl"  # force OpenGL scene graph
 os.environ["QT_QUICK_CONTROLS_STYLE"] = "Fusion"  # optional, avoid missing style
+
+def qt_message_handler(mode, context, message):
+    print(message)
+
+qInstallMessageHandler(qt_message_handler)
+
 
 def handle_warnings(warnings):
     for w in warnings:

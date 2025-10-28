@@ -88,7 +88,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="pluging.cpp">
+    <QtMoc Include="plugin.cpp">
       <Filter>Source Files</Filter>
     </QtMoc>
     <QtMoc Include="include\glview3d.h">

@@ -44,6 +44,8 @@
     <QtInstall>6.9.1_msvc2022_64</QtInstall>
     <QtModules>core;gui;network;qml;quick;opengl</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
+    <QtPlugin>true</QtPlugin>
+    <QMakeExtraArgs>QML_PLUGIN_METADATA=quadcontrol.json</QMakeExtraArgs>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -71,9 +73,26 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDIr)/include;$(SolutionDir)\ThirdParty\glm\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDIr)/include;$(SolutionDir)\ThirdParty\glm\include;$(ProjectDIr)/Release</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
+    <QtMoc>
+      <QtMocDir>$(Configuration)</QtMocDir>
+      <Include>
+      </Include>
+      <CompilerFlavor>msvc</CompilerFlavor>
+    </QtMoc>
+    <Link>
+      <AdditionalDependencies>$(QTDIR)\lib\Qt6QmlMeta.lib;$(QTDIR)\lib\Qt6QmlModels.lib;$(QTDIR)\lib\Qt6QmlWorkerScript.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -169,7 +188,7 @@
     <ClInclude Include="include\volumeData.h" />
     <ClInclude Include="quadcontrol_global.h" />
     <ClInclude Include="QuadControl.h" />
-    <QtMoc Include="pluging.cpp">
+    <QtMoc Include="plugin.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
