@@ -11,6 +11,9 @@ class GLView3D : public QQuickFramebufferObject
     Q_OBJECT
     QML_ELEMENT
 
+    Q_PROPERTY(int minVoxelThreshold READ minVoxelThreshold WRITE setMinVoxelThreshold NOTIFY minVoxelThresholdChanged)
+    Q_PROPERTY(int maxVoxelThreshold READ maxVoxelThreshold WRITE setMaxVoxelThreshold NOTIFY maxVoxelThresholdChanged)
+
 public:
     GLView3D()
     {
@@ -19,7 +22,7 @@ public:
         setFocusPolicy(Qt::StrongFocus);                           // optional, for keyboard
 
         minVoxelThresholdValue = 0;
-        maxVoxelThresholdValue = 65000;
+        maxVoxelThresholdValue = 65536;
 
         previous_xpos = 0.0;
         previous_ypos = 0.0;
@@ -40,7 +43,36 @@ public:
         return new GLView3DRenderer(Qt::yellow, &context);
     }
 
+    float getRotateX() const { return rotateX; };
+    float getRotateY() const { return rotateY; };
+    float getCameraBoundaries() const { return cameraBoundaries; };
+    int minVoxelThreshold() const { return minVoxelThresholdValue; }
+    int maxVoxelThreshold() const { return maxVoxelThresholdValue; }
+
+    void setMinVoxelThreshold(int val)
+    {
+        if (minVoxelThresholdValue == val) return;
+        minVoxelThresholdValue = val;
+        emit minVoxelThresholdChanged();
+        update();
+    }
+
+    void setMaxVoxelThreshold(int val)
+    {
+        if (maxVoxelThresholdValue == val) return;
+        maxVoxelThresholdValue = val;
+        emit maxVoxelThresholdChanged();
+        update();
+    }
+    
+
+signals:
+    void minVoxelThresholdChanged();
+    void maxVoxelThresholdChanged();
+
 protected:
+
+   
 
     void mouseMoveEvent(QMouseEvent* event) override
     {

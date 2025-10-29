@@ -511,7 +511,7 @@ void Volume3dView::Setup()
     //fillHollowCylinder(volumeDataTex, width, height, depth);
    
     // === 2. Create 3D Texture ===
-    
+
     glGenTextures(1, &tex3D);
     glBindTexture(GL_TEXTURE_3D, tex3D);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

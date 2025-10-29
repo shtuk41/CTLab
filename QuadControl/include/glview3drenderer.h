@@ -17,9 +17,12 @@ public:
 
     void UpdateMinMaxVoxelValues(int min, int max);
 
+
+
 protected:
     void initializeGL();
     void render() override;
+    void synchronize(QQuickFramebufferObject* item) override;
 
 private:
 
@@ -39,11 +42,6 @@ private:
     int maxVoxelThresholdValue;
 
     //controls
-    int previous_xpos;
-    int previous_ypos;
-    bool rotateEnable;
-    bool moveback;
-    bool moveforward;
     float rotateX;
     float rotateY;
     float cameraBoundaries;

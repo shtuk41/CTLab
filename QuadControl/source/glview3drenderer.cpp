@@ -24,9 +24,7 @@ void GLView3DRenderer::initializeGL()
 
     //glEnable(GL_DEPTH_TEST);
 
-    qDebug() << "Before axes3d setup";
     axes3d.Setup();
-    qDebug() << "After axes3d setup";
 
     //Axis
     planeXY.Setup();
@@ -88,4 +86,19 @@ void GLView3DRenderer::render()
     planeYZ.Draw();
 
     //border.Draw();
+}
+
+void GLView3DRenderer::synchronize(QQuickFramebufferObject* item)
+{
+    auto* view = static_cast<GLView3D*>(item);
+
+    //TODO:  verify that compiler inlines class members "simple getters"
+    this->rotateX = view->getRotateX();
+    this->rotateY = view->getRotateY();
+    this->cameraBoundaries = view->getCameraBoundaries();
+    this->windowWidth = view->width();
+    this->windowHeight = view->height();
+    this->minVoxelThresholdValue = view->minVoxelThreshold();
+    this->maxVoxelThresholdValue = view->maxVoxelThreshold();
+
 }
