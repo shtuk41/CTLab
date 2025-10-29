@@ -118,6 +118,7 @@ ApplicationWindow {
         id: glView
         GLView3D {
             anchors.fill: parent
+            context: VolumeContext
         }
     }
 }

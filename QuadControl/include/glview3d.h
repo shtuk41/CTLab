@@ -1,9 +1,12 @@
 #pragma once
+#include <QQmlEngine>
+#include <QQmlContext>
 #include <QQuickFramebufferObject>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QHoverEvent>
 #include <glm/glm.hpp>
+#include <contextWrapper.h>
 #include <glView3dRenderer.h>
 
 class GLView3D : public QQuickFramebufferObject
@@ -13,6 +16,7 @@ class GLView3D : public QQuickFramebufferObject
 
     Q_PROPERTY(int minVoxelThreshold READ minVoxelThreshold WRITE setMinVoxelThreshold NOTIFY minVoxelThresholdChanged)
     Q_PROPERTY(int maxVoxelThreshold READ maxVoxelThreshold WRITE setMaxVoxelThreshold NOTIFY maxVoxelThresholdChanged)
+    Q_PROPERTY(ContextWrapper* context READ context WRITE setContext NOTIFY contextChanged)
 
 public:
     GLView3D()
@@ -35,12 +39,8 @@ public:
 
     Renderer* createRenderer() const override 
     {
-        Context context(R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)");
-        context.volumeData.saveHeaderToFile("volumeHeader.txt");
-        context.volumeData.fillBuffer();
-
         qDebug() << "GLView3D";
-        return new GLView3DRenderer(Qt::yellow, &context);
+        return new GLView3DRenderer(Qt::yellow, (m_context ? m_context->getContext().get() : nullptr));
     }
 
     float getRotateX() const { return rotateX; };
@@ -64,15 +64,24 @@ public:
         emit maxVoxelThresholdChanged();
         update();
     }
-    
+
+    ContextWrapper* context() const { return m_context; }
+
+    void setContext(ContextWrapper* ctx)
+    {
+        if (m_context == ctx) return;
+        m_context = ctx;
+        emit contextChanged();
+        initializeVolume();
+    }
 
 signals:
     void minVoxelThresholdChanged();
     void maxVoxelThresholdChanged();
+    void contextChanged();
 
 protected:
 
-   
 
     void mouseMoveEvent(QMouseEvent* event) override
     {
@@ -162,6 +171,15 @@ protected:
     }
 
 private:
+    void initializeVolume()
+    {
+        if (!m_context) return;
+
+        auto ctx = m_context->getContext();
+        ctx->volumeData.saveHeaderToFile("volumeHeader.txt");
+        ctx->volumeData.fillBuffer();
+    }
+
     int windowWidth;
     int windowHeight;
 
@@ -179,4 +197,7 @@ private:
     float rotateX;
     float rotateY;
     float cameraBoundaries;
+
+    //context
+    ContextWrapper* m_context = nullptr;
 };

@@ -153,6 +153,7 @@
     <ClInclude Include="include\axisPlane.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\context.h" />
+    <QtMoc Include="include\contextWrapper.h" />
     <ClInclude Include="include\controls.h" />
     <ClInclude Include="include\glview3drenderer.h" />
     <ClInclude Include="include\glviewaxialrenderer.h">

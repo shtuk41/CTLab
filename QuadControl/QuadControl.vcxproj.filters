@@ -103,6 +103,9 @@
     <QtMoc Include="include\glviewaxial.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="include\contextWrapper.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\axialXY.frag">
