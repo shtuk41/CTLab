@@ -85,8 +85,12 @@ void GLViewCoronalRenderer::initializeGL()
 
 void GLViewCoronalRenderer::render()
 {
+    auto fbo = framebufferObject();
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo->handle());
+    glViewport(0, 0, fbo->width(), fbo->height());
+
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     shaderProgram->bind();
 
@@ -105,7 +109,7 @@ void GLViewCoronalRenderer::render()
 
     shaderProgram->release();
 
-    border.Draw();
+    border.Draw(fbo);
 }
 
 void GLViewCoronalRenderer::synchronize(QQuickFramebufferObject* item)
@@ -116,4 +120,5 @@ void GLViewCoronalRenderer::synchronize(QQuickFramebufferObject* item)
     this->minVoxelThresholdValue = view->minVoxelThreshold();
     this->maxVoxelThresholdValue = view->maxVoxelThreshold();
     this->xDistance = view->getXDistance();
+    glViewport(0, 0, view->width(), view->height());
 }

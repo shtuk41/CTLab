@@ -78,17 +78,14 @@ void GLViewAxialRenderer::initializeGL()
     border.Setup();
 }
 
-//void GLViewAxialRenderer::resizeGL(int w, int h)
-//{
-//   glViewport(0, 0, w, h);
-//}
-
 void GLViewAxialRenderer::render()
 {
-    //glViewport(0, 0, windowWidth, windowHeight);
+    auto fbo = framebufferObject();
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo->handle());
+    glViewport(0, 0, fbo->width(), fbo->height());
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     shaderProgram->bind();
 
@@ -106,8 +103,7 @@ void GLViewAxialRenderer::render()
     glBindVertexArray(0);
 
     shaderProgram->release();
-
-    border.Draw();
+    border.Draw(fbo);
 }
 
 void GLViewAxialRenderer::synchronize(QQuickFramebufferObject* item)

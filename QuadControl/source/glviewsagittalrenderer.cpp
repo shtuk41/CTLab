@@ -85,8 +85,12 @@ void GLViewSagittalRenderer::initializeGL()
 
 void GLViewSagittalRenderer::render()
 {
+    auto fbo = framebufferObject();
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo->handle());
+    glViewport(0, 0, fbo->width(), fbo->height());
+
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     shaderProgram->bind();
 
@@ -105,7 +109,7 @@ void GLViewSagittalRenderer::render()
 
     shaderProgram->release();
 
-    border.Draw();
+    border.Draw(fbo);
 }
 
 void GLViewSagittalRenderer::synchronize(QQuickFramebufferObject* item)
@@ -116,4 +120,5 @@ void GLViewSagittalRenderer::synchronize(QQuickFramebufferObject* item)
     this->minVoxelThresholdValue = view->minVoxelThreshold();
     this->maxVoxelThresholdValue = view->maxVoxelThreshold();
     this->yDistance = view->getYDistance();
+    glViewport(0, 0, view->width(), view->height());
 }

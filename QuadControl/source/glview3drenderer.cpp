@@ -48,6 +48,8 @@ void GLView3DRenderer::initializeGL()
 
 void GLView3DRenderer::render()
 {
+    auto fbo = framebufferObject();
+
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -85,7 +87,7 @@ void GLView3DRenderer::render()
     planeYZ.SetProjection(projection_matrix);
     planeYZ.Draw();
 
-    //border.Draw();
+    border.Draw(fbo);
 }
 
 void GLView3DRenderer::synchronize(QQuickFramebufferObject* item)

@@ -12,8 +12,8 @@ class GLViewAxial : public QQuickFramebufferObject
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(int minVoxelThreshold READ minVoxelThreshold WRITE setMinVoxelThreshold NOTIFY minVoxelThresholdChanged)
-    Q_PROPERTY(int maxVoxelThreshold READ maxVoxelThreshold WRITE setMaxVoxelThreshold NOTIFY maxVoxelThresholdChanged)
+    Q_PROPERTY(int minVoxelThreshold READ minVoxelThreshold WRITE setMinVoxelThreshold)
+    Q_PROPERTY(int maxVoxelThreshold READ maxVoxelThreshold WRITE setMaxVoxelThreshold)
     Q_PROPERTY(ContextWrapper* context READ context WRITE setContext NOTIFY contextChanged)
 
 
@@ -44,7 +44,6 @@ public:
     {
         if (minVoxelThresholdValue == val) return;
         minVoxelThresholdValue = val;
-        emit minVoxelThresholdChanged();
         update();
     }
 
@@ -52,7 +51,6 @@ public:
     {
         if (maxVoxelThresholdValue == val) return;
         maxVoxelThresholdValue = val;
-        emit maxVoxelThresholdChanged();
         update();
     }
 
@@ -67,9 +65,7 @@ public:
     }
 
 signals:
-    void minVoxelThresholdChanged();
-    void maxVoxelThresholdChanged();
-    void contextChanged();
+     void contextChanged();
 
 protected:
     void mouseMoveEvent(QMouseEvent* event) override

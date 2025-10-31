@@ -25,7 +25,7 @@ public:
     ~ViewBorder();
 
     void Setup();
-    void Draw();
+    void Draw(const QOpenGLFramebufferObject* fbo);
 };
 
 
