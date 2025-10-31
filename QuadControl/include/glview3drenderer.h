@@ -15,10 +15,6 @@ public:
     explicit GLView3DRenderer(const QColor& color, Context* c);
     ~GLView3DRenderer() noexcept override = default;
 
-    void UpdateMinMaxVoxelValues(int min, int max);
-
-
-
 protected:
     void initializeGL();
     void render() override;

@@ -10,14 +10,13 @@ ApplicationWindow {
     visible: true
     title: "Volume View Control"
 
-    // This property will hold the actual GLView3D instance
-    property GLView3D glViewInstance
+    property GLView3D glView3DInstance
+    property GLViewAxial glViewAxialInstance
 
     RowLayout {
         anchors.fill: parent
         spacing: 4
 
-        // Quad layout on the right
         Grid {
             id: quadGrid
             Layout.fillWidth: true
@@ -26,44 +25,69 @@ ApplicationWindow {
             rows: 2
             spacing: 4
 
-            Repeater {
-                model: 4
-                Item {
-                    width: quadGrid.width / 2 - 4
-                    height: quadGrid.height / 2 - 4
+            // View 1
+            Item {
+                width: quadGrid.width / 2 - 4
+                height: quadGrid.height / 2 - 4
 
-                    // Show OpenGL only in last item (index 3)
-                    Loader {
-                        id: glLoader
-                        anchors.fill: parent
-                        active: index === 3
-                        sourceComponent: glView
-                        onLoaded: {
-                            // Store the loaded GLView3D instance
-                            glViewInstance = glLoader.item
-                        }
-                    }
+                Loader {
+                    id: glViewAxialLoader
+                    anchors.fill: parent
+                    active: true
+                    sourceComponent: glViewAxial
+                    onLoaded: glViewAxialInstance = glViewAxialLoader.item
+                }
+            }
 
-                    Rectangle {
-                        anchors.fill: parent
-                        visible: index !== 3
-                        color: ["#d3d3d3", "#add8e6", "#90ee90", "#ffffff"][index]
-                        border.color: "black"
-                        border.width: 1
-                        radius: 8
+            // View 2
+            Rectangle {
+                width: quadGrid.width / 2 - 4
+                height: quadGrid.height / 2 - 4
+                color: "#add8e6"
+                border.color: "black"
+                border.width: 1
+                radius: 8
 
-                        Label {
-                            anchors.centerIn: parent
-                            text: "View " + (index + 1)
-                            font.pointSize: 20
-                            font.bold: true
-                        }
-                    }
+                Label {
+                    anchors.centerIn: parent
+                    text: "View 2"
+                    font.pointSize: 20
+                    font.bold: true
+                }
+            }
+
+            // View 3
+            Rectangle {
+                width: quadGrid.width / 2 - 4
+                height: quadGrid.height / 2 - 4
+                color: "#90ee90"
+                border.color: "black"
+                border.width: 1
+                radius: 8
+
+                Label {
+                    anchors.centerIn: parent
+                    text: "View 3"
+                    font.pointSize: 20
+                    font.bold: true
+                }
+            }
+
+            // View 4 (3D)
+            Item {
+                width: quadGrid.width / 2 - 4
+                height: quadGrid.height / 2 - 4
+
+                Loader {
+                    id: glView3dLoader
+                    anchors.fill: parent
+                    active: true
+                    sourceComponent: glView3d
+                    onLoaded: glView3DInstance = glView3dLoader.item
                 }
             }
         }
 
-        // Sliders on the left
         ColumnLayout {
             Layout.preferredWidth: 200
             spacing: 20
@@ -77,9 +101,8 @@ ApplicationWindow {
                     stepSize: 1
                     Layout.fillWidth: true
                     onValueChanged: {
-                        if (glViewInstance) {
-                            glViewInstance.minVoxelThreshold = value
-                        }
+                        if (glView3DInstance) glView3DInstance.minVoxelThreshold = value
+                        if (glViewAxialInstance) glViewAxialInstance.minVoxelThreshold = value
                     }
                 }
                 Label {
@@ -99,9 +122,8 @@ ApplicationWindow {
                     value: 65536
                     Layout.fillWidth: true
                     onValueChanged: {
-                        if (glViewInstance) {
-                            glViewInstance.maxVoxelThreshold = value
-                        }
+                        if (glView3DInstance) glView3DInstance.maxVoxelThreshold = value
+                        if (glViewAxialInstance) glViewAxialInstance.maxVoxelThreshold = value
                     }
                 }
                 Label {
@@ -113,12 +135,13 @@ ApplicationWindow {
         }
     }
 
-    // Component definition for GLView3D
     Component {
-        id: glView
-        GLView3D {
-            anchors.fill: parent
-            context: VolumeContext
-        }
+        id: glView3d
+        GLView3D { anchors.fill: parent; context: VolumeContext }
+    }
+
+    Component {
+        id: glViewAxial
+        GLViewAxial { anchors.fill: parent; context: VolumeContext }
     }
 }

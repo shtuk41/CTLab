@@ -3,7 +3,7 @@
 #include <qqml.h>
 #include "glview3d.h"
 #include <contextWrapper.h>
-//#include "glviewaxial.h"
+#include "glviewaxial.h"
 //#include "glviewcoronal.h"
 //#include "glviewsagittal.h"
 
@@ -20,7 +20,7 @@ public:
 
         // URI must match qmldir
        qmlRegisterType<GLView3D>("QuadControl", 1, 0, "GLView3D");
-       //qmlRegisterType<GLViewAxial>("QuadControl", 1, 0, "GLViewAxial");
+       qmlRegisterType<GLViewAxial>("QuadControl", 1, 0, "GLViewAxial");
        //qmlRegisterType<GLViewCoronal>("QuadControl", 1, 0, "GLViewCoronal");
        //qmlRegisterType<GLViewSagittal>("QuadControl", 1, 0, "GLViewSagittal");
     }

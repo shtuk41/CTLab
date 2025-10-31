@@ -11,11 +11,10 @@ public:
     explicit GLViewAxialRenderer(const QColor& color, Context* c);
     ~GLViewAxialRenderer() noexcept override = default;
 
-    void UpdateMinMaxVoxelValues(int min, int max);
-
 protected:
     void initializeGL();
     void render() override;
+    void synchronize(QQuickFramebufferObject* item) override;
 
 private:
     QOpenGLShaderProgram* shaderProgram;

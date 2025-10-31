@@ -6,6 +6,7 @@
 GLViewAxialRenderer::GLViewAxialRenderer(const QColor& color, Context*c)
     : GLView(c, color), baseColor(color)
 {
+    initializeGL();
 }
 
 void GLViewAxialRenderer::initializeGL()
@@ -84,6 +85,8 @@ void GLViewAxialRenderer::initializeGL()
 
 void GLViewAxialRenderer::render()
 {
+    //glViewport(0, 0, windowWidth, windowHeight);
+
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -105,4 +108,14 @@ void GLViewAxialRenderer::render()
     shaderProgram->release();
 
     border.Draw();
+}
+
+void GLViewAxialRenderer::synchronize(QQuickFramebufferObject* item)
+{
+    auto* view = static_cast<GLViewAxial*>(item);
+
+    //TODO:  verify that compiler inlines class members "simple getters"
+    this->minVoxelThresholdValue = view->minVoxelThreshold();
+    this->maxVoxelThresholdValue = view->maxVoxelThreshold();
+    this->zDistance = view->getZDistance();
 }
