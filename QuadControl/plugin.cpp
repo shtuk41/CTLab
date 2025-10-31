@@ -5,7 +5,7 @@
 #include <contextWrapper.h>
 #include "glviewaxial.h"
 #include "glviewcoronal.h"
-//#include "glviewsagittal.h"
+#include "glviewsagittal.h"
 
 class QuadControlPlugin : public QQmlExtensionPlugin {
     Q_OBJECT
@@ -22,7 +22,7 @@ public:
        qmlRegisterType<GLView3D>("QuadControl", 1, 0, "GLView3D");
        qmlRegisterType<GLViewAxial>("QuadControl", 1, 0, "GLViewAxial");
        qmlRegisterType<GLViewCoronal>("QuadControl", 1, 0, "GLViewCoronal");
-       //qmlRegisterType<GLViewSagittal>("QuadControl", 1, 0, "GLViewSagittal");
+       qmlRegisterType<GLViewSagittal>("QuadControl", 1, 0, "GLViewSagittal");
     }
 };
 

@@ -6,14 +6,7 @@
 GLViewSagittalRenderer::GLViewSagittalRenderer(const QColor& color, Context *c)
     : GLView(c, color), baseColor(color)
 {
-}
-
-void GLViewSagittalRenderer::UpdateMinMaxVoxelValues(int min, int max)
-{
-    minVoxelThresholdValue = float(min) / 65535;
-    maxVoxelThresholdValue = float(max) / 65535;
-
-    update();
+    initializeGL();
 }
 
 void GLViewSagittalRenderer::initializeGL()
@@ -113,4 +106,14 @@ void GLViewSagittalRenderer::render()
     shaderProgram->release();
 
     border.Draw();
+}
+
+void GLViewSagittalRenderer::synchronize(QQuickFramebufferObject* item)
+{
+    auto* view = static_cast<GLViewSagittal*>(item);
+
+    //TODO:  verify that compiler inlines class members "simple getters"
+    this->minVoxelThresholdValue = view->minVoxelThreshold();
+    this->maxVoxelThresholdValue = view->maxVoxelThreshold();
+    this->yDistance = view->getYDistance();
 }

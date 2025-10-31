@@ -13,6 +13,7 @@ ApplicationWindow {
     property GLView3D glView3DInstance
     property GLViewAxial glViewAxialInstance
     property GLViewCoronal glViewCoronalInstance
+    property GLViewSagittal glViewSagittalInstance
 
     RowLayout {
         anchors.fill: parent
@@ -41,19 +42,16 @@ ApplicationWindow {
             }
 
             // View 2
-            Rectangle {
+            Item {
                 width: quadGrid.width / 2 - 4
                 height: quadGrid.height / 2 - 4
-                color: "#90ee90"
-                border.color: "black"
-                border.width: 1
-                radius: 8
 
-                Label {
-                    anchors.centerIn: parent
-                    text: "View 2"
-                    font.pointSize: 20
-                    font.bold: true
+                Loader {
+                    id: glViewSagittalLoader
+                    anchors.fill: parent
+                    active: true
+                    sourceComponent: glViewSagittal
+                    onLoaded: glViewSagittalInstance = glViewSagittalLoader.item
                 }
             }
 
@@ -104,6 +102,7 @@ ApplicationWindow {
                         if (glView3DInstance) glView3DInstance.minVoxelThreshold = value
                         if (glViewAxialInstance) glViewAxialInstance.minVoxelThreshold = value
                         if (glViewCoronalInstance) glViewCoronalInstance.minVoxelThreshold = value
+                        if (glViewSagittalInstance) glViewSagittalInstance.minVoxelThreshold = value
                     }
                 }
                 Label {
@@ -126,6 +125,7 @@ ApplicationWindow {
                         if (glView3DInstance) glView3DInstance.maxVoxelThreshold = value
                         if (glViewAxialInstance) glViewAxialInstance.maxVoxelThreshold = value
                         if (glViewCoronalInstance) glViewCoronalInstance.maxVoxelThreshold = value
+                        if (glViewSagittalInstance) glViewSagittalInstance.maxVoxelThreshold = value
                     }
                 }
                 Label {
@@ -150,5 +150,10 @@ ApplicationWindow {
     Component {
         id: glViewCoronal
         GLViewCoronal { anchors.fill: parent; context: VolumeContext }
+    }
+
+    Component {
+        id: glViewSagittal
+        GLViewSagittal { anchors.fill: parent; context: VolumeContext }
     }
 }

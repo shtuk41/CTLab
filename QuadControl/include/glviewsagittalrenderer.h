@@ -10,11 +10,10 @@ public:
     explicit GLViewSagittalRenderer(const QColor& color, Context* c);
     ~GLViewSagittalRenderer() noexcept override = default;
 
-    void UpdateMinMaxVoxelValues(int min, int max);
-
 protected:
     void initializeGL();
     void render() override;
+    void synchronize(QQuickFramebufferObject* item) override;
 
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;
