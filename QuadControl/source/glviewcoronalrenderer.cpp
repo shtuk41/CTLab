@@ -6,6 +6,7 @@
 GLViewCoronalRenderer::GLViewCoronalRenderer(const QColor& color, Context *c)
     : GLView(c, color), baseColor(color)
 {
+    initializeGL();
 }
 
 void GLViewCoronalRenderer::initializeGL()
@@ -105,4 +106,14 @@ void GLViewCoronalRenderer::render()
     shaderProgram->release();
 
     border.Draw();
+}
+
+void GLViewCoronalRenderer::synchronize(QQuickFramebufferObject* item)
+{
+    auto* view = static_cast<GLViewCoronal*>(item);
+
+    //TODO:  verify that compiler inlines class members "simple getters"
+    this->minVoxelThresholdValue = view->minVoxelThreshold();
+    this->maxVoxelThresholdValue = view->maxVoxelThreshold();
+    this->xDistance = view->getXDistance();
 }

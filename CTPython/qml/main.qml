@@ -12,6 +12,7 @@ ApplicationWindow {
 
     property GLView3D glView3DInstance
     property GLViewAxial glViewAxialInstance
+    property GLViewCoronal glViewCoronalInstance
 
     RowLayout {
         anchors.fill: parent
@@ -43,7 +44,7 @@ ApplicationWindow {
             Rectangle {
                 width: quadGrid.width / 2 - 4
                 height: quadGrid.height / 2 - 4
-                color: "#add8e6"
+                color: "#90ee90"
                 border.color: "black"
                 border.width: 1
                 radius: 8
@@ -57,21 +58,20 @@ ApplicationWindow {
             }
 
             // View 3
-            Rectangle {
+             Item {
                 width: quadGrid.width / 2 - 4
                 height: quadGrid.height / 2 - 4
-                color: "#90ee90"
-                border.color: "black"
-                border.width: 1
-                radius: 8
 
-                Label {
-                    anchors.centerIn: parent
-                    text: "View 3"
-                    font.pointSize: 20
-                    font.bold: true
+                Loader {
+                    id: glViewCoronalLoader
+                    anchors.fill: parent
+                    active: true
+                    sourceComponent: glViewCoronal
+                    onLoaded: glViewCoronalInstance = glViewCoronalLoader.item
                 }
             }
+
+
 
             // View 4 (3D)
             Item {
@@ -103,6 +103,7 @@ ApplicationWindow {
                     onValueChanged: {
                         if (glView3DInstance) glView3DInstance.minVoxelThreshold = value
                         if (glViewAxialInstance) glViewAxialInstance.minVoxelThreshold = value
+                        if (glViewCoronalInstance) glViewCoronalInstance.minVoxelThreshold = value
                     }
                 }
                 Label {
@@ -124,6 +125,7 @@ ApplicationWindow {
                     onValueChanged: {
                         if (glView3DInstance) glView3DInstance.maxVoxelThreshold = value
                         if (glViewAxialInstance) glViewAxialInstance.maxVoxelThreshold = value
+                        if (glViewCoronalInstance) glViewCoronalInstance.maxVoxelThreshold = value
                     }
                 }
                 Label {
@@ -143,5 +145,10 @@ ApplicationWindow {
     Component {
         id: glViewAxial
         GLViewAxial { anchors.fill: parent; context: VolumeContext }
+    }
+
+    Component {
+        id: glViewCoronal
+        GLViewCoronal { anchors.fill: parent; context: VolumeContext }
     }
 }

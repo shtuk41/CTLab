@@ -107,7 +107,6 @@ protected:
         int deltaY = event->angleDelta().y();
         zDistance += deltaY * 0.00005f;
         zDistance = __max(0.0, __min(1.0f, zDistance));
-        qDebug() << zDistance;
         update();
     }
 private:
