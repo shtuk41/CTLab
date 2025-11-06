@@ -7,7 +7,7 @@
 class GLViewCoronalRenderer : public GLView
 {
 public:
-    explicit GLViewCoronalRenderer(const QColor& color, Context* c);
+    explicit GLViewCoronalRenderer(const QColor& color, std::shared_ptr<Context> c);
     ~GLViewCoronalRenderer() noexcept override = default;
 
 protected:

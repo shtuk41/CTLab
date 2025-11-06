@@ -36,7 +36,7 @@ private:
 
     Camera* cam;
 
-    Context* context;
+    std::shared_ptr<Context> context;
 public:
 
     Volume3dView(Camera *cam);
@@ -52,7 +52,7 @@ public:
     virtual void Setup();
     virtual void Draw();
 
-    void Setup(Context *c);
+    void Setup(std::shared_ptr<Context> c);
 };
 
 

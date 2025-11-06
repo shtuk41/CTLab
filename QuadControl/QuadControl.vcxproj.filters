@@ -71,9 +71,6 @@
     <ClInclude Include="include\volume3dview.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\volumeData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\glview3drenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -167,9 +164,6 @@
     <ClCompile Include="source\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\context.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\glview.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -199,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="source\io\ioData.cpp">
       <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="source\context.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -479,7 +479,7 @@ void fillCupWithHandle2(std::vector<GLubyte>& volumeData, int width, int height,
     }
 }
 
-void Volume3dView::Setup(Context* ctx)
+void Volume3dView::Setup(std::shared_ptr<Context> ctx)
 {
     context = ctx;
 
@@ -503,27 +503,9 @@ void Volume3dView::Setup()
     //const int height = 256;
     //const int depth = 256; 
 
-    const int width = context->volumeData.getHeader()->recoX;
-    const int height = context->volumeData.getHeader()->recoY;
-    const int depth = context->volumeData.getHeader()->recoZ;
-
     //fillCupWithHandle2(volumeDataTex, width, height, depth);
     //fillHollowCylinder(volumeDataTex, width, height, depth);
    
-    // === 2. Create 3D Texture ===
-
-    glGenTextures(1, &tex3D);
-    glBindTexture(GL_TEXTURE_3D, tex3D);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0,
-        GL_RED, GL_UNSIGNED_BYTE, context->volumeData.getVolumeDataTex().data());
-
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
     // === 3. Create Cube Geometry ===
     float cube[] = {
         // pos              // texcoord
@@ -557,21 +539,21 @@ void Volume3dView::Setup()
          -1, 1,-1,0,1,0,  1, 1, 1,1,1,1,  1, 1,-1,1,1,0
     };
 
-    int dims[3] = { width, height, depth };
+    int dims[3] = { context->width, context->height, context->depth };
 
     int maxDimElement = *std::max_element(dims, dims + 3);
     size_t dispSize = 50;
 
     for (int ii = 0; ii < 36; ++ii) 
     {
-        cube[ii * 6 + 0] *= (dispSize * width / maxDimElement);   // x
-        cube[ii * 6 + 1] *= (dispSize * height / maxDimElement);  // y
-        cube[ii * 6 + 2] *= (dispSize * depth / maxDimElement);   // z
+        cube[ii * 6 + 0] *= (dispSize * context->width / maxDimElement);   // x
+        cube[ii * 6 + 1] *= (dispSize * context->height / maxDimElement);  // y
+        cube[ii * 6 + 2] *= (dispSize * context->depth / maxDimElement);   // z
     }
 
-    cubeWorldVec = { dispSize * width / maxDimElement,
-                        dispSize* height / maxDimElement,
-                        dispSize* depth / maxDimElement };
+    cubeWorldVec = { dispSize * context->width / maxDimElement,
+                        dispSize* context->height / maxDimElement,
+                        dispSize* context->depth / maxDimElement };
 
     glGenVertexArrays(1, &vertex_array_id);
     glBindVertexArray(vertex_array_id);
@@ -626,6 +608,13 @@ void Volume3dView::SetProjection(glm::mat4 p)
 
 void Volume3dView::Draw()
 {
+    if (!context) return;
+
+    if (!context->initialized)
+    {
+        context->initGL();
+    }
+
     shaderProgram->bind();
 
     glUniformMatrix4fv(model_view, 1, GL_FALSE, glm::value_ptr(model_view_matrix));
@@ -648,7 +637,7 @@ void Volume3dView::Draw()
     glUniform3fv(cubeWorld, 1, glm::value_ptr(cubeWorldVec));
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_3D, tex3D);
+    glBindTexture(GL_TEXTURE_3D, context->tex3D);
     GLuint te = glGetUniformLocation(shaderProgram->programId(), "volumeTex");
     glUniform1i(te, 0);
 

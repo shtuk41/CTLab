@@ -32,12 +32,8 @@ public:
 
     Renderer* createRenderer() const override 
     {
-        Context context(R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)");
-        context.volumeData.saveHeaderToFile("volumeHeader.txt");
-        context.volumeData.fillBuffer();
-        
         qDebug() << "GLViewCoronal";
-        return new GLViewCoronalRenderer(Qt::green, &context);
+        return new GLViewCoronalRenderer(Qt::green, (m_context ? m_context->getContext() : nullptr));
     }
 
     float minVoxelThreshold() const { return static_cast<float>(minVoxelThresholdValue) / 65536.0f; }
@@ -113,10 +109,11 @@ protected:
 private:
     void initializeVolume()
     {
+        return;
         if (!m_context) return;
 
         auto ctx = m_context->getContext();
-        ctx->volumeData.saveHeaderToFile("volumeHeaderAxial.txt");
+        ctx->volumeData.saveHeaderToFile("volumeHeaderCoronal.txt");
         ctx->volumeData.fillBuffer();
     }
 

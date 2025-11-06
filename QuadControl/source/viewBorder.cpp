@@ -5,8 +5,12 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <QOpenGLFramebufferObject>
 
-ViewBorder::ViewBorder(float w, const QColor& c) : width(w), 
-                                                color(c.redF(), c.greenF(), c.blueF(), c.alphaF())
+ViewBorder::ViewBorder(float w, const QColor& c) : 
+    width(w), 
+    color(c.redF(), 
+    c.greenF(), 
+    c.blueF(), 
+    c.alphaF())
 {
 }
 
@@ -14,7 +18,8 @@ ViewBorder::~ViewBorder()
 {
     if (shaderProgram) delete shaderProgram;
     if (vertex_buffer[0]) glDeleteBuffers(2, vertex_buffer);
-    if (vertex_array_id[0]) {
+    if (vertex_array_id[0]) 
+    {
         glDeleteVertexArrays(1, vertex_array_id);
         vertex_array_id[0] = 0;
     }

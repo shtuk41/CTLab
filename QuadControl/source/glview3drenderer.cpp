@@ -3,7 +3,7 @@
 #include <QMouseEvent>
 #include <io/ioData.h>
 
-GLView3DRenderer::GLView3DRenderer(const QColor& color, Context*c)
+GLView3DRenderer::GLView3DRenderer(const QColor& color, std::shared_ptr<Context> c)
     : GLView(c, color),
     axes3d(100, 100, 100),
     //Axis
@@ -37,14 +37,6 @@ void GLView3DRenderer::initializeGL()
 
     border.Setup();
 }
-
-/*void GLView3DRenderer::resizeGL(int w, int h)
-{
-    windowWidth = w;
-    windowHeight = h;
-
-    glViewport(0, 0, w, h);
-}*/
 
 void GLView3DRenderer::render()
 {

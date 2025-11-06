@@ -40,7 +40,7 @@ public:
     Renderer* createRenderer() const override 
     {
         qDebug() << "GLView3D";
-        return new GLView3DRenderer(Qt::yellow, (m_context ? m_context->getContext().get() : nullptr));
+        return new GLView3DRenderer(Qt::yellow, (m_context ? m_context->getContext() : nullptr));
     }
 
     float getRotateX() const { return rotateX; };
@@ -173,10 +173,11 @@ protected:
 private:
     void initializeVolume()
     {
+        return;
         if (!m_context) return;
 
         auto ctx = m_context->getContext();
-        ctx->volumeData.saveHeaderToFile("volumeHeader.txt");
+        ctx->volumeData.saveHeaderToFile("volumeHeader3d.txt");
         ctx->volumeData.fillBuffer();
     }
 

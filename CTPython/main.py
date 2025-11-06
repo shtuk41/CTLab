@@ -29,14 +29,11 @@ if __name__ == "__main__":
 
     engine.addImportPath("qml")
 
-
     qml_file = QUrl.fromLocalFile("qml/main.qml")
     engine.load(qml_file)
 
     if not engine.rootObjects():
         print("Error: QML failed to load.")
         sys.exit(-1)
-
-    print("here 1")
 
     sys.exit(app.exec())

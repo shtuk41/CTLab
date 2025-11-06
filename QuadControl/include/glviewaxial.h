@@ -33,7 +33,7 @@ public:
     Renderer* createRenderer() const override 
     {
         qDebug() << "GLViewAxial";
-        return new GLViewAxialRenderer(Qt::red, (m_context ? m_context->getContext().get() : nullptr));
+        return new GLViewAxialRenderer(Qt::red, (m_context ? m_context->getContext() : nullptr));
     }
 
     float minVoxelThreshold() const { return static_cast<float>(minVoxelThresholdValue) / 65536.0f; }
@@ -108,6 +108,7 @@ protected:
 private:
     void initializeVolume()
     {
+        return;
         if (!m_context) return;
 
         auto ctx = m_context->getContext();

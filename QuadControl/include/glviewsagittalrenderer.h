@@ -7,7 +7,7 @@
 class GLViewSagittalRenderer : public GLView
 {
 public:
-    explicit GLViewSagittalRenderer(const QColor& color, Context* c);
+    explicit GLViewSagittalRenderer(const QColor& color, std::shared_ptr<Context> c);
     ~GLViewSagittalRenderer() noexcept override = default;
 
 protected:

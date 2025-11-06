@@ -11,7 +11,7 @@
 class GLView : public QQuickFramebufferObject::Renderer, protected QOpenGLFunctions_3_3_Core
 {
 public:
-    explicit GLView(Context*c, const QColor& color);
+    explicit GLView(std::shared_ptr<Context> c, const QColor& color);
     ~GLView() noexcept = default;
 
     QOpenGLFramebufferObject* createFramebufferObject(const QSize& size) override {
@@ -20,7 +20,7 @@ public:
 
 protected:
     Camera camera;
-    Context* context;
+    std::shared_ptr<Context> context;
     ViewBorder border;
     bool initialized;
 

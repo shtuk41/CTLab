@@ -3,7 +3,7 @@
 #include <QMouseEvent>
 #include <io/ioData.h>
 
-GLViewSagittalRenderer::GLViewSagittalRenderer(const QColor& color, Context *c)
+GLViewSagittalRenderer::GLViewSagittalRenderer(const QColor& color, std::shared_ptr<Context> c)
     : GLView(c, color), baseColor(color)
 {
     initializeGL();
@@ -46,24 +46,6 @@ void GLViewSagittalRenderer::initializeGL()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    const int width = context->volumeData.getHeader()->recoX;
-    const int height = context->volumeData.getHeader()->recoY;
-    const int depth = context->volumeData.getHeader()->recoZ;
-
-    // === 2. Create 3D Texture ===
-
-    glGenTextures(1, &tex3D);
-    glBindTexture(GL_TEXTURE_3D, tex3D);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0,
-        GL_RED, GL_UNSIGNED_BYTE, context->volumeData.getVolumeDataTex().data());
-
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
     ySlice = glGetUniformLocation(shaderProgram->programId(), "ySlice");
     minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
     maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
@@ -78,13 +60,15 @@ void GLViewSagittalRenderer::initializeGL()
     border.Setup();
 }
 
-//void GLViewSagittal::resizeGL(int w, int h)
-//{
-//    glViewport(0, 0, w, h);
-//}
-
 void GLViewSagittalRenderer::render()
 {
+    if (!context) return;
+
+    if (!context->initialized) 
+    {
+        context->initGL();
+    }
+
     auto fbo = framebufferObject();
     glBindFramebuffer(GL_FRAMEBUFFER, fbo->handle());
     glViewport(0, 0, fbo->width(), fbo->height());
@@ -101,7 +85,7 @@ void GLViewSagittalRenderer::render()
 
     // Activate texture unit 1 and bind your 3D texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_3D, tex3D);
+    glBindTexture(GL_TEXTURE_3D, context->tex3D);
 
     glBindVertexArray(vertex_array_id);
     glDrawArrays(GL_TRIANGLES, 0, 6);

@@ -8,7 +8,7 @@
 class GLViewAxialRenderer : public GLView
 {
 public:
-    explicit GLViewAxialRenderer(const QColor& color, Context* c);
+    explicit GLViewAxialRenderer(const QColor& color, std::shared_ptr<Context> c);
     ~GLViewAxialRenderer() noexcept override = default;
 
 protected:

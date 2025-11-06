@@ -25,9 +25,13 @@ Simulation of CT acquisition process and volume reconstruction.
 
 ![Screenshot](Readme/cupVolume.png)
 
-- Real volume captured with Zeiss Metrotom rendered in quad view
+- Real volume captured with Zeiss Metrotom rendered in quad view (QWidgets)
 
 ![Screenshot](Readme/ceasarsMetrotom.png)
+
+- Views implemented in Qt/OpenGL CPP and loaded into quad view in Python QML (PySide 6.0)
+
+![Screenshot](Readme/pythonQML.png)
 
 
 
@@ -47,6 +51,8 @@ I can't find where the wolf's 3d model came from.
     CUDA 12.8
 
     Qt 6.9.1
+
+    PySide 6
 
 
 

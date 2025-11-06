@@ -12,7 +12,7 @@
 class GLView3DRenderer : public GLView
 {
 public:
-    explicit GLView3DRenderer(const QColor& color, Context* c);
+    explicit GLView3DRenderer(const QColor& color, std::shared_ptr<Context> c);
     ~GLView3DRenderer() noexcept override = default;
 
 protected:

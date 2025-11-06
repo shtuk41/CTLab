@@ -187,7 +187,6 @@
     <ClInclude Include="include\shaders.h" />
     <ClInclude Include="include\viewBorder.h" />
     <ClInclude Include="include\volume3dview.h" />
-    <ClInclude Include="include\volumeData.h" />
     <ClInclude Include="quadcontrol_global.h" />
     <ClInclude Include="QuadControl.h" />
     <QtMoc Include="plugin.cpp">
