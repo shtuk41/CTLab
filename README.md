@@ -29,9 +29,9 @@ Simulation of CT acquisition process and volume reconstruction.
 
 ![Screenshot](Readme/ceasarsMetrotom.png)
 
-- Views implemented in Qt/OpenGL CPP and loaded into quad view in Python QML (PySide 6.0)
+- The quad views are implemented in C++ using Qt/OpenGL and loaded into QML via PySide6.
 
-![Screenshot](Readme/pythonQML.png)
+![Screenshot](Readme/pythonQml.png)
 
 
 
