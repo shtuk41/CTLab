@@ -8,7 +8,8 @@ QuadWidgets::QuadWidgets(QWidget *parent)
     : QMainWindow(parent)
 {
 
-    Context context(R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)");
+    //Context context(R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)");
+    Context context(R"(D:\Files\CTLab\SaveVolumeToFile\volumeHeader.uint16_scv)");
     context.volumeData.saveHeaderToFile("volumeHeader.txt");
     context.volumeData.fillBuffer();
 

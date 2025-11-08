@@ -13,9 +13,11 @@ class QuadControlPlugin : public QQmlExtensionPlugin {
 public:
     void registerTypes(const char* uri) override 
     {
+        QString path = R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)";
+
         qmlRegisterSingletonType<ContextWrapper>("QuadControl", 1, 0, "VolumeContext",
-            [](QQmlEngine*, QJSEngine*) -> QObject* {
-                return new ContextWrapper(R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)");
+            [path](QQmlEngine*, QJSEngine*) -> QObject* {
+                return new ContextWrapper(path);
             });
 
         // URI must match qmldir

@@ -8,7 +8,7 @@ typedef unsigned char GLubyte;
 #pragma pack(push, 1)
 struct uint16_csv_volume
 {
-    unsigned int headSize;//: uint32(bytes 0 - 3) : size of the header
+    unsigned int headSize;//: uint32(bytes 0 - 3) : size of the header 
     unsigned int mirrorZ;// : uint32(bytes 4 - 7) : UNKNOWN what this is or represents
     unsigned int numBitsVox;// : uint32(bytes 8 - 11) : number of bits per voxel
     unsigned int recoX;// : uint32(bytes 12 - 15) : size of volume in x - dimension
@@ -76,6 +76,8 @@ public:
     std::string getHeaderString() const;
     void saveHeaderToFile(std::string fileName);
     void fillBuffer();
+    bool fillData(const std::vector<GLubyte> & buffer);
+    bool writeFile(const std::string filePath);
     const std::vector<GLubyte>& getVolumeDataTex() const;
 };
 

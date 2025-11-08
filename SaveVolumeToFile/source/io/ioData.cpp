@@ -162,6 +162,8 @@ bool VolumeData::readTextHeader(std::ifstream& file)
     if (!readValue<float>(input_stream, "volDefAngle", header.volDefAngle)) return false;// : float32(bytes 392 - 395) : Angle of first projection of dataset
     if (!readValue<bool>(input_stream, "volumeTogether", header.volumeTogether)) return false;// : 8bit(bytes 396) : 8 - bit boolean
 
+    data.resize(header.recoX * header.recoY * header.recoZ);
+
     return true;
 }
 
@@ -322,6 +324,68 @@ void VolumeData::fillBuffer()
         }
     }
 }
+
+bool VolumeData::fillData(const std::vector<GLubyte>& buffer)
+{
+    const int width = header.recoX;
+    const int height = header.recoY;
+    const int depth = header.recoZ;
+
+    for (int z = 0; z < depth; ++z)
+    {
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
+                size_t dstIdx = x + width * (y + height * z);
+
+                if (x < width && y < height && z < depth)
+                {
+                    size_t srcIdx = x + width * (y + height * z); // Fortran-order
+                    float val = static_cast<float>(buffer[srcIdx]) / 255.0f;
+                    data[dstIdx] = static_cast<unsigned short>(val * 65535);
+                }
+                else {
+                    data[dstIdx] = 0;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+bool VolumeData::writeFile(const std::string filePath)
+{
+    std::ofstream file(filePath, std::ios::binary | std::ios::out);
+
+    if (file.is_open())
+    {
+        file.write(reinterpret_cast<const char*>(&header), sizeof(uint16_csv_volume));
+
+        if (file.fail()) {
+            std::cerr << "Error: Failed to write header to file." << std::endl;
+            file.close();
+            return false;
+        }
+
+        file.write(reinterpret_cast<const char*>(data.data()),
+            data.size() * sizeof(unsigned short));
+
+
+        if (file.fail()) {
+            std::cerr << "Error: Failed to write data to file." << std::endl;
+            file.close();
+            return false;
+        }
+
+        
+        file.close();
+    }
+
+    return true;
+    
+}
+
 
 const std::vector<GLubyte>& VolumeData::getVolumeDataTex() const
 {
