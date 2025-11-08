@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuadLib", "QuadLib\QuadLib.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuadControl", "QuadControl\QuadControl.vcxproj", "{986A5BB9-5276-4618-B5D4-6D29F02CA876}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SaveVolumeToFile", "SaveVolumeToFile\SaveVolumeToFile.vcxproj", "{6C58C310-57D9-4F6B-AEB7-1BAD3CDC1D5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -81,6 +83,14 @@ Global
 		{986A5BB9-5276-4618-B5D4-6D29F02CA876}.Release|x64.Build.0 = Release|x64
 		{986A5BB9-5276-4618-B5D4-6D29F02CA876}.Release|x86.ActiveCfg = Release|x64
 		{986A5BB9-5276-4618-B5D4-6D29F02CA876}.Release|x86.Build.0 = Release|x64
+		{6C58C310-57D9-4F6B-AEB7-1BAD3CDC1D5C}.Debug|x64.ActiveCfg = Debug|x64
+		{6C58C310-57D9-4F6B-AEB7-1BAD3CDC1D5C}.Debug|x64.Build.0 = Debug|x64
+		{6C58C310-57D9-4F6B-AEB7-1BAD3CDC1D5C}.Debug|x86.ActiveCfg = Debug|Win32
+		{6C58C310-57D9-4F6B-AEB7-1BAD3CDC1D5C}.Debug|x86.Build.0 = Debug|Win32
+		{6C58C310-57D9-4F6B-AEB7-1BAD3CDC1D5C}.Release|x64.ActiveCfg = Release|x64
+		{6C58C310-57D9-4F6B-AEB7-1BAD3CDC1D5C}.Release|x64.Build.0 = Release|x64
+		{6C58C310-57D9-4F6B-AEB7-1BAD3CDC1D5C}.Release|x86.ActiveCfg = Release|Win32
+		{6C58C310-57D9-4F6B-AEB7-1BAD3CDC1D5C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -176,7 +176,6 @@ void VolumeData::fillBuffer()
                 if (x < width && y < height && z < depth)
                 {
                     size_t srcIdx = x + width * (y + height * z); // Fortran-order
-                    //size_t srcIdx = z + volumeDepth * (y + volumeHeight * x);
                     float norm = (static_cast<float>(data[srcIdx]) - minVal) / range;
                     volumeDataTex[dstIdx] = static_cast<GLubyte>(std::clamp(norm, 0.0f, 1.0f) * 255.0f);
                 }
