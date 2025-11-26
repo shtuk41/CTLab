@@ -27,18 +27,18 @@ void Axes3d::Setup()
                                 0.0f,0.0f,0.0f,
                                 1.0f * xLength,0.0f,0.0f,
                                 0.0f,0.0f,0.0f,
-                                0.0f,1.0f * yLength,0.0f,
+                                0.0f,1.0f * zLength,0.0f,
                                 0.0f,0.0f,0.0f,
-                                0.0f,0.0f,1.0f * zLength
+                                0.0f,0.0f,-1.0f * yLength
     };
 
     GLfloat axis_colors[] = {
                                 1.0f,0.0f,0.0f,
                                 1.0f,0.0f,0.0f,
-                                0.0f,1.0f,0.0f,
-                                0.0f,1.0f,0.0f,
                                 0.0f,0.0f,1.0f,
-                                0.0f,0.0f,1.0f
+                                0.0f,0.0f,1.0f,
+                                0.0f,1.0f,0.0f,
+                                0.0f,1.0f,0.0f
     };
 
     glGenBuffers(2, vertex_buffer);

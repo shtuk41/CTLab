@@ -57,17 +57,17 @@ int main()
 
 	Camera cameraGlobal(window.GetHandler(), 1.0);
 
-	Axes3d axes3d(10, 10, -10);
+	Axes3d axes3d(1.2, 1.2, -1.2);
 	axes3d.Setup();
 
-	Volume volume(256, 256, 256, &cameraGlobal);
+	Volume volume(512, 512, 512, &cameraGlobal);
 	volume.Setup();
 
 	//Axis
-	AxisPlane planeXY(glm::vec3(1.0f,0.0f,0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.1f), 2);
+	AxisPlane planeXY(glm::vec3(1.0f,0.0f,0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec4(0.0f, 1.0f, 0.0f, 0.1f), 2);
 	planeXY.Setup();
 	//Coronal
-	AxisPlane planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 0.1f), 2);
+	AxisPlane planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.1f), 2);
 	planeXZ.Setup();
 	//Sagittal
 	AxisPlane planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 2);

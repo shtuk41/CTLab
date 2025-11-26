@@ -299,7 +299,14 @@ void Volume::Setup()
     const int depth = xLength;
 
     std::vector<GLubyte> volumeData(width * height * depth, 0);
-    fillKleinBottleFigure8(volumeData, width, height, depth);
+        //fillSphere(volumeData, width, height, depth);
+        //fillTorus(volumeData, width, height, depth);
+        //fillCylinder(volumeData, width, height, depth);
+    fillKleinBottle(volumeData, width, height, depth);
+        //fillKleinBottle2(volumeData, width, height, depth);
+        //fillKleinBottleSwirl(volumeData, width, height, depth);
+        //fillKleinBottlePinched(volumeData, width, height, depth);
+    //fillKleinBottleFigure8(volumeData, width, height, depth);
    
 
     // === 2. Create 3D Texture ===
@@ -366,10 +373,6 @@ void Volume::Setup()
     projection = glGetUniformLocation(program_id, "projection");
     invModelViewProj = glGetUniformLocation(program_id, "invMVP");
     cameraPos = glGetUniformLocation(program_id, "cameraPos");
-
-
-
-    
 
     model_matrix = glm::mat4(1.0f);
 }
