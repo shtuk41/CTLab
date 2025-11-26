@@ -35,13 +35,32 @@ void GLViewQuadSagittal::initializeGL()
     success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
     success = shaderProgram->link();
 
+    const int width = context->volumeData.getHeader()->recoX;
+    const int heightX = context->volumeData.getHeader()->recoY;
+    const int depthY = context->volumeData.getHeader()->recoZ;
+
+    float scaleX, scaleY;
+
+    const float aspect = float(heightX) / depthY;
+
+    if (depthY > heightX)
+    {
+        scaleY = 1.0f;
+        scaleX = (heightX / depthY) / aspect;
+    }
+    else
+    {
+        scaleX = 1.0f;
+        scaleY = (depthY / heightX) * aspect;
+    }
+
     GLfloat planeVertices[] = {
-          -0.055f, -1.0f, 0.0f, 0,0,
-          0.055f, -1.0f, 0.0f,  1,0,
-           0.055f, 1.0f, 0.0f, 1,1,
-          0.055f, 1.0f, 0.0f, 1,1,
-          -0.055f, 1.0f, 0.0f, 0,1,
-          -0.055f, -1.0f, 0.0f, 0,0
+       -scaleX, -scaleY, 0.0f, 0,0,
+       scaleX, -scaleY, 0.0f,  1,0,
+        scaleX, scaleY, 0.0f, 1,1,
+       scaleX, scaleY, 0.0f, 1,1,
+       -scaleX, scaleY, 0.0f, 0,1,
+       -scaleX, -scaleY, 0.0f, 0,0
     };
 
     glGenVertexArrays(1, &vertex_array_id);
@@ -60,16 +79,12 @@ void GLViewQuadSagittal::initializeGL()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    const int width = context->volumeData.getHeader()->recoX;
-    const int height = context->volumeData.getHeader()->recoY;
-    const int depth = context->volumeData.getHeader()->recoZ;
-
     // === 2. Create 3D Texture ===
 
     glGenTextures(1, &tex3D);
     glBindTexture(GL_TEXTURE_3D, tex3D);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0,
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, heightX, depthY, 0,
         GL_RED, GL_UNSIGNED_BYTE, context->volumeData.getVolumeDataTex().data());
 
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -94,6 +109,37 @@ void GLViewQuadSagittal::initializeGL()
 
 void GLViewQuadSagittal::resizeGL(int w, int h)
 {
+    const int heightX = context->volumeData.getHeader()->recoY;
+    const int depthY = context->volumeData.getHeader()->recoZ;
+
+    float scaleX, scaleY;
+
+    const float aspect = float(heightX) / depthY;
+
+    if (depthY > heightX)
+    {
+        scaleY = 1.0f;
+        scaleX = (heightX / depthY) / aspect;
+    }
+    else
+    {
+        scaleX = 1.0f;
+        scaleY = (depthY / heightX) * aspect;
+    }
+
+    GLfloat planeVertices[] = {
+       -scaleX, -scaleY, 0.0f, 0,0,
+       scaleX, -scaleY, 0.0f,  1,0,
+        scaleX, scaleY, 0.0f, 1,1,
+       scaleX, scaleY, 0.0f, 1,1,
+       -scaleX, scaleY, 0.0f, 0,1,
+       -scaleX, -scaleY, 0.0f, 0,0
+    };
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(planeVertices), planeVertices);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     glViewport(0, 0, w, h);
 }
 
