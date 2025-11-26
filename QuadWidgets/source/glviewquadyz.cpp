@@ -1,12 +1,12 @@
-#include <glviewquadaxial.h>
+#include <glviewquadyz.h>
 #include <shaders.h>
 
-GLViewQuadAxial::GLViewQuadAxial(const QColor& color, QWidget* parent, Context*c)
+GLViewQuadYZ::GLViewQuadYZ(const QColor& color, QWidget* parent, Context *c)
     : GLView(parent, c, color), baseColor(color)
 {
 }
 
-GLViewQuadAxial::~GLViewQuadAxial()
+GLViewQuadYZ::~GLViewQuadYZ()
 {
     makeCurrent();
     glDeleteBuffers(1, &vertex_buffer);
@@ -15,34 +15,35 @@ GLViewQuadAxial::~GLViewQuadAxial()
     doneCurrent();
 }
 
-void GLViewQuadAxial::UpdateMinMaxVoxelValues(int min, int max)
+
+void GLViewQuadYZ::UpdateMinMaxVoxelValues(int min, int max)
 {
-    minVoxelThresholdValue = float(min)/ 65535;
-    maxVoxelThresholdValue = float(max)/ 65535;
+    minVoxelThresholdValue = float(min) / 65535;
+    maxVoxelThresholdValue = float(max) / 65535;
 
     update();
 }
 
-void GLViewQuadAxial::initializeGL()
+void GLViewQuadYZ::initializeGL()
 {
     initializeOpenGLFunctions();
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\axialXY.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialXY.frag");
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\yz.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\yz.frag");
 
     shaderProgram = new QOpenGLShaderProgram(this);
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
     success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
     success = shaderProgram->link();
 
-    const int widthX = context->volumeData.getHeader()->recoX;
-    const int heightY = context->volumeData.getHeader()->recoY;
-    const int depthZ = context->volumeData.getHeader()->recoZ;
+    const int width = context->volumeData.getHeader()->recoX;
+    const int heightX = context->volumeData.getHeader()->recoY;
+    const int depthY = context->volumeData.getHeader()->recoZ;
 
     float scaleX, scaleY;
 
     scaleY = 1.0f;
-    scaleX = float(widthX) / heightY;
+    scaleX = float(heightX) / depthY;
 
     GLfloat planeVertices[] = {
        -scaleX, -scaleY, 0.0f, 0,0,
@@ -68,15 +69,13 @@ void GLViewQuadAxial::initializeGL()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
- 
-    
 
     // === 2. Create 3D Texture ===
 
     glGenTextures(1, &tex3D);
     glBindTexture(GL_TEXTURE_3D, tex3D);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, widthX, heightY, depthZ, 0,
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, heightX, depthY, 0,
         GL_RED, GL_UNSIGNED_BYTE, context->volumeData.getVolumeDataTex().data());
 
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -85,7 +84,7 @@ void GLViewQuadAxial::initializeGL()
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    zSlice = glGetUniformLocation(shaderProgram->programId(), "zSlice");
+    xSlice = glGetUniformLocation(shaderProgram->programId(), "xSlice");
     minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
     maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
 
@@ -99,17 +98,15 @@ void GLViewQuadAxial::initializeGL()
     border.Setup();
 }
 
-void GLViewQuadAxial::resizeGL(int w, int h)
+void GLViewQuadYZ::resizeGL(int w, int h)
 {
+    const int heightX = context->volumeData.getHeader()->recoY;
+    const int depthY = context->volumeData.getHeader()->recoZ;
+
     float scaleX, scaleY;
 
-    const float aspect = float(w) / h;
-
-    const int widthX = context->volumeData.getHeader()->recoX;
-    const int heightY = context->volumeData.getHeader()->recoY;
-
-    scaleY = 1.0f;
-    scaleX = float(widthX) / heightY;
+    scaleY = 1.0f;              
+    scaleX = float(heightX) / depthY;
 
     GLfloat planeVertices[] = {
        -scaleX, -scaleY, 0.0f, 0,0,
@@ -127,7 +124,7 @@ void GLViewQuadAxial::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
 }
 
-void GLViewQuadAxial::paintGL()
+void GLViewQuadYZ::paintGL()
 {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -137,7 +134,7 @@ void GLViewQuadAxial::paintGL()
     glUniform1f(minVal, minVoxelThresholdValue);
     glUniform1f(maxVal, maxVoxelThresholdValue);
 
-    glUniform1f(zSlice, zDistance);
+    glUniform1f(xSlice, xDistance);
 
     // Activate texture unit 1 and bind your 3D texture
     glActiveTexture(GL_TEXTURE0);
@@ -152,45 +149,45 @@ void GLViewQuadAxial::paintGL()
     border.Draw();
 }
 
-void GLViewQuadAxial::mouseMoveEvent(QMouseEvent* event)
+void GLViewQuadYZ::mouseMoveEvent(QMouseEvent* event)
 {
     Q_UNUSED(event);
     setFocus();
 }
 
-void GLViewQuadAxial::mousePressEvent(QMouseEvent* event)
+void GLViewQuadYZ::mousePressEvent(QMouseEvent* event)
 {
     Q_UNUSED(event);
     setFocus();
 }
 
-void GLViewQuadAxial::mouseReleaseEvent(QMouseEvent* event) 
+void GLViewQuadYZ::mouseReleaseEvent(QMouseEvent* event)
 {
     Q_UNUSED(event);
     setFocus();
 }
-void GLViewQuadAxial::keyPressEvent(QKeyEvent* event) 
-{
-    Q_UNUSED(event);
-    setFocus();
-}
-
-void GLViewQuadAxial::enterEvent(QEnterEvent* event) 
+void GLViewQuadYZ::keyPressEvent(QKeyEvent* event)
 {
     Q_UNUSED(event);
     setFocus();
 }
 
-void GLViewQuadAxial::leaveEvent(QEvent* event)
+void GLViewQuadYZ::enterEvent(QEnterEvent* event)
 {
     Q_UNUSED(event);
     setFocus();
 }
 
-void GLViewQuadAxial::wheelEvent(QWheelEvent* event) 
+void GLViewQuadYZ::leaveEvent(QEvent* event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}
+
+void GLViewQuadYZ::wheelEvent(QWheelEvent* event)
 {
     int deltaY = event->angleDelta().y();
-    zDistance += deltaY * 0.00005f;
-    zDistance = __max(0.0, __min(1.0f, zDistance));
+    xDistance += deltaY * 0.00005f;
+    xDistance = __max(0.0, __min(1.0f, xDistance));
     update();
 }

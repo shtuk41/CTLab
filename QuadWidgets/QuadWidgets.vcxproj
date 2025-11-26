@@ -123,19 +123,19 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
-    <ClCompile Include="source\glviewquadaxial.cpp">
+    <ClCompile Include="source\glviewquadxy.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
-    <ClCompile Include="source\glviewquadcoronal.cpp">
+    <ClCompile Include="source\glviewquadyz.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
-    <ClCompile Include="source\glviewquadsagittal.cpp">
+    <ClCompile Include="source\glviewquadxz.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
@@ -146,12 +146,12 @@
     <ClCompile Include="source\shaders.cpp" />
     <ClCompile Include="source\viewBorder.cpp" />
     <ClCompile Include="source\volume3dview.cpp" />
-    <None Include="shaders\axialXY.frag" />
-    <None Include="shaders\axialXY.vert" />
-    <None Include="shaders\axialXZ.frag" />
-    <None Include="shaders\axialXZ.vert" />
-    <None Include="shaders\axialYZ.frag" />
-    <None Include="shaders\axialYZ.vert" />
+    <None Include="shaders\xy.frag" />
+    <None Include="shaders\xy.vert" />
+    <None Include="shaders\xz.frag" />
+    <None Include="shaders\xz.vert" />
+    <None Include="shaders\yz.frag" />
+    <None Include="shaders\yz.vert" />
     <None Include="shaders\axis.frag" />
     <None Include="shaders\axis.vert" />
     <None Include="shaders\axisPlane.frag" />
@@ -180,9 +180,9 @@
     <ClInclude Include="include\context.h" />
     <ClInclude Include="include\viewBorder.h" />
     <ClInclude Include="include\volume3dview.h" />
-    <QtMoc Include="include\glviewquadsagittal.h" />
-    <QtMoc Include="include\glviewquadcoronal.h" />
-    <QtMoc Include="include\glviewquadaxial.h" />
+    <QtMoc Include="include\glviewquadxz.h" />
+    <QtMoc Include="include\glviewquadyz.h" />
+    <QtMoc Include="include\glviewquadxy.h" />
     <QtMoc Include="include\glviewquad3d.h" />
     <ClInclude Include="include\io\ioData.h" />
     <ClInclude Include="include\render_object.h" />

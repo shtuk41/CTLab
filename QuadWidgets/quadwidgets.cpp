@@ -24,9 +24,9 @@ QuadWidgets::QuadWidgets(QWidget *parent)
 
     enum QUAD_VIEW
     {
-        AXIAL = 0,
-        SAGITTAL = 1,
-        CORONAL = 2,
+        XY = 0,
+        XZ = 1,
+        YZ = 2,
         V3D = 3
 
     };
@@ -41,9 +41,9 @@ QuadWidgets::QuadWidgets(QWidget *parent)
     
 
     QVector<ViewInfo> views = {
-        { "quadGLTopLeft_axial", Qt::red, QUAD_VIEW::AXIAL},
-        { "quadGLTopRight_sagittal", Qt::blue, QUAD_VIEW::SAGITTAL},
-        { "quadGLBottomLeft_coronal", Qt::green, QUAD_VIEW::CORONAL},
+        { "quadGLTopLeft_xy", Qt::red, QUAD_VIEW::XY},
+        { "quadGLTopRight_xz", Qt::blue, QUAD_VIEW::XZ},
+        { "quadGLBottomLeft_yz", Qt::green, QUAD_VIEW::YZ},
         { "quadGLBottomRight_3D", Qt::yellow, QUAD_VIEW::V3D}
     };
 
@@ -58,20 +58,20 @@ QuadWidgets::QuadWidgets(QWidget *parent)
         GLView* glView = nullptr;
         
         if (placeholder) {
-            if (view.view == QUAD_VIEW::AXIAL)
+            if (view.view == QUAD_VIEW::XY)
             {
-                glViewQuadAxial = new GLViewQuadAxial(view.color, placeholder->parentWidget(), &context);
-                glView = (GLView*)glViewQuadAxial;
+                glViewQuadXY = new GLViewQuadXY(view.color, placeholder->parentWidget(), &context);
+                glView = (GLView*)glViewQuadXY;
             }
-            else if (view.view == QUAD_VIEW::SAGITTAL)
+            else if (view.view == QUAD_VIEW::XZ)
             {
-                glViewQuadSagittal = new GLViewQuadSagittal(view.color, placeholder->parentWidget(), &context);
-                glView = (GLView*)glViewQuadSagittal;
+                glViewQuadXZ = new GLViewQuadXZ(view.color, placeholder->parentWidget(), &context);
+                glView = (GLView*)glViewQuadXZ;
             }
-            else if (view.view == QUAD_VIEW::CORONAL)
+            else if (view.view == QUAD_VIEW::YZ)
             {
-                glViewQuadCoronal = new GLViewQuadCoronal(view.color, placeholder->parentWidget(), &context);
-                glView = (GLView*)glViewQuadCoronal;
+                glViewQuadYZ = new GLViewQuadYZ(view.color, placeholder->parentWidget(), &context);
+                glView = (GLView*)glViewQuadYZ;
             }
             else if (view.view == QUAD_VIEW::V3D)
             {
@@ -118,9 +118,9 @@ QuadWidgets::QuadWidgets(QWidget *parent)
                 }
 
                 glViewQuad3d->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
-                glViewQuadAxial->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
-                glViewQuadCoronal->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
-                glViewQuadSagittal->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
+                glViewQuadXY->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
+                glViewQuadYZ->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
+                glViewQuadXZ->UpdateMinMaxVoxelValues(value, ui.maxVoxelValueSlider->value());
             }
         );
 
@@ -138,9 +138,9 @@ QuadWidgets::QuadWidgets(QWidget *parent)
             }
 
             glViewQuad3d->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
-            glViewQuadAxial->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
-            glViewQuadCoronal->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
-            glViewQuadSagittal->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
+            glViewQuadXY->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
+            glViewQuadYZ->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
+            glViewQuadXZ->UpdateMinMaxVoxelValues(ui.minVoxelValueSlider->value(), value);
         }
     );
 

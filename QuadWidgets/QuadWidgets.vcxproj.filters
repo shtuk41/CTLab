@@ -64,13 +64,13 @@
     <ClCompile Include="source\glviewquad3d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\glviewquadaxial.cpp">
+    <ClCompile Include="source\glviewquadxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\glviewquadcoronal.cpp">
+    <ClCompile Include="source\glviewquadyz.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\glviewquadsagittal.cpp">
+    <ClCompile Include="source\glviewquadxz.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\shaders.cpp">
@@ -105,13 +105,13 @@
     <QtMoc Include="include\glviewquad3d.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="include\glviewquadaxial.h">
+    <QtMoc Include="include\glviewquadxy.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="include\glviewquadcoronal.h">
+    <QtMoc Include="include\glviewquadyz.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="include\glviewquadsagittal.h">
+    <QtMoc Include="include\glviewquadxz.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -169,10 +169,10 @@
     <None Include="shaders\volume3dview.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialXY.frag">
+    <None Include="shaders\xy.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialXY.vert">
+    <None Include="shaders\xy.vert">
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\viewBorder.frag">
@@ -181,16 +181,16 @@
     <None Include="shaders\viewBorder.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialXZ.frag">
+    <None Include="shaders\xz.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialXZ.vert">
+    <None Include="shaders\xz.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialYZ.frag">
+    <None Include="shaders\yz.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialYZ.vert">
+    <None Include="shaders\yz.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

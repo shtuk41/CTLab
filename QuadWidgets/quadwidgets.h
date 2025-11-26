@@ -2,9 +2,9 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_quadwidgets.h"
-#include <glviewquadaxial.h>
-#include <glviewquadcoronal.h>
-#include <glviewquadsagittal.h>
+#include <glviewquadxy.h>
+#include <glviewquadyz.h>
+#include <glviewquadxz.h>
 #include <glviewquad3d.h>
 
 
@@ -21,9 +21,9 @@ private:
 
     void populateTree();
 
-    GLViewQuadAxial* glViewQuadAxial;
-    GLViewQuadCoronal* glViewQuadCoronal;
-    GLViewQuadSagittal* glViewQuadSagittal;
+    GLViewQuadXY* glViewQuadXY;
+    GLViewQuadYZ* glViewQuadYZ;
+    GLViewQuadXZ* glViewQuadXZ;
     GLViewQuad3D* glViewQuad3d;
 
 };

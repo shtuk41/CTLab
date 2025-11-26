@@ -5,12 +5,12 @@
 #include <QColor>
 #include <GLView.h>
 
-class GLViewQuadSagittal : public GLView
+class GLViewQuadXZ : public GLView
 {
     Q_OBJECT
 public:
-    explicit GLViewQuadSagittal(const QColor& color, QWidget* parent, Context* c);
-    ~GLViewQuadSagittal();
+    explicit GLViewQuadXZ(const QColor& color, QWidget* parent, Context* c);
+    ~GLViewQuadXZ();
 
     void UpdateMinMaxVoxelValues(int min, int max);
 
