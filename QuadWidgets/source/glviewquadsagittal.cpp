@@ -41,25 +41,15 @@ void GLViewQuadSagittal::initializeGL()
 
     float scaleX, scaleY;
 
-    const float aspect = float(heightX) / depthY;
-
-    if (depthY > heightX)
-    {
-        scaleY = 1.0f;
-        scaleX = (heightX / depthY) / aspect;
-    }
-    else
-    {
-        scaleX = 1.0f;
-        scaleY = (depthY / heightX) * aspect;
-    }
+    scaleY = 1.0f;
+    scaleX = float(heightX) / depthY;
 
     GLfloat planeVertices[] = {
        -scaleX, -scaleY, 0.0f, 0,0,
-       scaleX, -scaleY, 0.0f,  1,0,
-        scaleX, scaleY, 0.0f, 1,1,
-       scaleX, scaleY, 0.0f, 1,1,
-       -scaleX, scaleY, 0.0f, 0,1,
+        scaleX, -scaleY, 0.0f, 1,0,
+        scaleX,  scaleY, 0.0f, 1,1,
+        scaleX,  scaleY, 0.0f, 1,1,
+       -scaleX,  scaleY, 0.0f, 0,1,
        -scaleX, -scaleY, 0.0f, 0,0
     };
 
@@ -114,25 +104,15 @@ void GLViewQuadSagittal::resizeGL(int w, int h)
 
     float scaleX, scaleY;
 
-    const float aspect = float(heightX) / depthY;
-
-    if (depthY > heightX)
-    {
-        scaleY = 1.0f;
-        scaleX = (heightX / depthY) / aspect;
-    }
-    else
-    {
-        scaleX = 1.0f;
-        scaleY = (depthY / heightX) * aspect;
-    }
+    scaleY = 1.0f;
+    scaleX = float(heightX) / depthY;
 
     GLfloat planeVertices[] = {
        -scaleX, -scaleY, 0.0f, 0,0,
-       scaleX, -scaleY, 0.0f,  1,0,
-        scaleX, scaleY, 0.0f, 1,1,
-       scaleX, scaleY, 0.0f, 1,1,
-       -scaleX, scaleY, 0.0f, 0,1,
+        scaleX, -scaleY, 0.0f, 1,0,
+        scaleX,  scaleY, 0.0f, 1,1,
+        scaleX,  scaleY, 0.0f, 1,1,
+       -scaleX,  scaleY, 0.0f, 0,1,
        -scaleX, -scaleY, 0.0f, 0,0
     };
 

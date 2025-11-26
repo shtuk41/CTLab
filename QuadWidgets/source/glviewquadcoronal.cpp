@@ -42,25 +42,15 @@ void GLViewQuadCoronal::initializeGL()
 
     float scaleX, scaleY;
 
-    const float aspect = float(widthX) / depthY;
-
-    if (depthY > widthX)
-    {
-        scaleY = 1.0f;
-        scaleX = (widthX / depthY) / aspect;
-    }
-    else
-    {
-        scaleX = 1.0f;
-        scaleY = (depthY / widthX) * aspect;
-    }
+    scaleY = 1.0f;
+    scaleX = float(widthX) / depthY;
 
     GLfloat planeVertices[] = {
        -scaleX, -scaleY, 0.0f, 0,0,
-       scaleX, -scaleY, 0.0f,  1,0,
-        scaleX, scaleY, 0.0f, 1,1,
-       scaleX, scaleY, 0.0f, 1,1,
-       -scaleX, scaleY, 0.0f, 0,1,
+        scaleX, -scaleY, 0.0f, 1,0,
+        scaleX,  scaleY, 0.0f, 1,1,
+        scaleX,  scaleY, 0.0f, 1,1,
+       -scaleX,  scaleY, 0.0f, 0,1,
        -scaleX, -scaleY, 0.0f, 0,0
     };
 
@@ -111,30 +101,19 @@ void GLViewQuadCoronal::initializeGL()
 void GLViewQuadCoronal::resizeGL(int w, int h)
 {
     const int widthX = context->volumeData.getHeader()->recoX;
-    const int height = context->volumeData.getHeader()->recoY;
     const int depthY = context->volumeData.getHeader()->recoZ;
 
     float scaleX, scaleY;
 
-    const float aspect = float(widthX) / depthY;
-
-    if (depthY > widthX)
-    {
-        scaleY = 1.0f;
-        scaleX = (widthX / depthY) / aspect;
-    }
-    else
-    {
-        scaleX = 1.0f;
-        scaleY = (depthY / widthX) * aspect;
-    }
+    scaleY = 1.0f;              
+    scaleX = float(widthX) / depthY;  
 
     GLfloat planeVertices[] = {
        -scaleX, -scaleY, 0.0f, 0,0,
-       scaleX, -scaleY, 0.0f,  1,0,
-        scaleX, scaleY, 0.0f, 1,1,
-       scaleX, scaleY, 0.0f, 1,1,
-       -scaleX, scaleY, 0.0f, 0,1,
+        scaleX, -scaleY, 0.0f, 1,0,
+        scaleX,  scaleY, 0.0f, 1,1,
+        scaleX,  scaleY, 0.0f, 1,1,
+       -scaleX,  scaleY, 0.0f, 0,1,
        -scaleX, -scaleY, 0.0f, 0,0
     };
 

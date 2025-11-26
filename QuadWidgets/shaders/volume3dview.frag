@@ -13,16 +13,18 @@ uniform float maxVal;
 uniform int windowWidth;
 uniform int windowHeight;
 
+uniform vec3 cubeWorld;
+
 const float stepSize = 0.01;
 const int maxSteps = 512;
 
 // These constants define the full world-space extents of your cube geometry.
 // They are derived from your C++ cube scaling: 2.0 * (100 * 0.076), etc.
-const vec3 cubeWorld = vec3(
-    2.0 * (100.0 * 0.076),
-    2.0 * (100.0 * 0.219),
-    2.0 * (100.0 * 0.5)
-);
+//const vec3 cubeWorld = vec3(
+//    2.0 * (100.0 * 0.076),
+//    2.0 * (100.0 * 0.219),
+//    2.0 * (100.0 * 0.5)
+//);
 
 void main()
 {

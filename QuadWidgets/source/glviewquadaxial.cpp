@@ -41,25 +41,15 @@ void GLViewQuadAxial::initializeGL()
 
     float scaleX, scaleY;
 
-    const float aspect = 4.0f / 3.0f;
-
-    if (heightY > widthX)
-    {
-        scaleY = 1.0f;
-        scaleX = (widthX / heightY) / aspect;
-    }
-    else
-    {
-        scaleX = 1.0f;
-        scaleY = (heightY / widthX) * aspect;
-    }
+    scaleY = 1.0f;
+    scaleX = float(widthX) / heightY;
 
     GLfloat planeVertices[] = {
        -scaleX, -scaleY, 0.0f, 0,0,
-       scaleX, -scaleY, 0.0f,  1,0,
-        scaleX, scaleY, 0.0f, 1,1,
-       scaleX, scaleY, 0.0f, 1,1,
-       -scaleX, scaleY, 0.0f, 0,1,
+        scaleX, -scaleY, 0.0f, 1,0,
+        scaleX,  scaleY, 0.0f, 1,1,
+        scaleX,  scaleY, 0.0f, 1,1,
+       -scaleX,  scaleY, 0.0f, 0,1,
        -scaleX, -scaleY, 0.0f, 0,0
     };
 
@@ -118,23 +108,15 @@ void GLViewQuadAxial::resizeGL(int w, int h)
     const int widthX = context->volumeData.getHeader()->recoX;
     const int heightY = context->volumeData.getHeader()->recoY;
 
-    if (heightY > widthX)
-    {
-        scaleY = 1.0f;
-        scaleX = (widthX / heightY) / aspect;
-    }
-    else
-    {
-        scaleX = 1.0f;
-        scaleY = (heightY / widthX) * aspect;
-    }
+    scaleY = 1.0f;
+    scaleX = float(widthX) / heightY;
 
     GLfloat planeVertices[] = {
        -scaleX, -scaleY, 0.0f, 0,0,
-       scaleX, -scaleY, 0.0f,  1,0,
-        scaleX, scaleY, 0.0f, 1,1,
-       scaleX, scaleY, 0.0f, 1,1,
-       -scaleX, scaleY, 0.0f, 0,1,
+        scaleX, -scaleY, 0.0f, 1,0,
+        scaleX,  scaleY, 0.0f, 1,1,
+        scaleX,  scaleY, 0.0f, 1,1,
+       -scaleX,  scaleY, 0.0f, 0,1,
        -scaleX, -scaleY, 0.0f, 0,0
     };
 
