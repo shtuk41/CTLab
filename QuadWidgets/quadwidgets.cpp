@@ -41,9 +41,9 @@ QuadWidgets::QuadWidgets(QWidget *parent)
     
 
     QVector<ViewInfo> views = {
-        { "quadGLTopLeft_xy", Qt::red, QUAD_VIEW::XY},
-        { "quadGLTopRight_xz", Qt::blue, QUAD_VIEW::XZ},
-        { "quadGLBottomLeft_yz", Qt::green, QUAD_VIEW::YZ},
+        { "quadGLTopLeft_xy", Qt::blue, QUAD_VIEW::XY},
+        { "quadGLTopRight_xz", Qt::green, QUAD_VIEW::XZ},
+        { "quadGLBottomLeft_yz", Qt::red, QUAD_VIEW::YZ},
         { "quadGLBottomRight_3D", Qt::yellow, QUAD_VIEW::V3D}
     };
 
