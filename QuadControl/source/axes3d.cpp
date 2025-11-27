@@ -46,10 +46,11 @@ void Axes3d::Setup()
     GLfloat axis_colors[] = {
                                 1.0f,0.0f,0.0f,
                                 1.0f,0.0f,0.0f,
-                                0.0f,0.0f,1.0f,
-                                0.0f,0.0f,1.0f,
                                 0.0f,1.0f,0.0f,
-                                0.0f,1.0f,0.0f
+                                0.0f,1.0f,0.0f,
+                                0.0f,0.0f,1.0f,
+                                0.0f,0.0f,1.0f
+                               
     };
 
     glGenBuffers(2, vertex_buffer);

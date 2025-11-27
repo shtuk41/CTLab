@@ -1,8 +1,10 @@
 import sys
 from PySide6.QtGui import QGuiApplication
+from PySide6.QtGui import QIcon
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtCore import QUrl
 from PySide6.QtCore import qInstallMessageHandler
+
 
 import os
 os.environ["QSG_RHI_BACKEND"] = "opengl"  # force OpenGL scene graph
@@ -20,6 +22,7 @@ def handle_warnings(warnings):
 
 if __name__ == "__main__":
     app = QGuiApplication(sys.argv)
+    app.setWindowIcon(QIcon("icon.png"))
     engine = QQmlApplicationEngine()
     engine.warnings.connect(handle_warnings)
 

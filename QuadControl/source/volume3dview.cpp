@@ -81,9 +81,9 @@ void Volume3dView::Setup()
         cube[ii * 6 + 2] *= (dispSize * context->depth / maxDimElement);   // z
     }
 
-    cubeWorldVec = { dispSize * context->width / maxDimElement,
-                        dispSize* context->height / maxDimElement,
-                        dispSize* context->depth / maxDimElement };
+    cubeWorldVec = { 2.0 * (100.0 * (static_cast<float>(context->width) / maxDimElement)),
+                    2.0 * (100.0 * (static_cast<float>(context->height) / maxDimElement)),
+                    2.0 * (100.0 * (static_cast<float>(context->depth) / maxDimElement)) };
 
     glGenVertexArrays(1, &vertex_array_id);
     glBindVertexArray(vertex_array_id);
