@@ -22,9 +22,9 @@ public:
 
         // URI must match qmldir
        qmlRegisterType<GLView3D>("QuadControl", 1, 0, "GLView3D");
-       qmlRegisterType<GLViewAxial>("QuadControl", 1, 0, "GLViewAxial");
-       qmlRegisterType<GLViewCoronal>("QuadControl", 1, 0, "GLViewCoronal");
-       qmlRegisterType<GLViewSagittal>("QuadControl", 1, 0, "GLViewSagittal");
+       qmlRegisterType<GLViewAxial>("QuadControl", 1, 0, "GLViewXY");
+       qmlRegisterType<GLViewCoronal>("QuadControl", 1, 0, "GLViewYZ");
+       qmlRegisterType<GLViewSagittal>("QuadControl", 1, 0, "GLViewXZ");
     }
 };
 

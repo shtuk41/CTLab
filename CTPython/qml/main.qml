@@ -11,9 +11,9 @@ ApplicationWindow {
     title: "Volume View Control"
 
     property GLView3D glView3DInstance
-    property GLViewAxial glViewAxialInstance
-    property GLViewCoronal glViewCoronalInstance
-    property GLViewSagittal glViewSagittalInstance
+    property GLViewXY glViewXYInstance
+    property GLViewYZ glViewYZInstance
+    property GLViewXZ glViewXZInstance
 
     RowLayout {
         anchors.fill: parent
@@ -33,11 +33,11 @@ ApplicationWindow {
                 height: quadGrid.height / 2 - 4
 
                 Loader {
-                    id: glViewAxialLoader
+                    id: glViewXYLoader
                     anchors.fill: parent
                     active: true
-                    sourceComponent: glViewAxial
-                    onLoaded: glViewAxialInstance = glViewAxialLoader.item
+                    sourceComponent: glViewXY
+                    onLoaded: glViewXYInstance = glViewXYLoader.item
                 }
             }
 
@@ -47,11 +47,11 @@ ApplicationWindow {
                 height: quadGrid.height / 2 - 4
 
                 Loader {
-                    id: glViewSagittalLoader
+                    id: glViewXZLoader
                     anchors.fill: parent
                     active: true
-                    sourceComponent: glViewSagittal
-                    onLoaded: glViewSagittalInstance = glViewSagittalLoader.item
+                    sourceComponent: glViewXZ
+                    onLoaded: glViewXZInstance = glViewXZLoader.item
                 }
             }
 
@@ -61,11 +61,11 @@ ApplicationWindow {
                 height: quadGrid.height / 2 - 4
 
                 Loader {
-                    id: glViewCoronalLoader
+                    id: glViewYZLoader
                     anchors.fill: parent
                     active: true
-                    sourceComponent: glViewCoronal
-                    onLoaded: glViewCoronalInstance = glViewCoronalLoader.item
+                    sourceComponent: glViewYZ
+                    onLoaded: glViewYZInstance = glViewYZLoader.item
                 }
             }
 
@@ -100,9 +100,9 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     onValueChanged: {
                         if (glView3DInstance) glView3DInstance.minVoxelThreshold = value
-                        if (glViewAxialInstance) glViewAxialInstance.minVoxelThreshold = value
-                        if (glViewCoronalInstance) glViewCoronalInstance.minVoxelThreshold = value
-                        if (glViewSagittalInstance) glViewSagittalInstance.minVoxelThreshold = value
+                        if (glViewXYInstance) glViewXYInstance.minVoxelThreshold = value
+                        if (glViewYZInstance) glViewYZInstance.minVoxelThreshold = value
+                        if (glViewXZInstance) glViewXZInstance.minVoxelThreshold = value
                     }
                 }
                 Label {
@@ -123,9 +123,9 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     onValueChanged: {
                         if (glView3DInstance) glView3DInstance.maxVoxelThreshold = value
-                        if (glViewAxialInstance) glViewAxialInstance.maxVoxelThreshold = value
-                        if (glViewCoronalInstance) glViewCoronalInstance.maxVoxelThreshold = value
-                        if (glViewSagittalInstance) glViewSagittalInstance.maxVoxelThreshold = value
+                        if (glViewXYInstance) glViewXYInstance.maxVoxelThreshold = value
+                        if (glViewYZInstance) glViewYZInstance.maxVoxelThreshold = value
+                        if (glViewXZInstance) glViewXZInstance.maxVoxelThreshold = value
                     }
                 }
                 Label {
@@ -143,17 +143,17 @@ ApplicationWindow {
     }
 
     Component {
-        id: glViewAxial
-        GLViewAxial { anchors.fill: parent; context: VolumeContext }
+        id: glViewXY
+        GLViewXY { anchors.fill: parent; context: VolumeContext }
     }
 
     Component {
-        id: glViewCoronal
-        GLViewCoronal { anchors.fill: parent; context: VolumeContext }
+        id: glViewYZ
+        GLViewYZ { anchors.fill: parent; context: VolumeContext }
     }
 
     Component {
-        id: glViewSagittal
-        GLViewSagittal { anchors.fill: parent; context: VolumeContext }
+        id: glViewXZ
+        GLViewXZ { anchors.fill: parent; context: VolumeContext }
     }
 }
