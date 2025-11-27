@@ -6,12 +6,14 @@ int main(int argc, char *argv[])
 {
     QSurfaceFormat fmt;
     fmt.setRenderableType(QSurfaceFormat::OpenGL);
-    fmt.setVersion(3, 3);                // or lower if needed
-    fmt.setProfile(QSurfaceFormat::CoreProfile);  // or CompatibilityProfile
+    fmt.setVersion(3, 3);                
+    fmt.setProfile(QSurfaceFormat::CoreProfile);  
     QSurfaceFormat::setDefaultFormat(fmt);
 
 
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon("icon.png"));
+
     QuadWidgets window;
     window.show();
     return app.exec();

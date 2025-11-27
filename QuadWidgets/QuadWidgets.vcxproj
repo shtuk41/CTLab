@@ -72,6 +72,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/SOIL/libs/Debug;$(SolutionDir)\ThirdParty\opencv48\x64\vc17\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SoilBuild.lib;opencv_core480d.lib;opencv_highgui480d.lib;opencv_imgcodecs480d.lib;opencv_imgproc480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy /Y /I "icon.png" "$(OutDir)\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -82,6 +85,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)/ThirdParty/SOIL/libs/Release;$(SolutionDir)/ThirdParty/opencv48/x64/vc17/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SoilBuild.lib;opencv_core480.lib;opencv_highgui480.lib;opencv_imgcodecs480.lib;opencv_imgproc480.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy /Y /I "icon.png" "$(OutDir)\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -187,6 +193,12 @@
     <ClInclude Include="include\io\ioData.h" />
     <ClInclude Include="include\render_object.h" />
     <ClInclude Include="include\shaders.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
