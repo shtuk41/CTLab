@@ -33,7 +33,7 @@ public:
     Renderer* createRenderer() const override 
     {
         qDebug() << "GLViewYZ";
-        return new GLViewYZRenderer(Qt::green, (m_context ? m_context->getContext() : nullptr));
+        return new GLViewYZRenderer(Qt::red, (m_context ? m_context->getContext() : nullptr));
     }
 
     float minVoxelThreshold() const { return static_cast<float>(minVoxelThresholdValue) / 65536.0f; }

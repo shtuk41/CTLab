@@ -21,13 +21,22 @@ void GLViewXZRenderer::initializeGL()
     success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
     success = shaderProgram->link();
 
+    const int widthX = context->volumeData.getHeader()->recoX;
+    const int height = context->volumeData.getHeader()->recoY;
+    const int depthY = context->volumeData.getHeader()->recoZ;
+
+    float scaleX, scaleY;
+
+    scaleY = 1.0f;
+    scaleX = float(widthX) / depthY;
+
     GLfloat planeVertices[] = {
-          -0.055f, -1.0f, 0.0f, 0,0,
-          0.055f, -1.0f, 0.0f,  1,0,
-           0.055f, 1.0f, 0.0f, 1,1,
-          0.055f, 1.0f, 0.0f, 1,1,
-          -0.055f, 1.0f, 0.0f, 0,1,
-          -0.055f, -1.0f, 0.0f, 0,0
+       -scaleX, scaleY, 0.0f, 0,0,
+        scaleX, scaleY, 0.0f, 1,0,
+        scaleX, -scaleY, 0.0f, 1,1,
+        scaleX, -scaleY, 0.0f, 1,1,
+       -scaleX, -scaleY, 0.0f, 0,1,
+       -scaleX, scaleY, 0.0f, 0,0
     };
 
     glGenVertexArrays(1, &vertex_array_id);
