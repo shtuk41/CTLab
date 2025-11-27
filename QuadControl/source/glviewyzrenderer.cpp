@@ -1,20 +1,20 @@
-#include <glviewsagittal.h>
+#include <glviewyz.h>
 #include <shaders.h>
 #include <QMouseEvent>
 #include <io/ioData.h>
 
-GLViewSagittalRenderer::GLViewSagittalRenderer(const QColor& color, std::shared_ptr<Context> c)
+GLViewYZRenderer::GLViewYZRenderer(const QColor& color, std::shared_ptr<Context> c)
     : GLView(c, color), baseColor(color)
 {
     initializeGL();
 }
 
-void GLViewSagittalRenderer::initializeGL()
+void GLViewYZRenderer::initializeGL()
 {
     initializeOpenGLFunctions();
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\axialXZ.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialXZ.frag");
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\yz.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\yz.frag");
 
     shaderProgram = new QOpenGLShaderProgram();
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
@@ -22,12 +22,12 @@ void GLViewSagittalRenderer::initializeGL()
     success = shaderProgram->link();
 
     GLfloat planeVertices[] = {
-          -0.055f, -1.0f, 0.0f, 0,0,
-          0.055f, -1.0f, 0.0f,  1,0,
-           0.055f, 1.0f, 0.0f, 1,1,
-          0.055f, 1.0f, 0.0f, 1,1,
-          -0.055f, 1.0f, 0.0f, 0,1,
-          -0.055f, -1.0f, 0.0f, 0,0
+       -0.161f, -1.0f, 0.0f, 0,0,
+       0.161f, -1.0f, 0.0f,  1,0,
+        0.161f, 1.0f, 0.0f, 1,1,
+       0.161f, 1.0f, 0.0f, 1,1,
+       -0.161f, 1.0f, 0.0f, 0,1,
+       -0.161f, -1.0f, 0.0f, 0,0
     };
 
     glGenVertexArrays(1, &vertex_array_id);
@@ -46,7 +46,7 @@ void GLViewSagittalRenderer::initializeGL()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    ySlice = glGetUniformLocation(shaderProgram->programId(), "ySlice");
+    xSlice = glGetUniformLocation(shaderProgram->programId(), "xSlice");
     minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
     maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
 
@@ -60,7 +60,7 @@ void GLViewSagittalRenderer::initializeGL()
     border.Setup();
 }
 
-void GLViewSagittalRenderer::render()
+void GLViewYZRenderer::render()
 {
     if (!context) return;
 
@@ -81,7 +81,7 @@ void GLViewSagittalRenderer::render()
     glUniform1f(minVal, minVoxelThresholdValue);
     glUniform1f(maxVal, maxVoxelThresholdValue);
 
-    glUniform1f(ySlice, yDistance);
+    glUniform1f(xSlice, xDistance);
 
     // Activate texture unit 1 and bind your 3D texture
     glActiveTexture(GL_TEXTURE0);
@@ -96,13 +96,13 @@ void GLViewSagittalRenderer::render()
     border.Draw(fbo);
 }
 
-void GLViewSagittalRenderer::synchronize(QQuickFramebufferObject* item)
+void GLViewYZRenderer::synchronize(QQuickFramebufferObject* item)
 {
-    auto* view = static_cast<GLViewSagittal*>(item);
+    auto* view = static_cast<GLViewYZ*>(item);
 
     //TODO:  verify that compiler inlines class members "simple getters"
     this->minVoxelThresholdValue = view->minVoxelThreshold();
     this->maxVoxelThresholdValue = view->maxVoxelThreshold();
-    this->yDistance = view->getYDistance();
+    this->xDistance = view->getXDistance();
     glViewport(0, 0, view->width(), view->height());
 }

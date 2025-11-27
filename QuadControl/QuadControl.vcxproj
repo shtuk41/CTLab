@@ -132,15 +132,15 @@
     <ClCompile Include="source\context.cpp" />
     <ClCompile Include="source\glview.cpp" />
     <ClCompile Include="source\glview3drenderer.cpp" />
-    <ClCompile Include="source\glviewaxialrenderer.cpp">
+    <ClCompile Include="source\glviewxyrenderer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="source\glviewcoronalrenderer.cpp">
+    <ClCompile Include="source\glviewyzrenderer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="source\glviewsagittalrenderer.cpp">
+    <ClCompile Include="source\glviewxzrenderer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -156,29 +156,29 @@
     <QtMoc Include="include\contextWrapper.h" />
     <ClInclude Include="include\controls.h" />
     <ClInclude Include="include\glview3drenderer.h" />
-    <ClInclude Include="include\glviewaxialrenderer.h">
+    <ClInclude Include="include\glviewxyrenderer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\glviewcoronalrenderer.h">
+    <ClInclude Include="include\glviewyzrenderer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\glviewsagittalrenderer.h">
+    <ClInclude Include="include\glviewxzrenderer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="include\glview.h" />
     <QtMoc Include="include\glview3d.h" />
-    <QtMoc Include="include\glviewaxial.h">
+    <QtMoc Include="include\glviewxy.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </QtMoc>
-    <QtMoc Include="include\glviewcoronal.h">
+    <QtMoc Include="include\glviewyz.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </QtMoc>
-    <QtMoc Include="include\glviewsagittal.h">
+    <QtMoc Include="include\glviewxz.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </QtMoc>
@@ -197,12 +197,12 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\axialXY.frag" />
-    <None Include="shaders\axialXY.vert" />
-    <None Include="shaders\axialXZ.frag" />
-    <None Include="shaders\axialXZ.vert" />
-    <None Include="shaders\axialYZ.frag" />
-    <None Include="shaders\axialYZ.vert" />
+    <None Include="shaders\xy.frag" />
+    <None Include="shaders\xy.vert" />
+    <None Include="shaders\xz.frag" />
+    <None Include="shaders\xz.vert" />
+    <None Include="shaders\yz.frag" />
+    <None Include="shaders\yz.vert" />
     <None Include="shaders\axis.frag" />
     <None Include="shaders\axis.vert" />
     <None Include="shaders\axisPlane.frag" />

@@ -3,9 +3,9 @@
 #include <qqml.h>
 #include "glview3d.h"
 #include <contextWrapper.h>
-#include "glviewaxial.h"
-#include "glviewcoronal.h"
-#include "glviewsagittal.h"
+#include "glviewxy.h"
+#include "glviewyz.h"
+#include "glviewxz.h"
 
 class QuadControlPlugin : public QQmlExtensionPlugin {
     Q_OBJECT
@@ -22,9 +22,9 @@ public:
 
         // URI must match qmldir
        qmlRegisterType<GLView3D>("QuadControl", 1, 0, "GLView3D");
-       qmlRegisterType<GLViewAxial>("QuadControl", 1, 0, "GLViewXY");
-       qmlRegisterType<GLViewCoronal>("QuadControl", 1, 0, "GLViewYZ");
-       qmlRegisterType<GLViewSagittal>("QuadControl", 1, 0, "GLViewXZ");
+       qmlRegisterType<GLViewXY>("QuadControl", 1, 0, "GLViewXY");
+       qmlRegisterType<GLViewYZ>("QuadControl", 1, 0, "GLViewYZ");
+       qmlRegisterType<GLViewXZ>("QuadControl", 1, 0, "GLViewXZ");
     }
 };
 

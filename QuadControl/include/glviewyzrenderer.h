@@ -4,12 +4,11 @@
 #include <QColor>
 #include <GLView.h>
 
-
-class GLViewAxialRenderer : public GLView
+class GLViewYZRenderer : public GLView
 {
 public:
-    explicit GLViewAxialRenderer(const QColor& color, std::shared_ptr<Context> c);
-    ~GLViewAxialRenderer() noexcept override = default;
+    explicit GLViewYZRenderer(const QColor& color, std::shared_ptr<Context> c);
+    ~GLViewYZRenderer() noexcept override = default;
 
 protected:
     void initializeGL();
@@ -17,17 +16,16 @@ protected:
     void synchronize(QQuickFramebufferObject* item) override;
 
 private:
-    QOpenGLShaderProgram* shaderProgram;
+    QOpenGLShaderProgram* shaderProgram = nullptr;
     QColor baseColor;
+    float minVoxelThresholdValue;
+    float maxVoxelThresholdValue;
+    float xDistance;
 
     GLuint vertex_array_id;
     GLuint vertex_buffer;
     GLuint tex3D;
-    GLuint zSlice;
+    GLuint xSlice;
     GLuint minVal;
     GLuint maxVal;
-
-    float minVoxelThresholdValue;
-    float maxVoxelThresholdValue;
-    float zDistance;
 };

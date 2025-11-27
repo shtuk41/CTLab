@@ -5,9 +5,9 @@
 #include <QHoverEvent>
 #include <glm/glm.hpp>
 #include <contextWrapper.h>
-#include <glviewsagittalrenderer.h>
+#include <glviewxzrenderer.h>
 
-class GLViewSagittal : public QQuickFramebufferObject
+class GLViewXZ : public QQuickFramebufferObject
 {
     Q_OBJECT
     QML_ELEMENT
@@ -18,7 +18,7 @@ class GLViewSagittal : public QQuickFramebufferObject
 
 
 public:
-    GLViewSagittal()
+    GLViewXZ()
     {
         setAcceptedMouseButtons(Qt::AllButtons);  // enable mouse buttons
         setAcceptHoverEvents(true);               // enable hover events
@@ -32,8 +32,8 @@ public:
 
     Renderer* createRenderer() const override 
     {
-        qDebug() << "GLViewSagittal";
-        return new GLViewSagittalRenderer(Qt::blue, (m_context ? m_context->getContext() : nullptr));
+        qDebug() << "GLViewXZ";
+        return new GLViewXZRenderer(Qt::blue, (m_context ? m_context->getContext() : nullptr));
     }
 
     float minVoxelThreshold() const { return static_cast<float>(minVoxelThresholdValue) / 65536.0f; }
@@ -112,7 +112,7 @@ private:
         if (!m_context) return;
 
         auto ctx = m_context->getContext();
-        ctx->volumeData.saveHeaderToFile("volumeHeaderSagittal.txt");
+        ctx->volumeData.saveHeaderToFile("volumeHeaderXZ.txt");
         ctx->volumeData.fillBuffer();
     }
 

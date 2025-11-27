@@ -1,20 +1,20 @@
-#include <glviewaxial.h>
+#include <glviewxy.h>
 #include <shaders.h>
 #include <QMouseEvent>
 #include <io/ioData.h>
 
-GLViewAxialRenderer::GLViewAxialRenderer(const QColor& color, std::shared_ptr<Context> c)
+GLViewXYRenderer::GLViewXYRenderer(const QColor& color, std::shared_ptr<Context> c)
     : GLView(c, color), baseColor(color)
 {
     initializeGL();
 }
 
-void GLViewAxialRenderer::initializeGL()
+void GLViewXYRenderer::initializeGL()
 {
     initializeOpenGLFunctions();
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\axialXY.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\axialXY.frag");
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\xy.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\xy.frag");
 
     shaderProgram = new QOpenGLShaderProgram();
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
@@ -60,7 +60,7 @@ void GLViewAxialRenderer::initializeGL()
     border.Setup();
 }
 
-void GLViewAxialRenderer::render()
+void GLViewXYRenderer::render()
 {
     if (!context) return;  
 
@@ -95,9 +95,9 @@ void GLViewAxialRenderer::render()
     border.Draw(fbo);
 }
 
-void GLViewAxialRenderer::synchronize(QQuickFramebufferObject* item)
+void GLViewXYRenderer::synchronize(QQuickFramebufferObject* item)
 {
-    auto* view = static_cast<GLViewAxial*>(item);
+    auto* view = static_cast<GLViewXY*>(item);
 
     //TODO:  verify that compiler inlines class members "simple getters"
     this->minVoxelThresholdValue = view->minVoxelThreshold();

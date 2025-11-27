@@ -4,11 +4,11 @@
 #include <QColor>
 #include <GLView.h>
 
-class GLViewSagittalRenderer : public GLView
+class GLViewXZRenderer : public GLView
 {
 public:
-    explicit GLViewSagittalRenderer(const QColor& color, std::shared_ptr<Context> c);
-    ~GLViewSagittalRenderer() noexcept override = default;
+    explicit GLViewXZRenderer(const QColor& color, std::shared_ptr<Context> c);
+    ~GLViewXZRenderer() noexcept override = default;
 
 protected:
     void initializeGL();

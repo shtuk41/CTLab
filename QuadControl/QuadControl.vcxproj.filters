@@ -74,13 +74,13 @@
     <ClInclude Include="include\glview3drenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\glviewaxialrenderer.h">
+    <ClInclude Include="include\glviewxyrenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\glviewcoronalrenderer.h">
+    <ClInclude Include="include\glviewyzrenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\glviewsagittalrenderer.h">
+    <ClInclude Include="include\glviewxzrenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -91,13 +91,13 @@
     <QtMoc Include="include\glview3d.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="include\glviewcoronal.h">
+    <QtMoc Include="include\glviewyz.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="include\glviewsagittal.h">
+    <QtMoc Include="include\glviewxz.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="include\glviewaxial.h">
+    <QtMoc Include="include\glviewxy.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="include\contextWrapper.h">
@@ -105,22 +105,22 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\axialXY.frag">
+    <None Include="shaders\xy.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialXY.vert">
+    <None Include="shaders\xy.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialXZ.frag">
+    <None Include="shaders\xz.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialXZ.vert">
+    <None Include="shaders\xz.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialYZ.frag">
+    <None Include="shaders\yz.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\axialYZ.vert">
+    <None Include="shaders\yz.vert">
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\axis.frag">
@@ -170,13 +170,13 @@
     <ClCompile Include="source\glview3drenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\glviewaxialrenderer.cpp">
+    <ClCompile Include="source\glviewxyrenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\glviewcoronalrenderer.cpp">
+    <ClCompile Include="source\glviewyzrenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\glviewsagittalrenderer.cpp">
+    <ClCompile Include="source\glviewxzrenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\render_object.cpp">
