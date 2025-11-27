@@ -13,7 +13,8 @@ class QuadControlPlugin : public QQmlExtensionPlugin {
 public:
     void registerTypes(const char* uri) override 
     {
-        QString path = R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)";
+        //QString path = R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)";
+        QString path = R"(D:\Files\CTLab\SaveVolumeToFile\volumeHeader.uint16_scv)";
 
         qmlRegisterSingletonType<ContextWrapper>("QuadControl", 1, 0, "VolumeContext",
             [path](QQmlEngine*, QJSEngine*) -> QObject* {
