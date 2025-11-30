@@ -21,17 +21,17 @@ Simulation of CT acquisition process and volume reconstruction.
 
 ![Screenshot](Readme/ReconstructedSimpleITK.png)
 
-- Volume rendered in quad view
+- Synthetic Volume rendered in quad view
 
-![Screenshot](Readme/cupVolume.png)
+![Screenshot](Readme/cupQML.png)
 
-- Real volume captured with Zeiss Metrotom rendered in quad view (QWidgets)
+- Real volume rendered in quad view (QWidgets)
 
-![Screenshot](Readme/ceasarsMetrotom.png)
+![Screenshot](Readme/scissorsWidgets.png)
 
 - The quad views are implemented in C++ using Qt/OpenGL and loaded into QML via PySide6.
 
-![Screenshot](Readme/pythonQml.png)
+![Screenshot](Readme/scissorsQML.png)
 
 
 
