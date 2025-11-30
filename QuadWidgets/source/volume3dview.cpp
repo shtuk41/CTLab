@@ -4,7 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Volume3dView::Volume3dView(Camera* c) : cam(c)
+Volume3dView::Volume3dView(Camera* c, size_t cubeSize = 50) : cam(c), dispCubeSize(cubeSize)
 {
 }
 
@@ -561,13 +561,12 @@ void Volume3dView::Setup()
     int dims[3] = { width, height, depth };
 
     int maxDimElement = *std::max_element(dims, dims + 3);
-    size_t dispSize = 50;
 
     for (int ii = 0; ii < 36; ++ii) 
     {
-        cube[ii * 6 + 0] *= (dispSize * width / maxDimElement);   // x
-        cube[ii * 6 + 1] *= (dispSize * height / maxDimElement);  // y
-        cube[ii * 6 + 2] *= (dispSize * depth / maxDimElement);   // z
+        cube[ii * 6 + 0] *= (dispCubeSize * width / maxDimElement);   // x
+        cube[ii * 6 + 1] *= (dispCubeSize * height / maxDimElement);  // y
+        cube[ii * 6 + 2] *= (dispCubeSize * depth / maxDimElement);   // z
     }
 
     cubeWorldVec = { 2.0f * (100.0f * (static_cast<float>(width) / maxDimElement)),

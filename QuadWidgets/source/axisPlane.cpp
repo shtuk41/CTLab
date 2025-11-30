@@ -118,7 +118,7 @@ void AxisPlane::Setup()
 
 void AxisPlane::UpdateModel(const glm::mat4& cam_view)
 {
-    SetPosition(0, 0, 0);
+    //SetPosition(0, 0, 0);
 
     auto mm = glm::translate(model_matrix, glm::vec3(_X, _Y, _Z));
 

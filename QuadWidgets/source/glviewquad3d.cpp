@@ -12,7 +12,7 @@ GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent, Context*c)
     planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 0.1f), 100),
     //Sagittal
     planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 100),
-    volume3dview(&camera),
+    volume3dview(&camera, 50),
     cameraBoundaries(200)
 {
     setFocusPolicy(Qt::StrongFocus);
@@ -24,6 +24,10 @@ GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent, Context*c)
     moveforward = false;
     rotateX = 0.0f;
     rotateY = 0.0f;
+
+    context->onDistanceChanged = [this]() {
+        this->update();
+        };
 }
 
 GLViewQuad3D::~GLViewQuad3D()
@@ -87,12 +91,22 @@ void GLViewQuad3D::paintGL()
     axes3d.SetProjection(projection_matrix);
     axes3d.Draw();
 
+    size_t cubeSize = volume3dview.GetCubeSize();
+
+    float zPosition = 2.0f * cubeSize * (context->zDistance - 0.5f);
+    planeXY.SetPosition(0, 0, zPosition);
     planeXY.UpdateModel(view_matrix);
     planeXY.SetProjection(projection_matrix);
     planeXY.Draw();
+
+    float yPosition = 2.0f * cubeSize * (context->yDistance - 0.5f);
+    planeXZ.SetPosition(0, yPosition, 0);
     planeXZ.UpdateModel(view_matrix);
     planeXZ.SetProjection(projection_matrix);
     planeXZ.Draw();
+
+    float xPosition = 2.0f * cubeSize * (context->xDistance - 0.5f);
+    planeYZ.SetPosition(xPosition, 0, 0);
     planeYZ.UpdateModel(view_matrix);
     planeYZ.SetProjection(projection_matrix);
     planeYZ.Draw();

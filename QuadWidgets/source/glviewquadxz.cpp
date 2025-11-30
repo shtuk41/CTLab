@@ -188,5 +188,6 @@ void GLViewQuadXZ::wheelEvent(QWheelEvent* event)
     int deltaY = event->angleDelta().y();
     yDistance += deltaY * 0.00005f;
     yDistance = __max(0.0, __min(1.0f, yDistance));
+    context->setYDistance(yDistance);
     update();
 }

@@ -34,13 +34,14 @@ private:
     int windowHeightValue;
     float minVoxelThresholdValue;
     float maxVoxelThresholdValue;
+    size_t dispCubeSize = 50;
 
     Camera* cam;
 
     Context* context;
 public:
 
-    Volume3dView(Camera *cam);
+    Volume3dView(Camera *cam, size_t cubeSize);
     ~Volume3dView();
     
     void SetProjection(glm::mat4 p);
@@ -49,6 +50,7 @@ public:
         int winHeight,
         float minVoxelThreshold,
         float maxVoxelThreshold);
+    size_t GetCubeSize() const { return dispCubeSize; }
     virtual void UpdateModel(const glm::mat4& cam_view);
     virtual void Setup();
     virtual void Draw();
