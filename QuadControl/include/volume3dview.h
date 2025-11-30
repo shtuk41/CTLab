@@ -33,13 +33,14 @@ private:
     int windowHeightValue;
     float minVoxelThresholdValue;
     float maxVoxelThresholdValue;
+    size_t cubeDisplaySize;
 
     Camera* cam;
 
     std::shared_ptr<Context> context;
 public:
 
-    Volume3dView(Camera *cam);
+    Volume3dView(Camera *cam, size_t displaySize);
     ~Volume3dView();
     
     void SetProjection(glm::mat4 p);
@@ -48,6 +49,8 @@ public:
         int winHeight,
         float minVoxelThreshold,
         float maxVoxelThreshold);
+    size_t GetDisplaySize() const { return cubeDisplaySize; }
+
     virtual void UpdateModel(const glm::mat4& cam_view);
     virtual void Setup();
     virtual void Draw();

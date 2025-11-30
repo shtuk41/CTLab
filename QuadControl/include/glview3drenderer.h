@@ -41,4 +41,9 @@ private:
     float rotateX;
     float rotateY;
     float cameraBoundaries;
+
+    //section plane distance
+    float xDistance = 0.0f;
+    float yDistance = 0.0f;
+    float zDistance = 0.0f;
 };

@@ -100,9 +100,10 @@ protected:
 
     void wheelEvent(QWheelEvent* event) override
     {
-        int deltaY = event->angleDelta().y();
-        zDistance += deltaY * 0.00005f;
+        int deltaZ = event->angleDelta().y();
+        zDistance += deltaZ * 0.00005f;
         zDistance = __max(0.0, __min(1.0f, zDistance));
+        m_context->getContext()->setZDistance(zDistance);
         update();
     }
 private:

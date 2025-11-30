@@ -33,3 +33,33 @@ void Context::initGL()
 	initialized = true;
 }
 
+void Context::setXDistance(float xD)
+{
+	xDistance = xD;
+
+	if (onDistanceChanged)
+	{
+		onDistanceChanged();
+	}
+}
+
+void Context::setYDistance(float yD)
+{
+	yDistance = yD;
+
+	if (onDistanceChanged)
+	{
+		onDistanceChanged();
+	}
+}
+
+void Context::setZDistance(float zD)
+{
+	zDistance = zD;
+
+	if (onDistanceChanged)
+	{
+		onDistanceChanged();
+	}
+}
+

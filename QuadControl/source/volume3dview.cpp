@@ -4,7 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Volume3dView::Volume3dView(Camera* c) : cam(c)
+Volume3dView::Volume3dView(Camera* c, size_t displaySize = 50) : cam(c), cubeDisplaySize(displaySize)
 {
 }
 

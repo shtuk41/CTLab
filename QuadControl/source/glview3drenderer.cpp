@@ -12,7 +12,7 @@ GLView3DRenderer::GLView3DRenderer(const QColor& color, std::shared_ptr<Context>
     planeXZ(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 0.1f), 100),
     //Sagittal
     planeYZ(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 0.1f), 100),
-    volume3dview(&camera),
+    volume3dview(&camera, 50),
     cameraBoundaries(200)
 {
     initializeGL();
@@ -69,12 +69,22 @@ void GLView3DRenderer::render()
     axes3d.SetProjection(projection_matrix);
     axes3d.Draw();
 
+    size_t dispaySize = volume3dview.GetDisplaySize();
+
+    float zPosition = 2.0f * dispaySize * (context->zDistance - 0.5f);
+    planeXY.SetPosition(0, 0, zPosition);
     planeXY.UpdateModel(view_matrix);
     planeXY.SetProjection(projection_matrix);
     planeXY.Draw();
+
+    float yPosition = 2.0f * dispaySize * (context->yDistance - 0.5f);
+    planeXZ.SetPosition(0, yPosition, 0);
     planeXZ.UpdateModel(view_matrix);
     planeXZ.SetProjection(projection_matrix);
     planeXZ.Draw();
+
+    float xPosition = 2.0f * dispaySize * (context->xDistance - 0.5f);
+    planeYZ.SetPosition(xPosition, 0, 0);
     planeYZ.UpdateModel(view_matrix);
     planeYZ.SetProjection(projection_matrix);
     planeYZ.Draw();
@@ -94,5 +104,9 @@ void GLView3DRenderer::synchronize(QQuickFramebufferObject* item)
     this->windowHeight = view->height();
     this->minVoxelThresholdValue = view->minVoxelThreshold();
     this->maxVoxelThresholdValue = view->maxVoxelThreshold();
+    this->xDistance = context->xDistance;
+    this->yDistance = context->yDistance;
+    this->zDistance = context->zDistance;
+
 
 }

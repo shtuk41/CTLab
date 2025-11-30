@@ -103,6 +103,7 @@ protected:
         int deltaY = event->angleDelta().y();
         yDistance += deltaY * 0.00005f;
         yDistance = __max(0.0, __min(1.0f, yDistance));
+        m_context->getContext()->setYDistance(yDistance);
         update();
     }
 private:

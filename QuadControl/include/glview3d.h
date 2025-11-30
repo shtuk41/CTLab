@@ -71,6 +71,11 @@ public:
     {
         if (m_context == ctx) return;
         m_context = ctx;
+
+        m_context->getContext()->onDistanceChanged = [this]() {
+            this->update();
+            };
+
         emit contextChanged();
         initializeVolume();
     }
