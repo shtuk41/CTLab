@@ -46,4 +46,8 @@ private:
     float xDistance = 0.0f;
     float yDistance = 0.0f;
     float zDistance = 0.0f;
+
+    float planeXYMinTravel;
+    float planeXZMinTravel;
+    float planeYZMinTravel;
 };

@@ -16,6 +16,18 @@ GLView3DRenderer::GLView3DRenderer(const QColor& color, std::shared_ptr<Context>
     cameraBoundaries(200)
 {
     initializeGL();
+
+    const int width = context->volumeData.getHeader()->recoX;
+    const int height = context->volumeData.getHeader()->recoY;
+    const int depth = context->volumeData.getHeader()->recoZ;
+
+    int dims[3] = { width, height, depth };
+
+    int maxDimElement = *std::max_element(dims, dims + 3);
+
+    planeXYMinTravel = 50.0f * 2.0f * static_cast<float>(depth) / maxDimElement;
+    planeXZMinTravel = 50.0f * 2.0f * static_cast<float>(height) / maxDimElement;
+    planeYZMinTravel = 50.0f * 2.0f * static_cast<float>(width) / maxDimElement;
 }
 
 void GLView3DRenderer::initializeGL()
@@ -69,21 +81,19 @@ void GLView3DRenderer::render()
     axes3d.SetProjection(projection_matrix);
     axes3d.Draw();
 
-    size_t dispaySize = volume3dview.GetDisplaySize();
-
-    float zPosition = 2.0f * dispaySize * (context->zDistance - 0.5f);
+    float zPosition = planeXYMinTravel * (context->zDistance - 0.5f);
     planeXY.SetPosition(0, 0, zPosition);
     planeXY.UpdateModel(view_matrix);
     planeXY.SetProjection(projection_matrix);
     planeXY.Draw();
 
-    float yPosition = 2.0f * dispaySize * (context->yDistance - 0.5f);
+    float yPosition = planeXZMinTravel * (context->yDistance - 0.5f);
     planeXZ.SetPosition(0, yPosition, 0);
     planeXZ.UpdateModel(view_matrix);
     planeXZ.SetProjection(projection_matrix);
     planeXZ.Draw();
 
-    float xPosition = 2.0f * dispaySize * (context->xDistance - 0.5f);
+    float xPosition = planeYZMinTravel * (context->xDistance - 0.5f);
     planeYZ.SetPosition(xPosition, 0, 0);
     planeYZ.UpdateModel(view_matrix);
     planeYZ.SetProjection(projection_matrix);
