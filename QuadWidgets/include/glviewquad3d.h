@@ -58,4 +58,8 @@ private:
     float rotateX;
     float rotateY;
     float cameraBoundaries;
+
+    float planeXYMinTravel;
+    float planeXZMinTravel;
+    float planeYZMinTravel;
 };
