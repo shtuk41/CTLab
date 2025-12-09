@@ -11,8 +11,10 @@ class GLViewQuadYZ : public GLView
 public:
     explicit GLViewQuadYZ(const QColor& color, QWidget* parent, Context* c);
     ~GLViewQuadYZ();
-    void UpdateMinMaxVoxelValues(int min, int max);
 
+    void reloadData() override;
+    void deleteBuffers() override;
+    
 protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
@@ -29,8 +31,6 @@ protected:
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;
     QColor baseColor;
-    float minVoxelThresholdValue;
-    float maxVoxelThresholdValue;
     float xDistance;
 
     GLuint vertex_array_id;

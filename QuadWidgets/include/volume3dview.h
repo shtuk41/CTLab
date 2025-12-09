@@ -43,6 +43,9 @@ public:
 
     Volume3dView(Camera *cam, size_t cubeSize);
     ~Volume3dView();
+
+    void deleteBuffers();
+    void reloadData();
     
     void SetProjection(glm::mat4 p);
     void UpdateModel(const glm::mat4& cam_view,

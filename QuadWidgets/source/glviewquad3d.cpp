@@ -25,9 +25,9 @@ GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent, Context*c)
     rotateX = 0.0f;
     rotateY = 0.0f;
 
-    const int width = context->volumeData.getHeader()->recoX;
-    const int height = context->volumeData.getHeader()->recoY;
-    const int depth = context->volumeData.getHeader()->recoZ;
+    const int width = context->volumeData->getHeader()->recoX;
+    const int height = context->volumeData->getHeader()->recoY;
+    const int depth = context->volumeData->getHeader()->recoZ;
 
     int dims[3] = { width, height, depth };
 
@@ -47,6 +47,16 @@ GLViewQuad3D::~GLViewQuad3D()
    
 }
 
+void GLViewQuad3D::reloadData()
+{
+    volume3dview.reloadData();
+}
+
+void GLViewQuad3D::deleteBuffers()
+{
+    volume3dview.deleteBuffers();
+}
+
 void GLViewQuad3D::initializeGL()
 {
     initializeOpenGLFunctions();
@@ -56,10 +66,13 @@ void GLViewQuad3D::initializeGL()
 
     //Axis
     planeXY.Setup();
+
     //Coronal
     planeXZ.Setup();
+
     //Sagittal
     planeYZ.Setup();
+
     //3d view
     volume3dview.Setup(context);
 
@@ -93,7 +106,7 @@ void GLViewQuad3D::paintGL()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable (GL_DEPTH_TEST);
 
-    volume3dview.UpdateModel(view_matrix, windowWidth, windowHeight, float(minVoxelThresholdValue) / 65535, float(maxVoxelThresholdValue)/ 65535);
+    volume3dview.UpdateModel(view_matrix, windowWidth, windowHeight, getMinVoxelThresholdValue(), getMaxVoxelThresholdValue());
     volume3dview.SetProjection(projection_matrix);
     volume3dview.Draw();
 
@@ -219,13 +232,5 @@ void GLViewQuad3D::wheelEvent(QWheelEvent* event)
     int deltaY = event->angleDelta().y();
     cameraBoundaries += deltaY * 0.1;
     cameraBoundaries = __max(1, __min(2000, cameraBoundaries));
-    update();
-}
-
-void GLViewQuad3D::UpdateMinMaxVoxelValues(int min, int max)
-{
-    minVoxelThresholdValue = min;
-    maxVoxelThresholdValue = max;
-
     update();
 }

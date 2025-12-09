@@ -6,9 +6,17 @@
 
 #include <context.h>
 
-Context::Context(std::string volumePath) : volumeData(volumePath)
+Context::Context(std::string volumePath)
 {
-	
+	volumeData = std::make_unique<VolumeData>(volumePath);
+
+	volumeData->saveHeaderToFile("headerfile.txt");
+	volumeData->fillBuffer();
+}
+
+void Context::Init(std::string volumePath)
+{
+	volumeData = std::make_unique<VolumeData>(volumePath);
 }
 
 void Context::setXDistance(float xD)

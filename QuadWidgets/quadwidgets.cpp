@@ -7,14 +7,12 @@
 Context context(R"(D:\Files\Cesars\Scissors_Test 2025-7-2 15-11-21.uint16_scv)");
 //Context context(R"(D:\Files\CTLab\SaveVolumeToFile\volumeHeader.uint16_scv)");
 
+//Context context;
+
 QuadWidgets::QuadWidgets(QWidget *parent)
     : QMainWindow(parent)
 {
     setAcceptDrops(true);
-
-    
-    context.volumeData.saveHeaderToFile("volumeHeader.txt");
-    context.volumeData.fillBuffer();
 
     ui.setupUi(this);
 
@@ -39,8 +37,6 @@ QuadWidgets::QuadWidgets(QWidget *parent)
         QColor color;
         QUAD_VIEW view;
     };
-
-    
 
     QVector<ViewInfo> views = {
         { "quadGLTopLeft_xy", Qt::blue, QUAD_VIEW::XY},
@@ -174,6 +170,16 @@ void QuadWidgets::dropEvent(QDropEvent* event)
 {
     for (const QUrl& url : event->mimeData()->urls()) {
         QString path = url.toLocalFile();
+
+        context.volumeData = std::make_unique<VolumeData>(path.toStdString());
+
+        context.volumeData->saveHeaderToFile("headerData.txt");
+        context.volumeData->fillBuffer();
+
+        glViewQuad3d->reloadData();
+        glViewQuadXY->reloadData();
+        glViewQuadYZ->reloadData();
+        glViewQuadXZ->reloadData();
         
     }
 }

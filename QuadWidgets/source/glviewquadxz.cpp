@@ -9,35 +9,39 @@ GLViewQuadXZ::GLViewQuadXZ(const QColor& color, QWidget* parent, Context *c)
 GLViewQuadXZ::~GLViewQuadXZ()
 {
     makeCurrent();
-    glDeleteBuffers(1, &vertex_buffer);
-    glDeleteVertexArrays(1, &vertex_array_id);
+    deleteBuffers();
     delete shaderProgram;
     doneCurrent();
 }
 
-void GLViewQuadXZ::UpdateMinMaxVoxelValues(int min, int max)
+void GLViewQuadXZ::deleteBuffers()
 {
-    minVoxelThresholdValue = float(min) / 65535;
-    maxVoxelThresholdValue = float(max) / 65535;
+    if (tex3D)
+    {
+        glDeleteTextures(1, &tex3D);
+        tex3D = 0;
+    }
 
-    update();
+    if (vertex_buffer)
+    {
+        glDeleteBuffers(1, &vertex_buffer);
+        vertex_buffer = 0;
+    }
+
+    if (vertex_array_id)
+    {
+        glDeleteVertexArrays(1, &vertex_array_id);
+        vertex_array_id = 0;
+    }
 }
 
-void GLViewQuadXZ::initializeGL()
+void GLViewQuadXZ::reloadData()
 {
-    initializeOpenGLFunctions();
+    deleteBuffers();
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\xz.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\xz.frag");
-
-    shaderProgram = new QOpenGLShaderProgram(this);
-    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
-    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
-    success = shaderProgram->link();
-
-    const int widthX = context->volumeData.getHeader()->recoX;
-    const int height = context->volumeData.getHeader()->recoY;
-    const int depthY = context->volumeData.getHeader()->recoZ;
+    const int widthX = context->volumeData->getHeader()->recoX;
+    const int height = context->volumeData->getHeader()->recoY;
+    const int depthY = context->volumeData->getHeader()->recoZ;
 
     float scaleX, scaleY;
 
@@ -75,7 +79,7 @@ void GLViewQuadXZ::initializeGL()
     glBindTexture(GL_TEXTURE_3D, tex3D);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, widthX, height, depthY, 0,
-        GL_RED, GL_UNSIGNED_BYTE, context->volumeData.getVolumeDataTex().data());
+        GL_RED, GL_UNSIGNED_BYTE, context->volumeData->getVolumeDataTex().data());
 
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -94,13 +98,30 @@ void GLViewQuadXZ::initializeGL()
 
     shaderProgram->release();
 
+    update();
+}
+
+void GLViewQuadXZ::initializeGL()
+{
+    initializeOpenGLFunctions();
+
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\xz.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\xz.frag");
+
+    shaderProgram = new QOpenGLShaderProgram(this);
+    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
+    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
+    success = shaderProgram->link();
+
+    reloadData();
+
     border.Setup();
 }
 
 void GLViewQuadXZ::resizeGL(int w, int h)
 {
-    const int widthX = context->volumeData.getHeader()->recoX;
-    const int depthY = context->volumeData.getHeader()->recoZ;
+    const int widthX = context->volumeData->getHeader()->recoX;
+    const int depthY = context->volumeData->getHeader()->recoZ;
 
     float scaleX, scaleY;
 
@@ -130,8 +151,8 @@ void GLViewQuadXZ::paintGL()
 
     shaderProgram->bind();
 
-    glUniform1f(minVal, minVoxelThresholdValue);
-    glUniform1f(maxVal, maxVoxelThresholdValue);
+    glUniform1f(minVal, getMinVoxelThresholdValue());
+    glUniform1f(maxVal, getMaxVoxelThresholdValue());
 
     glUniform1f(ySlice, yDistance);
 

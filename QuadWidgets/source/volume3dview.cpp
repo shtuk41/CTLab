@@ -11,11 +11,145 @@ Volume3dView::Volume3dView(Camera* c, size_t cubeSize = 50) : cam(c), dispCubeSi
 Volume3dView::~Volume3dView()
 {
     makeCurrent();
-    glDeleteBuffers(1, &vertex_buffer);
-    glDeleteVertexArrays(1, &vertex_array_id);
-    glDisableVertexAttribArray(aPos_attribute);
-    glDisableVertexAttribArray(aTexCoord_attribute);
+    deleteBuffers();
+    delete shaderProgram;
     doneCurrent();
+}
+
+void Volume3dView::deleteBuffers()
+{
+    if (tex3D)
+    {
+        glDeleteTextures(1, &tex3D);
+        tex3D = 0;
+    }
+
+    if (vertex_buffer)
+    {
+        glDeleteBuffers(1, &vertex_buffer);
+        vertex_buffer = 0;
+    }
+
+    if (vertex_array_id)
+    {
+        glDeleteVertexArrays(1, &vertex_array_id);
+    }
+    
+    if (aPos_attribute)
+    {
+        glDisableVertexAttribArray(aPos_attribute);
+    }
+
+    if (aTexCoord_attribute)
+    {
+        glDisableVertexAttribArray(aTexCoord_attribute);
+    }
+}
+
+void Volume3dView::reloadData()
+{
+    deleteBuffers();
+
+    // === 1. Generate Dummy Volume Data ===
+    //const int width = 256; 
+    //const int height = 256;
+    //const int depth = 256; 
+
+    const int width = context->volumeData->getHeader()->recoX;
+    const int height = context->volumeData->getHeader()->recoY;
+    const int depth = context->volumeData->getHeader()->recoZ;
+
+    //fillCupWithHandle2(volumeDataTex, width, height, depth);
+    //fillHollowCylinder(volumeDataTex, width, height, depth);
+
+    // === 2. Create 3D Texture ===
+
+    glGenTextures(1, &tex3D);
+    glBindTexture(GL_TEXTURE_3D, tex3D);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0,
+        GL_RED, GL_UNSIGNED_BYTE, context->volumeData->getVolumeDataTex().data());
+
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    // === 3. Create Cube Geometry ===
+    float cube[] = {
+        // pos              // texcoord
+        //-1,-1,-1,  0,0,0,
+        // 1,-1,-1,  1,0,0,
+        // 1, 1,-1,  1,1,0,
+        //-1, 1,-1,  0,1,0,
+        //-1,-1, 1,  0,0,1,
+        // 1,-1, 1,  1,0,1,
+        // 1, 1, 1,  1,1,1,
+        //-1, 1, 1,  0,1,1,
+
+        // Each face of the cube as triangles (12 triangles, 36 vertices total)
+        // Back face
+        -1,-1,-1,0,0,0,  1, 1,-1,1,1,0,  1,-1,-1,1,0,0,
+        -1,-1,-1,0,0,0, -1, 1,-1,0,1,0,  1, 1,-1,1,1,0,
+        // Front face
+        -1,-1, 1,0,0,1,  1,-1, 1,1,0,1,  1, 1, 1,1,1,1,
+        -1,-1, 1,0,0,1,  1, 1, 1,1,1,1, -1, 1, 1,0,1,1,
+        // Left face
+        -1,-1,-1,0,0,0, -1,-1, 1,0,0,1, -1, 1, 1,0,1,1,
+        -1,-1,-1,0,0,0, -1, 1, 1,0,1,1, -1, 1,-1,0,1,0,
+        // Right face
+         1,-1,-1,1,0,0,  1, 1,-1,1,1,0,  1, 1, 1,1,1,1,
+         1,-1,-1,1,0,0,  1, 1, 1,1,1,1,  1,-1, 1,1,0,1,
+         // Bottom face
+         -1,-1,-1,0,0,0,  1,-1,-1,1,0,0,  1,-1, 1,1,0,1,
+         -1,-1,-1,0,0,0,  1,-1, 1,1,0,1, -1,-1, 1,0,0,1,
+         // Top face
+         -1, 1,-1,0,1,0, -1, 1, 1,0,1,1,  1, 1, 1,1,1,1,
+         -1, 1,-1,0,1,0,  1, 1, 1,1,1,1,  1, 1,-1,1,1,0
+    };
+
+    int dims[3] = { width, height, depth };
+
+    int maxDimElement = *std::max_element(dims, dims + 3);
+
+    for (int ii = 0; ii < 36; ++ii)
+    {
+        cube[ii * 6 + 0] *= (dispCubeSize * width / maxDimElement);   // x
+        cube[ii * 6 + 1] *= (dispCubeSize * height / maxDimElement);  // y
+        cube[ii * 6 + 2] *= (dispCubeSize * depth / maxDimElement);   // z
+    }
+
+    cubeWorldVec = { 2.0f * (100.0f * (static_cast<float>(width) / maxDimElement)),
+                    2.0f * (100.0f * (static_cast<float>(height) / maxDimElement)),
+                    2.0f * (100.0f * (static_cast<float>(depth) / maxDimElement)) };
+
+    glGenVertexArrays(1, &vertex_array_id);
+    glBindVertexArray(vertex_array_id);
+
+    glGenBuffers(1, &vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cube), cube, GL_STATIC_DRAW);
+
+    aPos_attribute = glGetAttribLocation(shaderProgram->programId(), "aPos");
+    glVertexAttribPointer(aPos_attribute, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(aPos_attribute);
+
+    aTexCoord_attribute = glGetAttribLocation(shaderProgram->programId(), "aTexCoord");
+    glVertexAttribPointer(aTexCoord_attribute, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(aTexCoord_attribute);
+
+    model_view = glGetUniformLocation(shaderProgram->programId(), "model_view");
+    projection = glGetUniformLocation(shaderProgram->programId(), "projection");
+    invModelViewProj = glGetUniformLocation(shaderProgram->programId(), "invMVP");
+    cameraPos = glGetUniformLocation(shaderProgram->programId(), "cameraPos");
+    windowWidth = glGetUniformLocation(shaderProgram->programId(), "windowWidth");
+    windowHeight = glGetUniformLocation(shaderProgram->programId(), "windowHeight");
+    minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
+    maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
+    cubeWorld = glGetUniformLocation(shaderProgram->programId(), "cubeWorld");
+
+    model_matrix = glm::mat4(1.0f);
 }
 
 //these volumes generated by AI procedures
@@ -99,8 +233,6 @@ void fillHollowCylinder(std::vector<GLubyte>& volumeData, int width, int height,
         }
     }
 }
-
-
 
 void fillSphere(std::vector<GLubyte>& volumeData, int width, int height, int depth)
 {
@@ -499,106 +631,7 @@ void Volume3dView::Setup()
     success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
     success = shaderProgram->link();
 
-    // === 1. Generate Dummy Volume Data ===
-    //const int width = 256; 
-    //const int height = 256;
-    //const int depth = 256; 
-
-    const int width = context->volumeData.getHeader()->recoX;
-    const int height = context->volumeData.getHeader()->recoY;
-    const int depth = context->volumeData.getHeader()->recoZ;
-
-    //fillCupWithHandle2(volumeDataTex, width, height, depth);
-    //fillHollowCylinder(volumeDataTex, width, height, depth);
-   
-    // === 2. Create 3D Texture ===
-    
-    glGenTextures(1, &tex3D);
-    glBindTexture(GL_TEXTURE_3D, tex3D);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0,
-        GL_RED, GL_UNSIGNED_BYTE, context->volumeData.getVolumeDataTex().data());
-
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-    // === 3. Create Cube Geometry ===
-    float cube[] = {
-        // pos              // texcoord
-        //-1,-1,-1,  0,0,0,
-        // 1,-1,-1,  1,0,0,
-        // 1, 1,-1,  1,1,0,
-        //-1, 1,-1,  0,1,0,
-        //-1,-1, 1,  0,0,1,
-        // 1,-1, 1,  1,0,1,
-        // 1, 1, 1,  1,1,1,
-        //-1, 1, 1,  0,1,1,
-
-        // Each face of the cube as triangles (12 triangles, 36 vertices total)
-        // Back face
-        -1,-1,-1,0,0,0,  1, 1,-1,1,1,0,  1,-1,-1,1,0,0,
-        -1,-1,-1,0,0,0, -1, 1,-1,0,1,0,  1, 1,-1,1,1,0,
-        // Front face
-        -1,-1, 1,0,0,1,  1,-1, 1,1,0,1,  1, 1, 1,1,1,1,
-        -1,-1, 1,0,0,1,  1, 1, 1,1,1,1, -1, 1, 1,0,1,1,
-        // Left face
-        -1,-1,-1,0,0,0, -1,-1, 1,0,0,1, -1, 1, 1,0,1,1,
-        -1,-1,-1,0,0,0, -1, 1, 1,0,1,1, -1, 1,-1,0,1,0,
-        // Right face
-         1,-1,-1,1,0,0,  1, 1,-1,1,1,0,  1, 1, 1,1,1,1,
-         1,-1,-1,1,0,0,  1, 1, 1,1,1,1,  1,-1, 1,1,0,1,
-         // Bottom face
-         -1,-1,-1,0,0,0,  1,-1,-1,1,0,0,  1,-1, 1,1,0,1,
-         -1,-1,-1,0,0,0,  1,-1, 1,1,0,1, -1,-1, 1,0,0,1,
-         // Top face
-         -1, 1,-1,0,1,0, -1, 1, 1,0,1,1,  1, 1, 1,1,1,1,
-         -1, 1,-1,0,1,0,  1, 1, 1,1,1,1,  1, 1,-1,1,1,0
-    };
-
-    int dims[3] = { width, height, depth };
-
-    int maxDimElement = *std::max_element(dims, dims + 3);
-
-    for (int ii = 0; ii < 36; ++ii) 
-    {
-        cube[ii * 6 + 0] *= (dispCubeSize * width / maxDimElement);   // x
-        cube[ii * 6 + 1] *= (dispCubeSize * height / maxDimElement);  // y
-        cube[ii * 6 + 2] *= (dispCubeSize * depth / maxDimElement);   // z
-    }
-
-    cubeWorldVec = { 2.0f * (100.0f * (static_cast<float>(width) / maxDimElement)),
-                    2.0f * (100.0f * (static_cast<float>(height) / maxDimElement)),
-                    2.0f * (100.0f * (static_cast<float>(depth) / maxDimElement)) };
-
-    glGenVertexArrays(1, &vertex_array_id);
-    glBindVertexArray(vertex_array_id);
-
-    glGenBuffers(1, &vertex_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cube), cube, GL_STATIC_DRAW);
-
-    aPos_attribute = glGetAttribLocation(shaderProgram->programId(), "aPos");
-    glVertexAttribPointer(aPos_attribute, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(aPos_attribute);
-
-    aTexCoord_attribute = glGetAttribLocation(shaderProgram->programId(), "aTexCoord");
-    glVertexAttribPointer(aTexCoord_attribute, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(aTexCoord_attribute);
-
-    model_view = glGetUniformLocation(shaderProgram->programId(), "model_view");
-    projection = glGetUniformLocation(shaderProgram->programId(), "projection");
-    invModelViewProj = glGetUniformLocation(shaderProgram->programId(), "invMVP");
-    cameraPos = glGetUniformLocation(shaderProgram->programId(), "cameraPos");
-    windowWidth = glGetUniformLocation(shaderProgram->programId(), "windowWidth");
-    windowHeight = glGetUniformLocation(shaderProgram->programId(), "windowHeight");
-    minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
-    maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
-    cubeWorld = glGetUniformLocation(shaderProgram->programId(), "cubeWorld");
-
-    model_matrix = glm::mat4(1.0f);
+    reloadData();
 }
 
 void Volume3dView::UpdateModel(const glm::mat4& cam_view, int winWidth, int winHeight, float minVoxelThreshold, float maxVoxelThreshold)
