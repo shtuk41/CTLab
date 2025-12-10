@@ -24,7 +24,8 @@ public:
 
     float getMinVoxelThresholdValue() const { return minVoxelThresholdValue; }
     float getMaxVoxelThresholdValue() const { return maxVoxelThresholdValue; }
- 
+    
+    virtual void updateVolume() = 0;
     virtual void reloadData() = 0;
     virtual void deleteBuffers() = 0;
 

@@ -14,6 +14,14 @@ GLViewQuadXY::~GLViewQuadXY()
     doneCurrent();
 }
 
+void GLViewQuadXY::updateVolume()
+{
+    makeCurrent();    
+    reloadData();     
+    doneCurrent();    
+    update();         
+}
+
 void GLViewQuadXY::deleteBuffers()
 {
     if (tex3D)
@@ -38,7 +46,7 @@ void GLViewQuadXY::deleteBuffers()
 void GLViewQuadXY::reloadData()
 {
     deleteBuffers();
-    
+
     const int widthX = context->volumeData->getHeader()->recoX;
     const int heightY = context->volumeData->getHeader()->recoY;
     const int depthZ = context->volumeData->getHeader()->recoZ;
@@ -93,13 +101,12 @@ void GLViewQuadXY::reloadData()
     minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
     maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
 
-    shaderProgram->bind();
+    //shaderProgram->bind();
     // Set the uniform sampler to use texture unit 1
     GLuint loc = glGetUniformLocation(shaderProgram->programId(), "volumeTex");
     glUniform1i(loc, 0);
 
-    shaderProgram->release();
-
+    //shaderProgram->release();
     update();
 }
 

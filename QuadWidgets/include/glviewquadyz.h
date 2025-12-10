@@ -12,6 +12,7 @@ public:
     explicit GLViewQuadYZ(const QColor& color, QWidget* parent, Context* c);
     ~GLViewQuadYZ();
 
+    void updateVolume() override;
     void reloadData() override;
     void deleteBuffers() override;
     

@@ -14,6 +14,14 @@ GLViewQuadXZ::~GLViewQuadXZ()
     doneCurrent();
 }
 
+void GLViewQuadXZ::updateVolume()
+{
+    makeCurrent();
+    reloadData();
+    doneCurrent();
+    update();
+}
+
 void GLViewQuadXZ::deleteBuffers()
 {
     if (tex3D)

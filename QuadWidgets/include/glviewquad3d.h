@@ -17,6 +17,7 @@ public:
     explicit GLViewQuad3D(const QColor& color, QWidget* parent, Context* c);
     ~GLViewQuad3D();
 
+    void updateVolume() override {};
     void reloadData() override;
     void deleteBuffers() override;
 
