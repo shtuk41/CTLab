@@ -47,14 +47,21 @@ GLViewQuad3D::~GLViewQuad3D()
    
 }
 
+void GLViewQuad3D::updateVolume()
+{
+    makeCurrent();
+    volume3dview.updateVolume();
+    doneCurrent();
+    update();
+}
+
 void GLViewQuad3D::reloadData()
 {
-    volume3dview.reloadData();
+
 }
 
 void GLViewQuad3D::deleteBuffers()
 {
-    volume3dview.deleteBuffers();
 }
 
 void GLViewQuad3D::initializeGL()

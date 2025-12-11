@@ -44,6 +44,7 @@ public:
     Volume3dView(Camera *cam, size_t cubeSize);
     ~Volume3dView();
 
+    void updateVolume();
     void deleteBuffers();
     void reloadData();
     
