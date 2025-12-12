@@ -25,17 +25,7 @@ GLViewQuad3D::GLViewQuad3D(const QColor& color, QWidget* parent, Context*c)
     rotateX = 0.0f;
     rotateY = 0.0f;
 
-    const int width = context->volumeData->getHeader()->recoX;
-    const int height = context->volumeData->getHeader()->recoY;
-    const int depth = context->volumeData->getHeader()->recoZ;
-
-    int dims[3] = { width, height, depth };
-
-    int maxDimElement = *std::max_element(dims, dims + 3);
-
-    planeXYMinTravel = 50.0f * 2.0f * static_cast<float>(depth) / maxDimElement;
-    planeXZMinTravel = 50.0f * 2.0f * static_cast<float>(height) / maxDimElement;
-    planeYZMinTravel = 50.0f * 2.0f * static_cast<float>(width) / maxDimElement;
+    reloadData();
     
     context->onDistanceChanged = [this]() {
         this->update();
@@ -52,12 +42,36 @@ void GLViewQuad3D::updateVolume()
     makeCurrent();
     volume3dview.updateVolume();
     doneCurrent();
+    reloadData();
     update();
 }
 
 void GLViewQuad3D::reloadData()
 {
+    const int width = context->volumeData->getHeader()->recoX;
+    const int height = context->volumeData->getHeader()->recoY;
+    const int depth = context->volumeData->getHeader()->recoZ;
 
+    int dims[3] = { width, height, depth };
+
+    int maxDimElement = *std::max_element(dims, dims + 3);
+
+    planeXYMinTravel = 50.0f * 2.0f * static_cast<float>(depth) / maxDimElement;
+    planeXZMinTravel = 50.0f * 2.0f * static_cast<float>(height) / maxDimElement;
+    planeYZMinTravel = 50.0f * 2.0f * static_cast<float>(width) / maxDimElement;
+
+    context->setXDistance(0);
+    context->setYDistance(0);
+    context->setZDistance(0);
+    
+    float zPosition = planeXYMinTravel * (context->zDistance - 0.5f);
+    planeXY.SetPosition(0, 0, zPosition);
+
+    float yPosition = planeXZMinTravel * (context->yDistance - 0.5f);
+    planeXZ.SetPosition(0, yPosition, 0);
+
+    float xPosition = planeYZMinTravel * (context->xDistance - 0.5f);
+    planeYZ.SetPosition(xPosition, 0, 0);
 }
 
 void GLViewQuad3D::deleteBuffers()

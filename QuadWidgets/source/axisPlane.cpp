@@ -123,12 +123,9 @@ void AxisPlane::UpdateModel(const glm::mat4& cam_view)
     auto mm = glm::translate(model_matrix, glm::vec3(_X, _Y, _Z));
 
     auto shvec = glm::vec3(0.0f, 0.0f, 1.0f);
-    //auto dir = glm::vec3(1.0f, 0.0f, 0.0f);
-    auto dir = glm::vec3(-0.08f, 0.025f, 0.99f);
     auto cross = glm::normalize(glm::cross(direction, shvec));
     float theta = glm::acos(glm::dot(direction, shvec));
 
-    //mm = glm::rotate(mm, -theta, cross);
     mm = glm::rotate(mm, -theta, glm::vec3(1,0,0));
     model_view_matrix = cam_view * mm;
 }

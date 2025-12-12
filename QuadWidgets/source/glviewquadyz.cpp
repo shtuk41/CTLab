@@ -47,6 +47,8 @@ void GLViewQuadYZ::reloadData()
 {
     deleteBuffers();
 
+    xDistance = 0;
+
     const int width = context->volumeData->getHeader()->recoX;
     const int heightX = context->volumeData->getHeader()->recoY;
     const int depthY = context->volumeData->getHeader()->recoZ;

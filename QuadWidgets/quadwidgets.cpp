@@ -182,5 +182,7 @@ void QuadWidgets::dropEvent(QDropEvent* event)
         glViewQuadXZ->updateVolume();
         
     }
+    ui.minVoxelValueSlider->setValue(0);
+    ui.maxVoxelValueSlider->setValue(std::numeric_limits<unsigned short>::max());
 }
 
