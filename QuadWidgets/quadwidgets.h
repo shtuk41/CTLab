@@ -25,6 +25,7 @@ private:
     GLViewQuadYZ* glViewQuadYZ;
     GLViewQuadXZ* glViewQuadXZ;
     GLViewQuad3D* glViewQuad3d;
+    Context context;
 
 protected:
     void dragEnterEvent(QDragEnterEvent* event) override;

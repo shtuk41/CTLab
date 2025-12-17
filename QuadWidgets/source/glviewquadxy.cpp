@@ -49,6 +49,9 @@ void GLViewQuadXY::reloadData()
 
     zDistance = 0;
 
+    if (!context->volumeData)
+        return;
+
     const int widthX = context->volumeData->getHeader()->recoX;
     const int heightY = context->volumeData->getHeader()->recoY;
     const int depthZ = context->volumeData->getHeader()->recoZ;
@@ -134,6 +137,9 @@ void GLViewQuadXY::resizeGL(int w, int h)
     float scaleX, scaleY;
 
     const float aspect = float(w) / h;
+
+    if (!context->volumeData)
+        return;
 
     const int widthX = context->volumeData->getHeader()->recoX;
     const int heightY = context->volumeData->getHeader()->recoY;

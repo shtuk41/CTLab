@@ -63,6 +63,9 @@ void Volume3dView::reloadData()
     //const int height = 256;
     //const int depth = 256; 
 
+    if (!context->volumeData)
+        return;
+
     const int width = context->volumeData->getHeader()->recoX;
     const int height = context->volumeData->getHeader()->recoY;
     const int depth = context->volumeData->getHeader()->recoZ;
@@ -690,13 +693,16 @@ void Volume3dView::Draw()
 
     glUniform3fv(cubeWorld, 1, glm::value_ptr(cubeWorldVec));
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_3D, tex3D);
-    GLuint te = glGetUniformLocation(shaderProgram->programId(), "volumeTex");
-    glUniform1i(te, 0);
+    if (tex3D)
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_3D, tex3D);
+        GLuint te = glGetUniformLocation(shaderProgram->programId(), "volumeTex");
+        glUniform1i(te, 0);
 
-    glBindVertexArray(vertex_array_id);
-    glDrawArrays(GL_TRIANGLES, 0, 36);  // full cube
+        glBindVertexArray(vertex_array_id);
+        glDrawArrays(GL_TRIANGLES, 0, 36);  // full cube
+    }
 
     shaderProgram->release();
 }

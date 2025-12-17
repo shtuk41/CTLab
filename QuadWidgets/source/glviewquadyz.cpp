@@ -49,6 +49,9 @@ void GLViewQuadYZ::reloadData()
 
     xDistance = 0;
 
+    if (!context->volumeData)
+        return;
+
     const int width = context->volumeData->getHeader()->recoX;
     const int heightX = context->volumeData->getHeader()->recoY;
     const int depthY = context->volumeData->getHeader()->recoZ;
@@ -130,6 +133,9 @@ void GLViewQuadYZ::initializeGL()
 
 void GLViewQuadYZ::resizeGL(int w, int h)
 {
+    if (!context->volumeData)
+        return;
+
     const int heightX = context->volumeData->getHeader()->recoY;
     const int depthY = context->volumeData->getHeader()->recoZ;
 

@@ -48,6 +48,9 @@ void GLViewQuad3D::updateVolume()
 
 void GLViewQuad3D::reloadData()
 {
+    if (!context->volumeData)
+        return;
+
     const int width = context->volumeData->getHeader()->recoX;
     const int height = context->volumeData->getHeader()->recoY;
     const int depth = context->volumeData->getHeader()->recoZ;

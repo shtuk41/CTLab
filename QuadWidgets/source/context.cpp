@@ -6,6 +6,11 @@
 
 #include <context.h>
 
+Context::Context()
+{
+	volumeData = nullptr;
+}
+
 Context::Context(std::string volumePath)
 {
 	volumeData = std::make_unique<VolumeData>(volumePath);
