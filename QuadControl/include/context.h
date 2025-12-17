@@ -10,6 +10,7 @@
 struct Context
 {
 	std::function<void()> onDistanceChanged;
+	std::function<void()> onVolumeChanged;
 
 	void setXDistance(float xD);
 	void setYDistance(float yD);
@@ -23,4 +24,6 @@ struct Context
 
 	Context(const std::string& path);
 	void initGL();
+
+	bool setVolume(const std::string& path);
 };

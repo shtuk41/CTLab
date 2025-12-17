@@ -10,6 +10,16 @@ ApplicationWindow {
     visible: true
     title: "Volume View Control"
 
+    DropArea {
+        anchors.fill: parent
+        onDropped: function(dropEvent) {      // declare a parameter
+            if (dropEvent.hasUrls) {
+                // console.log("Dropped file:", dropEvent.urls[0])
+                VolumeContext.loadVolume(dropEvent.urls[0])
+            }
+        }
+    }
+
     property GLView3D glView3DInstance
     property GLViewXY glViewXYInstance
     property GLViewYZ glViewYZInstance

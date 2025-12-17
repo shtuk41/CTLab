@@ -63,3 +63,14 @@ void Context::setZDistance(float zD)
 	}
 }
 
+bool Context::setVolume(const std::string& path)
+{
+	//if (path != oldPath)
+	if (onVolumeChanged)
+	{
+		onVolumeChanged();
+	}
+
+	return false;
+}
+

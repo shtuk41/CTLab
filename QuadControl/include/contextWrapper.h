@@ -11,6 +11,12 @@ public:
     explicit ContextWrapper(const QString& path, QObject* parent = nullptr)
         : QObject(parent), m_context(std::make_shared<Context>(path.toStdString())) {}
 
+    Q_INVOKABLE void loadVolume(const QString& path)
+    {
+        qDebug() << "Loading volume from file:" << path;
+        //getContext()->setVolume(path.toStdString());
+    }
+
     QString volumePath() const { return path; }
 
     std::shared_ptr<Context> getContext() const { return m_context; }
