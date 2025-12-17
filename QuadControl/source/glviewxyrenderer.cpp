@@ -21,9 +21,9 @@ void GLViewXYRenderer::initializeGL()
     success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
     success = shaderProgram->link();
 
-    const int widthX = context->volumeData.getHeader()->recoX;
-    const int heightY = context->volumeData.getHeader()->recoY;
-    const int depthZ = context->volumeData.getHeader()->recoZ;
+    const int widthX = context->volumeData->getHeader()->recoX;
+    const int heightY = context->volumeData->getHeader()->recoY;
+    const int depthZ = context->volumeData->getHeader()->recoZ;
 
     float scaleX, scaleY;
 

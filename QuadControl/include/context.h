@@ -16,12 +16,13 @@ struct Context
 	void setYDistance(float yD);
 	void setZDistance(float zD);
 
-	VolumeData volumeData;
+	std::unique_ptr<VolumeData> volumeData;
 	GLuint tex3D = 0;
 	bool initialized = false;
 	int width = 0, height = 0, depth = 0;
 	float xDistance = 0.0f, yDistance = 0.0f, zDistance = 0.0f;
 
+	Context();
 	Context(const std::string& path);
 	void initGL();
 

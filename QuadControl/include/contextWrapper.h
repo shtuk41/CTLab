@@ -14,7 +14,7 @@ public:
     Q_INVOKABLE void loadVolume(const QString& path)
     {
         qDebug() << "Loading volume from file:" << path;
-        //getContext()->setVolume(path.toStdString());
+        getContext()->setVolume(path.toStdString());
     }
 
     QString volumePath() const { return path; }

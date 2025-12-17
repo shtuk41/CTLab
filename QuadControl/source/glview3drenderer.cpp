@@ -17,9 +17,9 @@ GLView3DRenderer::GLView3DRenderer(const QColor& color, std::shared_ptr<Context>
 {
     initializeGL();
 
-    const int width = context->volumeData.getHeader()->recoX;
-    const int height = context->volumeData.getHeader()->recoY;
-    const int depth = context->volumeData.getHeader()->recoZ;
+    const int width = context->volumeData->getHeader()->recoX;
+    const int height = context->volumeData->getHeader()->recoY;
+    const int depth = context->volumeData->getHeader()->recoZ;
 
     int dims[3] = { width, height, depth };
 

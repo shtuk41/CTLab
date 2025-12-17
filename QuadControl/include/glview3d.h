@@ -23,7 +23,7 @@ public:
     {
         setAcceptedMouseButtons(Qt::AllButtons);  // enable mouse buttons
         setAcceptHoverEvents(true);               // enable hover events
-        setFocusPolicy(Qt::StrongFocus);                           // optional, for keyboard
+        setFocusPolicy(Qt::StrongFocus);          // optional, for keyboard
 
         minVoxelThresholdValue = 0;
         maxVoxelThresholdValue = 65536;
@@ -179,11 +179,6 @@ private:
     void initializeVolume()
     {
         return;
-        if (!m_context) return;
-
-        auto ctx = m_context->getContext();
-        ctx->volumeData.saveHeaderToFile("volumeHeader3d.txt");
-        ctx->volumeData.fillBuffer();
     }
 
     int windowWidth;

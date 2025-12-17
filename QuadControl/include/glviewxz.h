@@ -110,11 +110,6 @@ private:
     void initializeVolume()
     {
         return;
-        if (!m_context) return;
-
-        auto ctx = m_context->getContext();
-        ctx->volumeData.saveHeaderToFile("volumeHeaderXZ.txt");
-        ctx->volumeData.fillBuffer();
     }
 
     float minVoxelThresholdValue;
