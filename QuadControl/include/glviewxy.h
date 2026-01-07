@@ -60,8 +60,11 @@ public:
     {
         if (m_context == ctx) return;
         m_context = ctx;
+
+        connect(m_context, &ContextWrapper::volumeUpdated, this, &GLViewXY::initializeVolume);
+
         emit contextChanged();
-        initializeVolume();
+
     }
 
 signals:
@@ -109,7 +112,7 @@ protected:
 private:
     void initializeVolume()
     {
-        return;
+        qDebug() << "initialize volume called from glviewxy.h";
     }
 
     float minVoxelThresholdValue;

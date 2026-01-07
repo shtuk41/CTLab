@@ -15,6 +15,7 @@ public:
     {
         qDebug() << "Loading volume from file:" << path;
         getContext()->setVolume(path.toStdString());
+        emit volumeUpdated();
     }
 
     QString volumePath() const { return path; }
@@ -24,5 +25,8 @@ public:
 private:
     std::shared_ptr<Context> m_context;
     QString path;
+
+signals:
+    void volumeUpdated();
 };
 

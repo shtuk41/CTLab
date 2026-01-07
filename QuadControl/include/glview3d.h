@@ -65,19 +65,20 @@ public:
         update();
     }
 
-    ContextWrapper* context() const { return m_context; }
+    ContextWrapper* context() const { return m_context; } 
 
     void setContext(ContextWrapper* ctx)
     {
         if (m_context == ctx) return;
         m_context = ctx;
-
+         
         m_context->getContext()->onDistanceChanged = [this]() {
             this->update();
             };
 
+        connect(m_context, &ContextWrapper::volumeUpdated, this, &GLView3D::initializeVolume);
+
         emit contextChanged();
-        initializeVolume();
     }
 
 signals:
@@ -178,7 +179,7 @@ protected:
 private:
     void initializeVolume()
     {
-        return;
+        qDebug() << "initialize volume called from glview3d.h";
     }
 
     int windowWidth;
