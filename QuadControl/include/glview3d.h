@@ -76,9 +76,19 @@ public:
             this->update();
             };
 
-        connect(m_context, &ContextWrapper::volumeUpdated, this, &GLView3D::initializeVolume);
+        connect(m_context, &ContextWrapper::volumeUpdated, this, &GLView3D::reloadData);
 
         emit contextChanged();
+    }
+
+    bool isRealodDataSet() const
+    {
+        return reloadDataFlag;
+    }
+
+    void reloadDataReset()
+    {
+        reloadDataFlag = false;
     }
 
 signals:
@@ -177,9 +187,10 @@ protected:
     }
 
 private:
-    void initializeVolume()
+    void reloadData()
     {
         qDebug() << "initialize volume called from glview3d.h";
+        //reloadDataFlag = true;
     }
 
     int windowWidth;
@@ -199,6 +210,8 @@ private:
     float rotateX;
     float rotateY;
     float cameraBoundaries;
+
+    bool reloadDataFlag = false;
 
     //context
     ContextWrapper* m_context = nullptr;

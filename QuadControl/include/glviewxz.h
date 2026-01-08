@@ -61,9 +61,19 @@ public:
         if (m_context == ctx) return;
         m_context = ctx;
 
-        connect(m_context, &ContextWrapper::volumeUpdated, this, &GLViewXZ::initializeVolume);
+        connect(m_context, &ContextWrapper::volumeUpdated, this, &GLViewXZ::reloadData);
 
         emit contextChanged();
+    }
+
+    bool isRealodDataSet() const
+    {
+        return reloadDataFlag;
+    }
+
+    void reloadDataReset()
+    {
+        reloadDataFlag = false;
     }
 
 signals:
@@ -109,14 +119,16 @@ protected:
         update();
     }
 private:
-    void initializeVolume()
+    void reloadData()
     {
         qDebug() << "initialize volume called from glviewxz.h";
+        //reloadDataFlag = true;
     }
 
     float minVoxelThresholdValue;
     float maxVoxelThresholdValue;
     float yDistance;
+    bool  reloadDataFlag = false;
 
     //context
     ContextWrapper* m_context = nullptr;

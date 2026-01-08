@@ -16,7 +16,6 @@ class GLViewXY : public QQuickFramebufferObject
     Q_PROPERTY(int maxVoxelThreshold READ maxVoxelThreshold WRITE setMaxVoxelThreshold)
     Q_PROPERTY(ContextWrapper* context READ context WRITE setContext NOTIFY contextChanged)
 
-
 public:
     GLViewXY()
     {
@@ -61,10 +60,19 @@ public:
         if (m_context == ctx) return;
         m_context = ctx;
 
-        connect(m_context, &ContextWrapper::volumeUpdated, this, &GLViewXY::initializeVolume);
+        connect(m_context, &ContextWrapper::volumeUpdated, this, &GLViewXY::reloadData);
 
         emit contextChanged();
+    }
 
+    bool isRealodDataSet() const
+    {
+        return reloadDataFlag;
+    }
+
+    void reloadDataReset()
+    {
+        reloadDataFlag = false;
     }
 
 signals:
@@ -110,14 +118,16 @@ protected:
         update();
     }
 private:
-    void initializeVolume()
+    void reloadData()
     {
         qDebug() << "initialize volume called from glviewxy.h";
+        //reloadDataFlag = true;
     }
 
     float minVoxelThresholdValue;
     float maxVoxelThresholdValue;
     float zDistance;
+    bool  reloadDataFlag = false;
     
     //context
     ContextWrapper* m_context = nullptr;

@@ -3,7 +3,8 @@
 #include <QObject>
 #include <context.h>
 
-class ContextWrapper : public QObject {
+class ContextWrapper : public QObject 
+{
     Q_OBJECT
     Q_PROPERTY(QString volumePath READ volumePath CONSTANT)
 

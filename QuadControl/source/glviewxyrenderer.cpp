@@ -9,17 +9,26 @@ GLViewXYRenderer::GLViewXYRenderer(const QColor& color, std::shared_ptr<Context>
     initializeGL();
 }
 
-void GLViewXYRenderer::initializeGL()
+void GLViewXYRenderer::deleteBuffers()
 {
-    initializeOpenGLFunctions();
+    if (vertex_buffer)
+    {
+        glDeleteBuffers(1, &vertex_buffer);
+        vertex_buffer = 0;
+    }
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\xy.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\xy.frag");
+    if (vertex_array_id)
+    {
+        glDeleteVertexArrays(1, &vertex_array_id);
+        vertex_array_id = 0;
+    }
+}
 
-    shaderProgram = new QOpenGLShaderProgram();
-    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
-    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
-    success = shaderProgram->link();
+void GLViewXYRenderer::reloadData()
+{
+    deleteBuffers();
+
+    zDistance = 0;
 
     const int widthX = context->volumeData->getHeader()->recoX;
     const int heightY = context->volumeData->getHeader()->recoY;
@@ -54,7 +63,7 @@ void GLViewXYRenderer::initializeGL()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
- 
+
     zSlice = glGetUniformLocation(shaderProgram->programId(), "zSlice");
     minVal = glGetUniformLocation(shaderProgram->programId(), "minVal");
     maxVal = glGetUniformLocation(shaderProgram->programId(), "maxVal");
@@ -65,6 +74,21 @@ void GLViewXYRenderer::initializeGL()
     glUniform1i(loc, 0);
 
     shaderProgram->release();
+}
+
+void GLViewXYRenderer::initializeGL()
+{
+    initializeOpenGLFunctions();
+
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\xy.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\xy.frag");
+
+    shaderProgram = new QOpenGLShaderProgram();
+    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
+    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
+    success = shaderProgram->link();
+
+    reloadData();
 
     border.Setup();
 }
@@ -108,8 +132,16 @@ void GLViewXYRenderer::synchronize(QQuickFramebufferObject* item)
 {
     auto* view = static_cast<GLViewXY*>(item);
 
-    //TODO:  verify that compiler inlines class members "simple getters"
-    this->minVoxelThresholdValue = view->minVoxelThreshold();
-    this->maxVoxelThresholdValue = view->maxVoxelThreshold();
-    this->zDistance = view->getZDistance();
+    if (view->isRealodDataSet())
+    {
+        initializeGL();
+        view->reloadDataReset();
+    }
+    else
+    {
+        //TODO:  verify that compiler inlines class members "simple getters"
+        this->minVoxelThresholdValue = view->minVoxelThreshold();
+        this->maxVoxelThresholdValue = view->maxVoxelThreshold();
+        this->zDistance = view->getZDistance();
+    }
 }

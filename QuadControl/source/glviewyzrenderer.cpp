@@ -109,9 +109,16 @@ void GLViewYZRenderer::synchronize(QQuickFramebufferObject* item)
 {
     auto* view = static_cast<GLViewYZ*>(item);
 
-    //TODO:  verify that compiler inlines class members "simple getters"
-    this->minVoxelThresholdValue = view->minVoxelThreshold();
-    this->maxVoxelThresholdValue = view->maxVoxelThreshold();
-    this->xDistance = view->getXDistance();
-    glViewport(0, 0, view->width(), view->height());
+    if (view->isRealodDataSet())
+    {
+        view->reloadDataReset();
+    }
+    else
+    {
+        //TODO:  verify that compiler inlines class members "simple getters"
+        this->minVoxelThresholdValue = view->minVoxelThreshold();
+        this->maxVoxelThresholdValue = view->maxVoxelThreshold();
+        this->xDistance = view->getXDistance();
+        glViewport(0, 0, view->width(), view->height());
+    }
 }

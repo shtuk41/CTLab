@@ -106,17 +106,22 @@ void GLView3DRenderer::synchronize(QQuickFramebufferObject* item)
 {
     auto* view = static_cast<GLView3D*>(item);
 
-    //TODO:  verify that compiler inlines class members "simple getters"
-    this->rotateX = view->getRotateX();
-    this->rotateY = view->getRotateY();
-    this->cameraBoundaries = view->getCameraBoundaries();
-    this->windowWidth = view->width();
-    this->windowHeight = view->height();
-    this->minVoxelThresholdValue = view->minVoxelThreshold();
-    this->maxVoxelThresholdValue = view->maxVoxelThreshold();
-    this->xDistance = context->xDistance;
-    this->yDistance = context->yDistance;
-    this->zDistance = context->zDistance;
-
-
+    if (view->isRealodDataSet())
+    {
+        view->reloadDataReset();
+    }
+    else
+    {
+        //TODO:  verify that compiler inlines class members "simple getters"
+        this->rotateX = view->getRotateX();
+        this->rotateY = view->getRotateY();
+        this->cameraBoundaries = view->getCameraBoundaries();
+        this->windowWidth = view->width();
+        this->windowHeight = view->height();
+        this->minVoxelThresholdValue = view->minVoxelThreshold();
+        this->maxVoxelThresholdValue = view->maxVoxelThreshold();
+        this->xDistance = context->xDistance;
+        this->yDistance = context->yDistance;
+        this->zDistance = context->zDistance;
+    }
 }
