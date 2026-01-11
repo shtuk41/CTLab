@@ -202,6 +202,7 @@ private:
         moveforward = false;
         rotateX = 0.0f;
         rotateY = 0.0f;
+        cameraBoundaries = 1.0f;
         update();
     }
 
@@ -221,7 +222,7 @@ private:
     bool moveforward;
     float rotateX;
     float rotateY;
-    float cameraBoundaries;
+    float cameraBoundaries = 1.0f;
 
     bool reloadDataFlag = false;
 
