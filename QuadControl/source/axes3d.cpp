@@ -10,12 +10,30 @@ Axes3d::Axes3d(float x, float y, float z) : xLength(x), yLength(y), zLength(z)
 
 Axes3d::~Axes3d()
 {
-    glDeleteBuffers(2, vertex_buffer);
-    glDeleteVertexArrays(1, &vertex_array_id);
+    deleteBuffers();
+    delete shaderProgram;
+}
+
+void Axes3d::deleteBuffers()
+{
+    initializeOpenGLFunctions();
+
+    for (int ii = 0; ii < 2; ii++)
+    {
+        if (vertex_buffer[ii])
+        {
+            glDeleteBuffers(1, &vertex_buffer[ii]);
+            vertex_buffer[ii] = 0;
+        }
+    }
+
+    if (vertex_array_id)
+    {
+        glDeleteVertexArrays(1, &vertex_array_id);
+        vertex_array_id = 0;
+    }
     glDisableVertexAttribArray(position_attribute);
     glDisableVertexAttribArray(color_attribute);
-
-    delete shaderProgram;
 }
 
 void Axes3d::Setup()

@@ -65,14 +65,16 @@ public:
         emit contextChanged();
     }
 
-    bool isRealodDataSet() const
+    bool isRealodDataSet()
     {
+        //qDebug() << "xy isRealodDataSet";
         return reloadDataFlag;
     }
 
     void reloadDataReset()
     {
         reloadDataFlag = false;
+        update();
     }
 
 signals:
@@ -120,8 +122,9 @@ protected:
 private:
     void reloadData()
     {
-        qDebug() << "initialize volume called from glviewxy.h";
-        //reloadDataFlag = true;
+        reloadDataFlag = true;
+        zDistance = 0.0f;
+        update();
     }
 
     float minVoxelThresholdValue;

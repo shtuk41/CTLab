@@ -16,6 +16,23 @@ GLView3DRenderer::GLView3DRenderer(const QColor& color, std::shared_ptr<Context>
     cameraBoundaries(200)
 {
     initializeGL();
+}
+
+void GLView3DRenderer::deleteBuffers()
+{
+    initializeOpenGLFunctions();
+
+    axes3d.deleteBuffers();
+    planeXY.deleteBuffers();
+    planeXZ.deleteBuffers();
+    planeYZ.deleteBuffers();
+    volume3dview.deleteBuffers();
+
+}
+
+void GLView3DRenderer::reloadData()
+{
+    deleteBuffers();
 
     const int width = context->volumeData->getHeader()->recoX;
     const int height = context->volumeData->getHeader()->recoY;
@@ -28,13 +45,6 @@ GLView3DRenderer::GLView3DRenderer(const QColor& color, std::shared_ptr<Context>
     planeXYMinTravel = 50.0f * 2.0f * static_cast<float>(depth) / maxDimElement;
     planeXZMinTravel = 50.0f * 2.0f * static_cast<float>(height) / maxDimElement;
     planeYZMinTravel = 50.0f * 2.0f * static_cast<float>(width) / maxDimElement;
-}
-
-void GLView3DRenderer::initializeGL()
-{
-    initializeOpenGLFunctions();
-
-    //glEnable(GL_DEPTH_TEST);
 
     axes3d.Setup();
 
@@ -46,6 +56,13 @@ void GLView3DRenderer::initializeGL()
     planeYZ.Setup();
     //3d view
     volume3dview.Setup(context);
+}
+
+void GLView3DRenderer::initializeGL()
+{
+    initializeOpenGLFunctions();
+
+    reloadData();
 
     border.Setup();
 }
@@ -108,7 +125,9 @@ void GLView3DRenderer::synchronize(QQuickFramebufferObject* item)
 
     if (view->isRealodDataSet())
     {
+        initializeGL();
         view->reloadDataReset();
+        context->initialized = false;
     }
     else
     {

@@ -10,7 +10,6 @@
 struct Context
 {
 	std::function<void()> onDistanceChanged;
-	std::function<void()> onVolumeChanged;
 
 	void setXDistance(float xD);
 	void setYDistance(float yD);

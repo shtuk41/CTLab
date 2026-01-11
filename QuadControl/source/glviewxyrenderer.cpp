@@ -139,7 +139,6 @@ void GLViewXYRenderer::synchronize(QQuickFramebufferObject* item)
     }
     else
     {
-        //TODO:  verify that compiler inlines class members "simple getters"
         this->minVoxelThresholdValue = view->minVoxelThreshold();
         this->maxVoxelThresholdValue = view->maxVoxelThreshold();
         this->zDistance = view->getZDistance();

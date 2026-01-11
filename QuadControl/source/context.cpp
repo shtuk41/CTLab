@@ -7,14 +7,7 @@ Context::Context()
 
 Context::Context(const std::string& path)
 {
-
-	volumeData = std::make_unique<VolumeData>(path);
-
-	width = volumeData->getHeader()->recoX;
-	height = volumeData->getHeader()->recoY;
-	depth = volumeData->getHeader()->recoZ;
-	volumeData->saveHeaderToFile("volumeHeader.txt");
-	volumeData->fillBuffer();
+	setVolume(path);
 }
 
 void Context::initGL()
@@ -74,11 +67,12 @@ void Context::setZDistance(float zD)
 
 bool Context::setVolume(const std::string& path)
 {
-	//if (path != oldPath)
-	if (onVolumeChanged)
-	{
-		onVolumeChanged();
-	}
+	volumeData = std::make_unique<VolumeData>(path);
+	width = volumeData->getHeader()->recoX;
+	height = volumeData->getHeader()->recoY;
+	depth = volumeData->getHeader()->recoZ;
+	volumeData->saveHeaderToFile("volumeHeader.txt");
+	volumeData->fillBuffer();
 
 	return false;
 }

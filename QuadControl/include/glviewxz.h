@@ -74,6 +74,7 @@ public:
     void reloadDataReset()
     {
         reloadDataFlag = false;
+        update();
     }
 
 signals:
@@ -121,8 +122,9 @@ protected:
 private:
     void reloadData()
     {
-        qDebug() << "initialize volume called from glviewxz.h";
-        //reloadDataFlag = true;
+        reloadDataFlag = true;
+        yDistance = 0.0f;
+        update();
     }
 
     float minVoxelThresholdValue;

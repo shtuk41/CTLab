@@ -26,6 +26,7 @@ public:
     virtual void UpdateModel(const glm::mat4& cam_view);
     virtual void Setup();
     virtual void Draw();
+    void deleteBuffers();
 };
 
 

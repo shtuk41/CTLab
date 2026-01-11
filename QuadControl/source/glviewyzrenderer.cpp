@@ -9,17 +9,26 @@ GLViewYZRenderer::GLViewYZRenderer(const QColor& color, std::shared_ptr<Context>
     initializeGL();
 }
 
-void GLViewYZRenderer::initializeGL()
+void GLViewYZRenderer::deleteBuffers()
 {
-    initializeOpenGLFunctions();
+    if (vertex_buffer)
+    {
+        glDeleteBuffers(1, &vertex_buffer);
+        vertex_buffer = 0;
+    }
 
-    std::string vertexShaderSource = readSourceFile(".\\shaders\\yz.vert");
-    std::string fragmentShaderSource = readSourceFile(".\\shaders\\yz.frag");
+    if (vertex_array_id)
+    {
+        glDeleteVertexArrays(1, &vertex_array_id);
+        vertex_array_id = 0;
+    }
+}
 
-    shaderProgram = new QOpenGLShaderProgram();
-    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
-    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
-    success = shaderProgram->link();
+void GLViewYZRenderer::reloadData()
+{
+    deleteBuffers();
+
+    xDistance = 0;
 
     const int width = context->volumeData->getHeader()->recoX;
     const int heightX = context->volumeData->getHeader()->recoY;
@@ -65,6 +74,21 @@ void GLViewYZRenderer::initializeGL()
     glUniform1i(loc, 0);
 
     shaderProgram->release();
+}
+
+void GLViewYZRenderer::initializeGL()
+{
+    initializeOpenGLFunctions();
+
+    std::string vertexShaderSource = readSourceFile(".\\shaders\\yz.vert");
+    std::string fragmentShaderSource = readSourceFile(".\\shaders\\yz.frag");
+
+    shaderProgram = new QOpenGLShaderProgram();
+    bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
+    success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
+    success = shaderProgram->link();
+
+    reloadData();
 
     border.Setup();
 }
@@ -111,6 +135,7 @@ void GLViewYZRenderer::synchronize(QQuickFramebufferObject* item)
 
     if (view->isRealodDataSet())
     {
+        initializeGL();
         view->reloadDataReset();
     }
     else

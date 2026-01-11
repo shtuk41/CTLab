@@ -40,6 +40,10 @@ public:
     Renderer* createRenderer() const override 
     {
         qDebug() << "GLView3D";
+
+        if (!m_context)
+            qDebug() << "Context not created";
+
         return new GLView3DRenderer(Qt::yellow, (m_context ? m_context->getContext() : nullptr));
     }
 
@@ -89,6 +93,7 @@ public:
     void reloadDataReset()
     {
         reloadDataFlag = false;
+        update();
     }
 
 signals:
@@ -189,8 +194,15 @@ protected:
 private:
     void reloadData()
     {
-        qDebug() << "initialize volume called from glview3d.h";
-        //reloadDataFlag = true;
+        reloadDataFlag = true;
+        previous_xpos = 0.0;
+        previous_ypos = 0.0;
+        rotateEnable = false;
+        moveback = false;
+        moveforward = false;
+        rotateX = 0.0f;
+        rotateY = 0.0f;
+        update();
     }
 
     int windowWidth;

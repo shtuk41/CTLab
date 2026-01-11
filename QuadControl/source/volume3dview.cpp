@@ -10,11 +10,28 @@ Volume3dView::Volume3dView(Camera* c, size_t displaySize = 50) : cam(c), cubeDis
 
 Volume3dView::~Volume3dView()
 {
-    glDeleteBuffers(1, &vertex_buffer);
-    glDeleteVertexArrays(1, &vertex_array_id);
+    deleteBuffers();
+    delete shaderProgram;
+}
+
+void Volume3dView::deleteBuffers()
+{
+    initializeOpenGLFunctions();
+    
+    if (vertex_buffer)
+    {
+        glDeleteBuffers(1, &vertex_buffer);
+        vertex_buffer = 0;
+    }
+
+    if (vertex_array_id)
+    {
+        glDeleteVertexArrays(1, &vertex_array_id);
+        vertex_array_id = 0;
+    }
+
     glDisableVertexAttribArray(aPos_attribute);
     glDisableVertexAttribArray(aTexCoord_attribute);
-    delete shaderProgram;
 }
 
 void Volume3dView::Setup(std::shared_ptr<Context> ctx)

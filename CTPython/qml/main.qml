@@ -15,7 +15,10 @@ ApplicationWindow {
         onDropped: function(dropEvent) {      // declare a parameter
             if (dropEvent.hasUrls) {
                 // console.log("Dropped file:", dropEvent.urls[0])
-                VolumeContext.loadVolume(dropEvent.urls[0])
+                var u = String(dropEvent.urls[0])   // FORCE string
+        if (u.startsWith("file:///"))
+            u = u.slice(8)
+        VolumeContext.loadVolume(u)
             }
         }
     }

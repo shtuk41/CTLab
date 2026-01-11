@@ -14,6 +14,8 @@ protected:
     void initializeGL();
     void render() override;
     void synchronize(QQuickFramebufferObject* item) override;
+    void reloadData();
+    void deleteBuffers();
 
 private:
     QOpenGLShaderProgram* shaderProgram = nullptr;

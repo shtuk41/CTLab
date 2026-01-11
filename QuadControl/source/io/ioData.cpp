@@ -10,6 +10,8 @@
 
 VolumeData::VolumeData(const std::string filePath)
 {
+    qDebug() << "VolumeData " << filePath;
+
 	std::ifstream file(filePath.c_str(), std::ios::binary);
 
     if (file.is_open())
@@ -152,6 +154,10 @@ void VolumeData::fillBuffer()
     const int width = header.recoX;
     const int height = header.recoY;
     const int depth = header.recoZ;
+
+    //qDebug() << "fillBuffer new width set: " << width;
+    //qDebug() << "fillBuffer new height set: " << height;
+    //qDebug() << "fillBuffer new depth set: " << depth;
 
     volumeDataTex.resize(width * height * depth, 0);
 

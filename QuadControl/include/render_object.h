@@ -52,6 +52,7 @@ public:
 	virtual void Draw() = 0;
 	virtual void Setup() = 0;
 	virtual void UpdateModel(const glm::mat4& cam_view) = 0;
+	virtual void deleteBuffers() = 0;
 
 	virtual ~RenderObject()
 	{
