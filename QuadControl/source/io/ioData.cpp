@@ -151,15 +151,13 @@ std::string VolumeData::getHeaderString() const
 
 void VolumeData::fillBuffer() 
 {
-    const int width = header.recoX;
-    const int height = header.recoY;
-    const int depth = header.recoZ;
+    const uint64_t width = header.recoX;
+    const uint64_t height = header.recoY;
+    const uint64_t depth = header.recoZ;
 
-    //qDebug() << "fillBuffer new width set: " << width;
-    //qDebug() << "fillBuffer new height set: " << height;
-    //qDebug() << "fillBuffer new depth set: " << depth;
+    const size_t totalSize = width * height * depth;
 
-    volumeDataTex.resize(width * height * depth, 0);
+    volumeDataTex.resize(totalSize, 0);
 
     if (data.empty()) 
     {
@@ -171,11 +169,11 @@ void VolumeData::fillBuffer()
     const uint16_t maxVal = *maxIt;
     const float range = static_cast<float>(std::max(1, maxVal - minVal));
 
-    for (int z = 0; z < depth; ++z)
+    for (uint64_t z = 0; z < depth; ++z)
     {
-        for (int y = 0; y < height; ++y)
+        for (uint64_t y = 0; y < height; ++y)
         {
-            for (int x = 0; x < width; ++x)
+            for (uint64_t x = 0; x < width; ++x)
             {
                 size_t dstIdx = x + width * (y + height * z);
 
