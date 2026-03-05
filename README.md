@@ -5,10 +5,6 @@ Simulation of CT acquisition process and volume reconstruction.
 
 ![Screenshot](Readme/PointsInsideModel.png)
 
-- Initial scanning configuration:
-
-![Screenshot](Readme/initialConfiguration.png)
-
 - First projection:
 
 ![Screenshot](Readme/firstProjection.png)  
