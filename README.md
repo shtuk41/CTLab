@@ -36,14 +36,6 @@ I can't find where the wolf's 3d model came from.
 
 - Dependencies
 
-    Python based reconstruction depends on SimpleITK
-
-    pip install SimpleITK
-
-    Python visualization depends on napari package
-
-    pip install napari[all]
-
     CUDA 12.8
 
     Qt 6.9.1
