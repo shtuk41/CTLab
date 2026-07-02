@@ -40,8 +40,6 @@ I can't find where the wolf's 3d model came from.
 
     Qt 6.9.1
 
-    PySide 6
-
 
 
 
