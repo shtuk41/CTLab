@@ -33,3 +33,5 @@ packages/
 Slices/
 
 !ThirdParty/**
+
+/build/

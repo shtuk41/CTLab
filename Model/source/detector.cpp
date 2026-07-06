@@ -3,6 +3,8 @@
 #include <exception>
 #include <vector>
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include <glm/glm.hpp>  
 #include <opencv2/opencv.hpp>
 

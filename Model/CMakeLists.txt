@@ -1,47 +1,66 @@
 
-file(GLOB_RECURSE MY_SOURCES "${CMAKE_SOURCE_DIR}/source/*.cpp")
-file(GLOB_RECURSE MY_HEADERS "${CMAKE_SOURCE_DIR}/include/*.h")
+set (MY_SOURCES
+	"${CMAKE_SOURCE_DIR}/Model/source/AcquisModel.cpp"
+	"${CMAKE_SOURCE_DIR}/Model/source/detector.cpp"
+	"${CMAKE_SOURCE_DIR}/Model/source/scanObject.cpp"
+	"${CMAKE_SOURCE_DIR}/Model/source/source.cpp"
+	"${CMAKE_SOURCE_DIR}/Model/source/volumeArea.cpp"
+	"${CMAKE_SOURCE_DIR}/Model/source/cadrw/cad_common.cpp"
+	"${CMAKE_SOURCE_DIR}/Model/source/cadrw/cad_parser.cpp"
+	"${CMAKE_SOURCE_DIR}/Model/source/cadrw/stl_parser.cpp"
+)
+
+set(MY_HEADERS
+    "${CMAKE_SOURCE_DIR}/Model/include/detector.h"
+    "${CMAKE_SOURCE_DIR}/Model/include/modelDefs.h"
+	"${CMAKE_SOURCE_DIR}/Model/include/modelExceptions.h"
+	"${CMAKE_SOURCE_DIR}/Model/include/scanObject.h"
+	"${CMAKE_SOURCE_DIR}/Model/include/source.h"
+	"${CMAKE_SOURCE_DIR}/Model/include/utilities.h"
+	"${CMAKE_SOURCE_DIR}/Model/include/volumeArea.h"
+)
 
 set(CADRW_SOURCES
-    "${CMAKE_SOURCE_DIR}/source/cadrw/cad_common.cpp"
-    "${CMAKE_SOURCE_DIR}/source/cadrw/cad_parser.cpp"
-	"${CMAKE_SOURCE_DIR}/source/cadrw/stl_parser.cpp"
-	"${CMAKE_SOURCE_DIR}/source/cadrw/stp_parser.cpp"
+    "${CMAKE_SOURCE_DIR}/Model/source/cadrw/cad_common.cpp"
+    "${CMAKE_SOURCE_DIR}/Model/source/cadrw/cad_parser.cpp"
+	"${CMAKE_SOURCE_DIR}/Model/source/cadrw/stl_parser.cpp"
 )
 
 set(CADRW_HEADERS
-    "${CMAKE_SOURCE_DIR}/include/cadrw/cad_common.h"
-    "${CMAKE_SOURCE_DIR}/include/cadrw/cad_parser.h"
-	"${CMAKE_SOURCE_DIR}/include/cadrw/stl_parser.h"
-	"${CMAKE_SOURCE_DIR}/include/cadrw/stp_parser.h"
+    "${CMAKE_SOURCE_DIR}/Model/include/cadrw/cad_common.h"
+    "${CMAKE_SOURCE_DIR}/Model/include/cadrw/cad_parser.h"
+	"${CMAKE_SOURCE_DIR}/Model/include/cadrw/stl_parser.h"
 )
 
-source_group("Source Files\\imgui" FILES ${MY_SOURCES})
 source_group("Source Files\\cadrw" FILES ${CADRW_SOURCES})
-source_group("Header Files" FILES ${MY_HEADERS})
 source_group("Header Files\\cadrw" FILES ${CADRW_HEADERS})
+source_group("Header Files" FILES ${MY_HEADERS})
 
-add_executable(Model 
-	main.cpp
+
+add_executable(AcquisitionModel 
+	${MY_SOURCES} 
 )
 
-target_sources(Model PRIVATE 
+target_sources(AcquisitionModel PRIVATE 
 	${MY_SOURCES} 
     ${CADRW_SOURCES}
     ${MY_HEADERS}
 	${CADRW_HEADERS}
 )
 
-# Link the imported target
-target_link_libraries(KonstruktorLib PRIVATE 
-		glfw
-		glm::glm
-		soil
-		GLEW::GLEW
-		freetype
-		opengl32)
+target_include_directories(AcquisitionModel PRIVATE 
+	${CMAKE_SOURCE_DIR}/Model/include
+	${CMAKE_SOURCE_DIR}/Model/include/cadrw	
+)
 
-set_target_properties(Konstruktor PROPERTIES
+target_link_libraries(AcquisitionModel PRIVATE 
+	glm::glm
+	${OpenCV_LIBS}
+)
+
+# Link the imported target
+
+set_target_properties(AcquisitionModel PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/bin"
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/build/bin"
     RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/bin"

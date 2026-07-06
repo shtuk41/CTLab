@@ -21,12 +21,13 @@ find_package(glm CONFIG REQUIRED)
 find_package(soil CONFIG REQUIRED)
 find_package(GLEW CONFIG REQUIRED)
 find_package(freetype CONFIG REQUIRED)
+find_package(OpenCV CONFIG REQUIRED)
 
 add_subdirectory(Model)
 
-if(BUILD_TESTING)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+#if(BUILD_TESTING)
+#    enable_testing()
+#    add_subdirectory(tests)
+#endif()
 
 

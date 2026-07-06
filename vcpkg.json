@@ -8,7 +8,8 @@
     "soil",
     "rapidxml",
     "freetype",
-    "yaml-cpp"
+    "yaml-cpp",
+    "opencv"
   ],
   "features": {
     "tests": {

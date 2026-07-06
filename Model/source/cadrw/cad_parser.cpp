@@ -3,7 +3,7 @@
 
 #include <cad_parser.h>
 #include <stl_parser.h>
-#include <stp_parser.h>
+//#include <stp_parser.h>
 
 static std::string getFileExtension(std::string filepath)
 {
@@ -70,11 +70,11 @@ output_data CadParser::ParseToTriangleMesh(const char *filePath, unsigned int &n
 		triangles = StlParser::ParseToTriangles(filePath, numberTriangles);
 		numberOfTriangles = numberTriangles;
 	}
-	else if (extension.compare("stp") == 0)
-	{
-		triangles = StpParser::ParseToTriangles(filePath, numberTriangles, stpLinearDeflection);
-		numberOfTriangles = numberTriangles;
-	}
+	//else if (extension.compare("stp") == 0)
+	//{
+	//	triangles = StpParser::ParseToTriangles(filePath, numberTriangles, stpLinearDeflection);
+	//	numberOfTriangles = numberTriangles;
+	//}
 	else
 	{
 		return data;
