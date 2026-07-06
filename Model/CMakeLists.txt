@@ -8,6 +8,9 @@ set (MY_SOURCES
 	"${CMAKE_SOURCE_DIR}/Model/source/cadrw/cad_common.cpp"
 	"${CMAKE_SOURCE_DIR}/Model/source/cadrw/cad_parser.cpp"
 	"${CMAKE_SOURCE_DIR}/Model/source/cadrw/stl_parser.cpp"
+	"${CMAKE_SOURCE_DIR}/Model/source/detector.cu"
+	"${CMAKE_SOURCE_DIR}/Model/source/volumeArea.cu"
+	
 )
 
 set(MY_HEADERS
@@ -18,6 +21,7 @@ set(MY_HEADERS
 	"${CMAKE_SOURCE_DIR}/Model/include/source.h"
 	"${CMAKE_SOURCE_DIR}/Model/include/utilities.h"
 	"${CMAKE_SOURCE_DIR}/Model/include/volumeArea.h"
+	"${CMAKE_SOURCE_DIR}/Model/include/vecMath.cuh"
 )
 
 set(CADRW_SOURCES
@@ -56,7 +60,10 @@ target_include_directories(AcquisitionModel PRIVATE
 target_link_libraries(AcquisitionModel PRIVATE 
 	glm::glm
 	${OpenCV_LIBS}
+	CUDA::cudart
 )
+
+target_compile_features(AcquisitionModel PRIVATE cxx_std_20)
 
 # Link the imported target
 
@@ -67,6 +74,9 @@ set_target_properties(AcquisitionModel PROPERTIES
 	CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
+	CUDA_STANDARD 20
+    CUDA_STANDARD_REQUIRED ON
+    CUDA_ARCHITECTURES 80 90 100
 )
 
 
