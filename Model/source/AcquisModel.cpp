@@ -65,8 +65,10 @@ int main()
 	{
 		VolumeArea area(center);
 		ScanObject obj;
-		//obj.Init("C:\\Files\\CTLab\\MeshesTest\\wolf10.stl");
+
 		obj.Init("..\\MeshesTest\\wolf10.stl");
+
+		std::cout << "Number of triangles: " << obj.GetNumberOfTriangles() << std::endl;
 
 		auto scanPoints = obj.GetMeshPoints();
 		savePointsToAFile(scanPoints, "object.csv");
@@ -77,7 +79,7 @@ int main()
 		//
 		std::vector<glm::vec3> insidePoints = area.getPointsInsideObject(obj);
 
-		std::cout << insidePoints.size() << std::endl;
+		std::cout << "Number of inside points: " << insidePoints.size() << std::endl;
 		savePointsToAFile(insidePoints, "insidePoints.csv");
 
 		glm::vec3 sourceCenter(0, 0, 0);
@@ -97,7 +99,8 @@ int main()
 			rotateZ(insidePoints, center, float(360 / numberOfSlices));
 			cv::Mat detData = detector.getPixelsPyramidMethod(source, insidePoints);
 			std::ostringstream oss;
-			oss << "..\\Slices\\Slices" << numberOfSlices << "\\slice" << ii << ".png";
+			//oss << "..\\Slices\\Slices" << numberOfSlices << "\\slice" << ii << ".png";
+			oss << "slice" << ii << ".png";
 			
 			saveMatToFile(detData, oss.str());
 

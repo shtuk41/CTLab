@@ -65,18 +65,24 @@ target_link_libraries(AcquisitionModel PRIVATE
 
 target_compile_features(AcquisitionModel PRIVATE cxx_std_20)
 
-# Link the imported target
+add_custom_command(TARGET AcquisitionModel POST_BUILD
+
+    # Copy shaders directory to both locations
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/MeshesTest" "${CMAKE_BINARY_DIR}/MeshesTest"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/MeshesTest" "${CMAKE_BINARY_DIR}/x64/MeshesTest"
+)
+
 
 set_target_properties(AcquisitionModel PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/bin"
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/build/bin"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/bin"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/x64/$<CONFIG>"
+    #RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/build/bin"
+    #RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/bin"
 	CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
 	CUDA_STANDARD 20
     CUDA_STANDARD_REQUIRED ON
-    CUDA_ARCHITECTURES 80 90 100
+    CUDA_ARCHITECTURES 61
 )
 
 
