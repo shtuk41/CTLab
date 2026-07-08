@@ -3,7 +3,7 @@
 #include <string>
 
 #include <GLFW/glfw3.h>
-#include <SOIL.h>
+#include <SOIL/SOIL.h>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>

@@ -1,5 +1,8 @@
 #include <shaders.h>
 #include <volume.h>
+
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 

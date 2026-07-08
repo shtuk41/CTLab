@@ -55,7 +55,7 @@ int main()
 		return 0;
 	}
 
-	Camera cameraGlobal(window.GetHandler(), 1.0);
+	Camera cameraGlobal(window.GetHandler(), 3.0);
 
 	Axes3d axes3d(1.2, 1.2, -1.2);
 	axes3d.Setup();

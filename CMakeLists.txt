@@ -34,6 +34,7 @@ find_package(OpenCV CONFIG REQUIRED)
 find_package(CUDAToolkit 12.8 REQUIRED)
 
 add_subdirectory(Model)
+add_subdirectory(CTLab)
 
 #if(BUILD_TESTING)
 #    enable_testing()

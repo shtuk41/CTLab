@@ -1,5 +1,8 @@
 #include <shaders.h>
 #include <axes3d.h>
+
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 

@@ -2,7 +2,7 @@
 #include <sstream>
 #include <vector>
 #include "optionsreader.h"
-#include "rapidxml-1.13/rapidxml.hpp"
+#include "rapidxml/rapidxml.hpp"
 #include <filesystem>
 
 using namespace rapidxml;
