@@ -43,7 +43,7 @@ VolumeArea::VolumeArea(const glm::vec3& center, const glm::vec3& x_axis, const g
 				double y = center.y + h * zVoxelPitch - halfHeight;
 				double z = center.z + d * xVoxelPitch - halfDepth;
 
-				(*scanBox)[h][w][d] = Voxel(glm::vec3(x, y, z), 0.0f, 0);
+				(*scanBox)[h][w][d] = std::pair<glm::vec3, int>(glm::vec3(x, y, z), 0);
 			}
 		}
 	}
@@ -54,7 +54,7 @@ glm::vec3 VolumeArea::getPointLocation(int x, int y, int z)
 	if (x >= 0 && x < nVoxelsX &&
 		y >= 0 && y < nVoxelsY &&
 		z >= 0 && z < nVoxelsZ)
-		return (*scanBox)[z][y][x].location;
+		return (*scanBox)[z][y][x].first;
 
 	THROW_DETAILED_EXCEPTION("voxel location is outside of range");
 }
@@ -69,7 +69,7 @@ std::vector<glm::vec3> VolumeArea::getAllPoints() const
 		{
 			for (int d = 0; d < nVoxelsX; d++)
 			{
-				points.push_back((*scanBox)[h][w][d].location);
+				points.push_back((*scanBox)[h][w][d].first);
 			}
 		}
 	}
@@ -97,7 +97,7 @@ std::vector<glm::vec3> VolumeArea::getPointsInsideObject(const ScanObject& objec
 			{
 				glm::vec4* ptr = object.GetTrianglesWithOffset();
 
-				glm::vec3 p = (*scanBox)[h][w][d].location;
+				glm::vec3 p = (*scanBox)[h][w][d].first;
 				//std::cout << "Point: " << p.x << " : " << p.y << " : " << p.z << '\n';
 
 				float totalSolidAngle = 0.0f;
@@ -164,8 +164,8 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 		{
 			glm::vec3 baseCenter = detector.getPixel(jj, ii);
 			glm::vec3 xV = baseCenter - apex;
-			float xVLength = glm::length(xV);
-			if (xVLength < 1e-6f) continue; // avoid zero length
+			float lengthXV = glm::length(xV);
+			if (lengthXV < 1e-6f) continue; // avoid zero length
 
 			xV = glm::normalize(xV);
 
@@ -184,10 +184,18 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 					{
 						auto& p = (*scanBox)[h][w][d];
 
-						glm::vec3 areaPoint = p.location;
+						//std::cout << p.first.x << '\n';
+						//std::cout << p.first.y << '\n';
+						//std::cout << p.first.z << '\n';
+
+						glm::vec3 areaPoint = p.first;
 						glm::vec3 areaPointTSource = areaPoint - boxCenter;
 						glm::vec4 rotated_point = rot * glm::vec4(areaPointTSource, 1.0f);
 						glm::vec3 rotatedPoint = glm::vec3(rotated_point) + boxCenter;
+
+						//std::cout << rotatedPoint.x << '\n';
+						//std::cout << rotatedPoint.y << '\n';
+						//std::cout << rotatedPoint.z << '\n';
 
 						glm::vec3 apexToPoint = rotatedPoint - apex;
 
@@ -195,12 +203,13 @@ void VolumeArea::backprojectSlice(const Detector& detector, const Source& src, c
 						float py = glm::dot(apexToPoint, yV);  // lateral
 						float pz = glm::dot(apexToPoint, zV);  // lateral
 
-						if (px >= 0 && px <= xVLength &&
+						//std::cout << px << ',' << py << ',' << pz << ',' << lengthXV << ',' << half_side << '\n';
+
+						if (px >= 0 && px <= lengthXV &&
 							fabs(py) <= half_side &&
 							fabs(pz) <= half_side)
 						{
-							p.value += static_cast<int>(65535 - data.at<ushort>(jj, ii));
-							p.count += 1;
+							p.second += static_cast<int>(data.at<ushort>(jj, ii));
 						}
 					}
 				}
@@ -223,8 +232,7 @@ void VolumeArea::writeFile(const std::string fileName)
 				{
 					for (int d = 0; d < nVoxelsX; d++)
 					{
-						Voxel & v = (*scanBox)[h][w][d];
-						float p = v.count > 0 ? v.value / static_cast<float>(v.count) : 0;
+						int p = (*scanBox)[h][w][d].second;
 						saveFile.write(reinterpret_cast<const char*>(&p), sizeof(p));
 					}
 				}

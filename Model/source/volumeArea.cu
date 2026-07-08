@@ -77,7 +77,7 @@ void getPointsInsideObjectCudaKernelLouncher(const ScanObject& obj, ZArray* scan
 		{
 			for (int d = 0; d < nVoxelsX; d++)
 			{
-				glm::vec3 p = (*scanBox)[h][w][d].location;
+				glm::vec3 p = (*scanBox)[h][w][d].first;
 
 				int index = ((h * nVoxelsY + w) * nVoxelsX + d);
 
@@ -128,7 +128,7 @@ void getPointsInsideObjectCudaKernelLouncher(const ScanObject& obj, ZArray* scan
 			int w = (ii / nVoxelsX) % nVoxelsY;
 			int h = ii / (nVoxelsX * nVoxelsY);
 
-			internalPoints.push_back((*scanBox)[h][w][d].location);
+			internalPoints.push_back((*scanBox)[h][w][d].first);
 		}
 	}
 

@@ -2,6 +2,7 @@
 //
 
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -16,6 +17,10 @@
 #include <source.h>
 #include <volumeArea.h>
 #include <utilities.h>
+
+namespace fs = std::filesystem;
+
+const fs::path saveDirectory= ".\\Slices360";
 
 void savePointsToAFile(const std::vector<glm::vec3>& points, const std::string fileName)
 {
@@ -63,12 +68,23 @@ int main()
 
 	try
 	{
+		if (!fs::exists(saveDirectory))
+		{
+			std::cout << "Directory: " << fs::absolute(saveDirectory) << " doesn't exist.  Creating...";
+			std::error_code ec;
+			fs::create_directories(saveDirectory, ec);
+			if (!ec) {
+				std::cout << "Directory exists now.\n";
+			}
+			else {
+				std::cerr << "Failed to create directory. Error: " << ec.message() << "\n";
+			}
+		}
+
 		VolumeArea area(center);
 		ScanObject obj;
-
+		//obj.Init("C:\\Files\\CTLab\\MeshesTest\\wolf10.stl");
 		obj.Init("..\\MeshesTest\\wolf10.stl");
-
-		std::cout << "Number of triangles: " << obj.GetNumberOfTriangles() << std::endl;
 
 		auto scanPoints = obj.GetMeshPoints();
 		savePointsToAFile(scanPoints, "object.csv");
@@ -79,7 +95,7 @@ int main()
 		//
 		std::vector<glm::vec3> insidePoints = area.getPointsInsideObject(obj);
 
-		std::cout << "Number of inside points: " << insidePoints.size() << std::endl;
+		std::cout << insidePoints.size() << std::endl;
 		savePointsToAFile(insidePoints, "insidePoints.csv");
 
 		glm::vec3 sourceCenter(0, 0, 0);
@@ -90,29 +106,30 @@ int main()
 		glm::vec3 detectorCenter(700, 0, 0);
 		Detector detector(detectorCenter);
 
-		std::vector<int> slices = { 0,45,90 };
-
 		//scanning & reconstructing
-		//for (uint ii = 0; ii < numberOfSlices; ii++)
-		for (int ii : slices)
+		for (uint ii = 0; ii < numberOfSlices; ii++)
 		{
 			rotateZ(insidePoints, center, float(360 / numberOfSlices));
 			cv::Mat detData = detector.getPixelsPyramidMethod(source, insidePoints);
-			std::ostringstream oss;
-			//oss << "..\\Slices\\Slices" << numberOfSlices << "\\slice" << ii << ".png";
-			oss << "slice" << ii << ".png";
+			std::ostringstream fileName;
+			fileName << "slice" << ii << ".png";
+
+			fs::path finalPath = fs::absolute(saveDirectory) / fileName.str();
+
+			std::cout << "Saving to: " << fs::absolute(finalPath) << std::endl;
 			
-			saveMatToFile(detData, oss.str());
+			saveMatToFile(detData, finalPath.string());
 
 			float rotation = 360.0f * ii / numberOfSlices;
 
 			std::cout << "Slice " << ii << " saved\nBackprojection started. Rotation " << std::fixed << std::setprecision(5) << rotation << std::endl;
 
-			area.backprojectSlice(detector, source, detData, rotation);
+			//area.backprojectSlice(detector, source, detData, rotation);
+
 			std::cout << "Slice " << ii << " backprojection finished.\n";
 		}
 
-		area.writeFile("area360.raw");
+		//area.writeFile("area360.raw");
 	}
 	catch (std::exception& ex)
 	{

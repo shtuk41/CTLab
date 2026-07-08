@@ -3,8 +3,6 @@
 #include <exception>
 #include <vector>
 
-#define GLM_ENABLE_EXPERIMENTAL
-
 #include <glm/glm.hpp>  
 #include <opencv2/opencv.hpp>
 
@@ -37,6 +35,40 @@ glm::vec3 Detector::getPixel(int z, int y) const
 		return (*plate)[z][y];
 
 	THROW_DETAILED_EXCEPTION("detector pixel location is outside of range");
+}
+
+cv::Mat Detector::getPixels(const Source& src, const std::vector<glm::vec3>& areaPoints)
+{
+	auto srcCenter = src.getCenter();
+
+	cv::Mat detectorValue = cv::Mat::zeros(nDetectorResZ, nDetectorResY, CV_8U);
+
+	for (int jj = 0; jj < nDetectorResZ; jj++)
+	{
+		for (int ii = 0; ii < nDetectorResY; ii++)
+		{
+			glm::vec3 pos = getPixel(ii, jj);
+			glm::vec3 lineDetector = pos - srcCenter;
+
+			for (auto ap : areaPoints)
+			{
+				glm::vec3 lineScanAreaPoint = ap - srcCenter;
+
+				float detectorLineLengths = glm::length(lineDetector);
+
+				glm::vec3 projOnTolineDetector = glm::dot(lineScanAreaPoint, lineDetector) / (detectorLineLengths * detectorLineLengths) * lineDetector;
+
+				glm::vec3 shortestVector = ap - projOnTolineDetector;
+
+				float distance = glm::length(shortestVector);
+
+				if (distance < 0.5)
+					detectorValue.at<uchar>(jj, ii) = 255;
+			}
+		}
+	}
+
+	return detectorValue;
 }
 
 cv::Mat Detector::getPixelsPyramidMethod(const Source& src, const std::vector<glm::vec3>& areaPoints)

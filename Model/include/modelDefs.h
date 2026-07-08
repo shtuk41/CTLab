@@ -1,5 +1,7 @@
 #pragma once
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 const int nVoxelsX = 120;
 const int nVoxelsY = 120;
 const int nVoxelsZ = 120;
