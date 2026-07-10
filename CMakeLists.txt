@@ -35,6 +35,7 @@ find_package(CUDAToolkit 12.8 REQUIRED)
 
 add_subdirectory(Model)
 add_subdirectory(CTLab)
+add_subdirectory(SaveVolumeToFile)
 
 #if(BUILD_TESTING)
 #    enable_testing()
