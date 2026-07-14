@@ -32,10 +32,14 @@ find_package(GLEW CONFIG REQUIRED)
 find_package(freetype CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(CUDAToolkit 12.8 REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS 
+    Core Qml
+)
 
 add_subdirectory(Model)
 add_subdirectory(CTLab)
 add_subdirectory(SaveVolumeToFile)
+add_subdirectory(QuadControl)
 
 #if(BUILD_TESTING)
 #    enable_testing()
