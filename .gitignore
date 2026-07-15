@@ -35,3 +35,5 @@ Slices/
 !ThirdParty/**
 
 /build/
+.idea/
+/CTLabPython/reconstructed_volume.nii.gz
