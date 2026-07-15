@@ -86,11 +86,17 @@ target_link_libraries(QuadControl PRIVATE
 
 set_target_properties(QuadControl PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/x64/$<CONFIG>"
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/build/bin"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/bin"
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
+)
+
+set(PYTHON_DEPLOY_DIR "${CMAKE_SOURCE_DIR}/CTPython/qml/QuadControl")
+
+add_custom_command(TARGET QuadControl POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy 
+    $<TARGET_FILE:QuadControl> 
+    "${PYTHON_DEPLOY_DIR}/"
 )
 
 
