@@ -33,7 +33,7 @@ find_package(freetype CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(CUDAToolkit 12.8 REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS 
-    Core Qml
+    Core Qml Quick
 )
 
 add_subdirectory(Model)

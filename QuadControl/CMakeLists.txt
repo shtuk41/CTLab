@@ -1,4 +1,8 @@
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
 file(GLOB_RECURSE MY_SHADERS "${CMAKE_SOURCE_DIR}/QuadControl/shaders/*.vert" "${CMAKE_SOURCE_DIR}/QuadControl/shaders/*.frag")
 
 set(MY_HEADERS
@@ -39,14 +43,25 @@ set(MY_SOURCES
 	"${CMAKE_SOURCE_DIR}/QuadControl/source/volume3dview.cpp" 
 )
 
+set(ALL_FILES
+	${MY_HEADERS}
+	${MY_SOURCES}
+	"${CMAKE_SOURCE_DIR}/QuadControl/QuadControl.h"
+	"${CMAKE_SOURCE_DIR}/QuadControl/quadcontrol_global.h"
+	"${CMAKE_SOURCE_DIR}/QuadControl/plugin.cpp"
+	"${CMAKE_SOURCE_DIR}/QuadControl/include/io/ioData.h"
+	"${CMAKE_SOURCE_DIR}/QuadControl/source/io/ioData.cpp"
+	${MY_SHADERS}
+)
+
 source_group("Header Files" FILES ${MY_HEADERS} "${CMAKE_SOURCE_DIR}/QuadControl/QuadControl.h" "${CMAKE_SOURCE_DIR}/QuadControl/quadcontrol_global.h")
-source_group("Source Files" FILES ${MY_HSOURCES} "${CMAKE_SOURCE_DIR}/QuadControl/plugin.cpp")
+source_group("Source Files" FILES ${MY_SOURCES} "${CMAKE_SOURCE_DIR}/QuadControl/plugin.cpp")
 source_group("Shaders" FILES ${MY_SHADERS})
 source_group("Header Files\\io" FILES "${CMAKE_SOURCE_DIR}/QuadControl/include/io/ioData.h")
 source_group("Source Files\\io" FILES "${CMAKE_SOURCE_DIR}/QuadControl/source/io/ioData.cpp")
 
 add_library(QuadControl SHARED 
-    "${CMAKE_SOURCE_DIR}/QuadControl/plugin.cpp" 
+    ${ALL_FILES}
 )
 
 target_sources(QuadControl PRIVATE 
@@ -66,6 +81,7 @@ target_link_libraries(QuadControl PRIVATE
 		glm::glm
 		Qt6::Core 
 		Qt6::Qml
+		Qt6::Quick
 )
 
 set_target_properties(QuadControl PROPERTIES
