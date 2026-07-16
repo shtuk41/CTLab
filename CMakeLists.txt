@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
+
+
 option(BUILD_TESTING "Build the test suite" ON)
 
 if(NOT DEFINED CUDAToolkit_ROOT AND WIN32)
@@ -32,14 +34,27 @@ find_package(GLEW CONFIG REQUIRED)
 find_package(freetype CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(CUDAToolkit 12.8 REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS 
-    Core Qml Quick
+find_package(Qt6 QUIET COMPONENTS 
+    Core 
+	Qml 
+	Quick 
+	Gui 
+	Widgets 
+	OpenGL
+	OpenGLWidgets
 )
+
+if(NOT Qt6_FOUND)
+    message(STATUS "----------------------------------------------------------------")
+    message(STATUS "Qt6 not found. Please set -DQt6_DIR=/path/to/Qt/6.x.x/.../lib/cmake/Qt6")
+    message(STATUS "----------------------------------------------------------------")
+endif()
 
 add_subdirectory(Model)
 add_subdirectory(CTLab)
 add_subdirectory(SaveVolumeToFile)
 add_subdirectory(QuadControl)
+add_subdirectory(QuadWidgets)
 
 #if(BUILD_TESTING)
 #    enable_testing()

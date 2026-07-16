@@ -9,19 +9,7 @@
     "rapidxml",
     "freetype",
     "yaml-cpp",
-    "opencv",
-    "qtbase",
-    "qtdeclarative"
-  ],
-  "overrides": [
-    {
-      "name": "qtbase",
-      "version": "6.9.1"
-    },
-    {
-      "name": "qtdeclarative",
-      "version": "6.9.1"
-    }
+    "opencv"
   ],
   "builtin-baseline": "ba9f458e205e02484b22de95132730525186b0ce",
   "features": {
