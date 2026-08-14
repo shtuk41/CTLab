@@ -6,10 +6,10 @@ option(BUILD_TESTING "Build the test suite" ON)
 
 if(NOT DEFINED CUDAToolkit_ROOT AND WIN32)
     # Check common installation path on Windows
-    set(CUDA_12_8_PATH "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.8")
-    if(EXISTS "${CUDA_12_8_PATH}")
-        set(CUDAToolkit_ROOT "${CUDA_12_8_PATH}" CACHE PATH "Path to CUDA 12.8 Toolkit")
-        message(STATUS "Auto-detected CUDA 12.8 at: ${CUDAToolkit_ROOT}")
+    set(CUDA_13_3_PATH "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3")
+    if(EXISTS "${CUDA_13_3_PATH}")
+        set(CUDAToolkit_ROOT "${CUDA_13_3_PATH}" CACHE PATH "Path to CUDA 13.3 Toolkit")
+        message(STATUS "Auto-detected CUDA 13.3 at: ${CUDAToolkit_ROOT}")
     endif()
 endif()
 
@@ -33,7 +33,7 @@ find_package(soil CONFIG REQUIRED)
 find_package(GLEW CONFIG REQUIRED)
 find_package(freetype CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
-find_package(CUDAToolkit 12.8 REQUIRED)
+find_package(CUDAToolkit 13.3 REQUIRED)
 find_package(Qt6 QUIET COMPONENTS 
     Core 
 	Qml 
