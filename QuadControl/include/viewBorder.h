@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
 #include <glm/glm.hpp>

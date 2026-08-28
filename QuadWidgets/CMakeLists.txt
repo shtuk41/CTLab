@@ -64,7 +64,7 @@ add_executable(QuadWidgets
 	${ALL_FILES}
 	${ui_files}
     ${qrc_files}
-    quadwidgets.rc
+    QuadWidgets.rc
 	icon.png
 	QuadWidgets.ico
 )
@@ -94,32 +94,69 @@ target_link_libraries(QuadWidgets PRIVATE
 		${OpenCV_LIBS}
 )
 
-add_custom_command(TARGET QuadWidgets POST_BUILD
+target_compile_features(QuadWidgets PRIVATE cxx_std_20)
 
-    # Copy shaders directory to both locations
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/QuadWidgets/shaders" "${CMAKE_BINARY_DIR}/QuadWidgets/shaders"
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/QuadWidgets/shaders" "${CMAKE_BINARY_DIR}/x64/$<CONFIG>/shaders"
+if(WIN32)
+	add_custom_command(TARGET QuadWidgets POST_BUILD
+
+		# Copy shaders directory to both locations
+		COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/QuadWidgets/shaders" "${CMAKE_BINARY_DIR}/QuadWidgets/shaders"
+		COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/QuadWidgets/shaders" "${CMAKE_BINARY_DIR}/x64/$<CONFIG>/shaders"
+	)
+
+
+	set_target_properties(QuadWidgets PROPERTIES
+		RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/x64/$<CONFIG>"
+		CXX_STANDARD 20
+		CXX_STANDARD_REQUIRED ON
+		CXX_EXTENSIONS OFF
 )
+elseif(LINUX)
+	set(CMAKE_CXX_STANDARD 20)
+	set(CMAKE_CXX_STANDARD_REQUIRED ON)
+	set(CMAKE_CXX_EXTENSIONS OFF)
+	
+	set_target_properties(QuadWidgets PROPERTIES
+	    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+	)
 
+	add_custom_command(TARGET QuadWidgets POST_BUILD
 
-set_target_properties(QuadWidgets PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/x64/$<CONFIG>"
-    CXX_STANDARD 20
-    CXX_STANDARD_REQUIRED ON
-    CXX_EXTENSIONS OFF
-)
+		# Copy shaders directory to both locations
+		COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/QuadWidgets/shaders" "${CMAKE_BINARY_DIR}/bin/shaders"
+	)
+endif()
+
 
 set_target_properties(QuadWidgets PROPERTIES
     RESOURCE "${CMAKE_CURRENT_SOURCE_DIR}/icon.png;${CMAKE_CURRENT_SOURCE_DIR}/QuadWidgets.ico"
 )
 
-get_filename_component(_qt6_root "${Qt6_DIR}/../../.." ABSOLUTE)
-set(windeployqt_path "${_qt6_root}/bin/windeployqt.exe")
+if(WIN32)
+    get_filename_component(_qt6_root "${Qt6_DIR}/../../.." ABSOLUTE)
+    set(windeployqt_path "${_qt6_root}/bin/windeployqt.exe")
 
-add_custom_command(
-    TARGET QuadWidgets POST_BUILD
-    COMMAND "${windeployqt_path}"
-            --no-compiler-runtime
-            "$<TARGET_FILE:QuadWidgets>"
-    COMMENT "Deploying Qt dependencies directly to the executable folder..."
-)
+    add_custom_command(
+        TARGET QuadWidgets POST_BUILD
+        COMMAND "${windeployqt_path}"
+                --no-compiler-runtime
+                "$<TARGET_FILE:QuadWidgets>"
+        COMMENT "Deploying Qt dependencies directly to the executable folder..."
+    )
+
+elseif(LINUX)
+    find_program(linuxdeployqt_path NAMES linuxdeployqt)
+
+    if(linuxdeployqt_path)
+        add_custom_command(
+            TARGET QuadWidgets POST_BUILD
+            COMMAND "${linuxdeployqt_path}"
+                    "$<TARGET_FILE:QuadWidgets>"
+                    -unsupported-allow-new-glibc
+            WORKING_DIRECTORY "$<TARGET_FILE_DIR:QuadWidgets>"
+            COMMENT "Deploying Linux Qt dependencies directly to the executable folder..."
+        )
+    else()
+        message(WARNING "linuxdeployqt not found on your Ubuntu system path! Skipping Linux deployment.")
+    endif()
+endif()

@@ -3,7 +3,7 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
 #include <QColor>
-#include <GLView.h>
+#include <glview.h>
 
 
 class GLViewQuadXY : public GLView

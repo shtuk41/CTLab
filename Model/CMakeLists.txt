@@ -65,14 +65,22 @@ target_link_libraries(AcquisitionModel PRIVATE
 
 target_compile_features(AcquisitionModel PRIVATE cxx_std_20)
 
+if(WIN32)
 add_custom_command(TARGET AcquisitionModel POST_BUILD
 
     # Copy shaders directory to both locations
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/MeshesTest" "${CMAKE_BINARY_DIR}/MeshesTest"
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/MeshesTest" "${CMAKE_BINARY_DIR}/x64/MeshesTest"
 )
+elseif(LINUX)
+add_custom_command(TARGET AcquisitionModel POST_BUILD
 
+    # Copy shaders directory to both locations
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/MeshesTest" "${CMAKE_BINARY_DIR}/bin"
+)
+endif()
 
+if(WIN32)
 set_target_properties(AcquisitionModel PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/x64/$<CONFIG>"
     #RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/build/bin"
@@ -84,6 +92,18 @@ set_target_properties(AcquisitionModel PROPERTIES
     CUDA_STANDARD_REQUIRED ON
     CUDA_ARCHITECTURES 75
 )
+elseif(LINUX)
+    set(CMAKE_CXX_STANDARD 20)
+	set(CMAKE_CXX_STANDARD_REQUIRED ON)
+	set(CMAKE_CXX_EXTENSIONS OFF)
+	
+	set_target_properties(AcquisitionModel PROPERTIES
+		RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        ARCHIVE_OUTPUT_DIRECTORY         "${CMAKE_BINARY_DIR}/bin"
+        ARCHIVE_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_BINARY_DIR}/bin"
+        ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+	)
+endif()
 
 
 

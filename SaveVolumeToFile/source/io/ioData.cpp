@@ -1,8 +1,10 @@
 #include <algorithm>
+#include <cstring>
 #include <format>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include <type_traits>
 #include <vector>
 
@@ -42,13 +44,13 @@ VolumeData::VolumeData(const std::string filePath, bool read)
             if (!readTextHeader(file))
             {
                 std::string message = std::string("incorrect format: ") + filePath;
-                throw std::exception(message.c_str());
+                throw std::runtime_error(message.c_str());
             }
         }
         else
         {
             std::string message = std::string("unable to open file") + filePath;
-            throw std::exception(message.c_str());
+            throw std::runtime_error(message.c_str());
         }
     }
 }

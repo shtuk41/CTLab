@@ -1,3 +1,5 @@
+
+#include <stdexcept>
 #include <quadwidgets.h>
 #include <glview.h>
 #include <context.h>
@@ -77,7 +79,7 @@ QuadWidgets::QuadWidgets(QWidget *parent)
                 glView = (GLView*)glViewQuad3d;
             }
             else
-                throw std::exception("view doesn't exists");
+                throw std::runtime_error("view doesn't exists");
 
             glView->setObjectName(view.placeholderName);
             glView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

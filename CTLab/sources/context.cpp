@@ -5,8 +5,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
+#include <cstring>
 #include <memory>
 #include <sstream>
+#include <string>
 
 #include <context.h>
 #include <optionsreader.h>
@@ -15,16 +17,16 @@ Context::Context(GLFWwindow* window) : rotateX(0.0f), rotateY(0.0f), view(View::
 {
 	cameraSensor = std::make_unique<Camera>(window);
 	frameCapture.Setup(window);
-	strcpy_s(screenShotName, "notdefinedfilename.png");
-	strcpy_s(screenShotScalePercent, "0");
-	strcpy_s(saveWidth, "7920");
-	strcpy_s(saveHeight, "6004");
-	strcpy_s(orthoLeft, "-26");
-	strcpy_s(orthoRight, "26");
-	strcpy_s(orthoBottom, "-20");
-	strcpy_s(orthoTop, "20");
-	strcpy_s(orthoNear, "1");
-	strcpy_s(orthoFar, "9999");
+	std::strncpy(screenShotName, "notdefinedfilename.png",sizeof(screenShotName)-1);
+	std::strncpy(screenShotScalePercent, "0", sizeof(screenShotScalePercent)-1);
+	std::strncpy(saveWidth, "7920",sizeof(saveWidth)-1);
+	std::strncpy(saveHeight, "6004",sizeof(saveHeight)-1);
+	std::strncpy(orthoLeft, "-26",sizeof(orthoLeft)-1);
+	std::strncpy(orthoRight, "26",sizeof(orthoRight)-1);
+	std::strncpy(orthoBottom, "-20",sizeof(orthoBottom)-1);
+	std::strncpy(orthoTop, "20",sizeof(orthoTop)-1);
+	std::strncpy(orthoNear, "1",sizeof(orthoNear)-1);
+	std::strncpy(orthoFar, "9999",sizeof(orthoFar)-1);
 }
 
 float Context::GetScreenshotScalePercent()

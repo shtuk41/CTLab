@@ -1,4 +1,6 @@
 #include <fstream>
+#include <cstring>
+
 #include <glm/glm.hpp>
 #include <stl_parser.h>
 
@@ -41,7 +43,7 @@ std::vector<triangle> StlParser::ParseToTriangles(const char* stlFileName, unsig
 
 		number_of_triangles = numberTriangles;
 
-		char* c = strstr((char*)partHolderHeader.data, "COLOR");
+		char* c = std::strstr((char*)partHolderHeader.data, "COLOR");
 
 		if (c)
 		{

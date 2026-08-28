@@ -5,9 +5,11 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QHoverEvent>
+
+#include <algorithm>
 #include <glm/glm.hpp>
 #include <contextWrapper.h>
-#include <glView3dRenderer.h>
+#include <glview3drenderer.h>
 
 class GLView3D : public QQuickFramebufferObject
 {
@@ -187,7 +189,7 @@ protected:
     {
         int deltaY = event->angleDelta().y();
         cameraBoundaries += deltaY * 0.1;
-        cameraBoundaries = __max(1, __min(2000, cameraBoundaries));
+        cameraBoundaries = std::max(1.0f, std::min(2000.0f, cameraBoundaries));
         update();
     }
 

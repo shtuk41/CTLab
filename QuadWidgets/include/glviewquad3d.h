@@ -3,7 +3,7 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
 #include <QColor>
-#include <GLView.h>
+#include <glview.h>
 #include <QEvent>
 #include <axes3d.h>
 #include <axisPlane.h>

@@ -1,3 +1,5 @@
+
+#include <algorithm>
 #include <glviewquadxy.h>
 #include <shaders.h>
 
@@ -227,7 +229,7 @@ void GLViewQuadXY::wheelEvent(QWheelEvent* event)
 {
     int deltaZ = event->angleDelta().y();
     zDistance += deltaZ * 0.00005f;
-    zDistance = __max(0.0, __min(1.0f, zDistance));
+    zDistance = std::max(0.0f, std::min(1.0f, zDistance));
     context->setZDistance(zDistance);
 
     update();

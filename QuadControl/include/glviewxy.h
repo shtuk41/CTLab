@@ -3,6 +3,8 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QHoverEvent>
+
+#include <algorithm>
 #include <glm/glm.hpp>
 #include <contextWrapper.h>
 #include <glviewxyrenderer.h>
@@ -115,7 +117,7 @@ protected:
     {
         int deltaZ = event->angleDelta().y();
         zDistance += deltaZ * 0.00005f;
-        zDistance = __max(0.0, __min(1.0f, zDistance));
+        zDistance = std::max(0.0f, std::min(1.0f, zDistance));
         m_context->getContext()->setZDistance(zDistance);
         update();
     }
