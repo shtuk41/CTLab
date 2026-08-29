@@ -80,8 +80,13 @@ void GLViewXYRenderer::initializeGL()
 {
     initializeOpenGLFunctions();
 
+#ifdef _WIN32    
     std::string vertexShaderSource = readSourceFile(".\\shaders\\xy.vert");
     std::string fragmentShaderSource = readSourceFile(".\\shaders\\xy.frag");
+#elif defined (__linux__)
+    std::string vertexShaderSource = readSourceFile("./shaders/xy.vert");
+    std::string fragmentShaderSource = readSourceFile("./shaders/xy.frag");
+#endif
 
     shaderProgram = new QOpenGLShaderProgram();
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());

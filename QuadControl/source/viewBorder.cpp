@@ -30,8 +30,15 @@ void ViewBorder::Setup()
     initializeOpenGLFunctions();
 
     shaderProgram = new QOpenGLShaderProgram();
+
+#ifdef _WIN32    
     shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ".\\shaders\\viewBorder.vert");
     shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ".\\shaders\\viewBorder.frag");
+#elif defined (__linux__)
+    shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/viewBorder.vert");
+    shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/viewBorder.frag");
+#endif
+   
     shaderProgram->link();
 
     glGenVertexArrays(1, vertex_array_id);

@@ -1,7 +1,6 @@
 ﻿import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls 6.10
-import QuadLib 1.0
+import QtQuick.Controls
 import QuadControl 1.0
 
 ApplicationWindow {

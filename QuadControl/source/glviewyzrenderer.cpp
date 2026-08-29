@@ -80,8 +80,13 @@ void GLViewYZRenderer::initializeGL()
 {
     initializeOpenGLFunctions();
 
+#ifdef _WIN32
     std::string vertexShaderSource = readSourceFile(".\\shaders\\yz.vert");
     std::string fragmentShaderSource = readSourceFile(".\\shaders\\yz.frag");
+#elif defined (__linux__)
+    std::string vertexShaderSource = readSourceFile("./shaders/yz.vert");
+    std::string fragmentShaderSource = readSourceFile("./shaders/yz.frag");    
+#endif    
 
     shaderProgram = new QOpenGLShaderProgram();
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
