@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.25)
 if(LINUX) 
 	set(CMAKE_C_COMPILER "/usr/bin/gcc" CACHE PATH "" FORCE)
 	set(CMAKE_CXX_COMPILER "/usr/bin/g++" CACHE PATH "" FORCE)
+	set(CMAKE_PREFIX_PATH "~/Qt/6.11.2/gcc_64")
 endif()
 
 option(BUILD_TESTING "Build the test suite" ON)
@@ -17,8 +18,10 @@ if(WIN32)
 		endif()
 	endif()
 elseif(LINUX)
-	set(CUDA_13_3_PATH "/usr/local/cuda-13.3")
-	set(CMAKE_CUDA_COMPILER "${CUDA_13_3_PATH}/bin/nvcc")
+	#set(CUDA_13_3_PATH "/usr/local/cuda-13.3")
+	#set(CMAKE_CUDA_COMPILER "${CUDA_13_3_PATH}/bin/nvcc")
+	set(CUDA_12_8_PATH "/usr/local/cuda-12.8")
+	set(CMAKE_CUDA_COMPILER "${CUDA_12_8_PATH}/bin/nvcc")
 endif()
 	
 
@@ -49,7 +52,8 @@ find_package(soil CONFIG REQUIRED)
 find_package(GLEW CONFIG REQUIRED)
 find_package(freetype CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
-find_package(CUDAToolkit 13.3 REQUIRED)
+#find_package(CUDAToolkit 13.3 REQUIRED)
+find_package(CUDAToolkit 12.8 REQUIRED)
 find_package(Qt6 QUIET COMPONENTS 
     Core 
 	Qml 
@@ -60,6 +64,11 @@ find_package(Qt6 QUIET COMPONENTS
 	OpenGLWidgets
 )
 
+message(STATUS "----------------------------------------")
+message(STATUS "FOUND QT VERSION: ${Qt6_VERSION}")
+message(STATUS "QT BINARY DIR:    ${Qt6_BINARY_DIR}")
+message(STATUS "----------------------------------------")
+
 if(NOT Qt6_FOUND)
     message(STATUS "----------------------------------------------------------------")
     message(STATUS "Qt6 not found. Please set -DQt6_DIR=/path/to/Qt/6.x.x/.../lib/cmake/Qt6")
@@ -67,7 +76,7 @@ if(NOT Qt6_FOUND)
 endif()
 
 add_subdirectory(Model)
-#add_subdirectory(CTLab)
+add_subdirectory(CTLab)
 add_subdirectory(SaveVolumeToFile)
 add_subdirectory(QuadControl)
 add_subdirectory(QuadWidgets)

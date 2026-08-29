@@ -20,7 +20,11 @@ Axes3d::~Axes3d()
 
 void Axes3d::Setup()
 {
+#ifdef _WIN32	
     program_id = LoadShaders(".\\shaders\\axis.vert", ".\\shaders\\axis.frag");
+#elif defined (__linux__)
+	program_id = LoadShaders("./shaders\\axis.vert", "./shaders/axis.frag");
+#endif
 
     glGenVertexArrays(1, &vertex_array_id);
 

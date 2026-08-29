@@ -22,8 +22,13 @@ void Axes3d::Setup()
 {
     initializeOpenGLFunctions();
 
+#ifdef _WIN32
     std::string vertexShaderSource = readSourceFile(".\\shaders\\axis.vert");
     std::string fragmentShaderSource = readSourceFile(".\\shaders\\axis.frag");
+#elif defined (__linux__)
+    std::string vertexShaderSource = readSourceFile("./shaders/axis.vert");
+    std::string fragmentShaderSource = readSourceFile("./shaders/axis.frag");
+#endif
 
     shaderProgram = new QOpenGLShaderProgram(this);
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());

@@ -636,8 +636,13 @@ void Volume3dView::Setup()
 {
     initializeOpenGLFunctions();
 
+#ifdef _WIN32
     std::string vertexShaderSource = readSourceFile(".\\shaders\\volume3dview.vert");
     std::string fragmentShaderSource = readSourceFile(".\\shaders\\volume3dview.frag");
+#elif defined (__linux__)
+    std::string vertexShaderSource = readSourceFile("./shaders/volume3dview.vert");
+    std::string fragmentShaderSource = readSourceFile("./shaders/volume3dview.frag");	
+#endif
 
     shaderProgram = new QOpenGLShaderProgram(this);
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());

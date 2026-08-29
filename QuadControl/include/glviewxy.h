@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QHoverEvent>
+#include <Qt>
 
 #include <algorithm>
 #include <glm/glm.hpp>

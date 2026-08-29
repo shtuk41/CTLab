@@ -294,7 +294,12 @@ void fillKleinBottlePinched(std::vector<GLubyte>& volumeData, int width, int hei
 
 void Volume::Setup()
 {
+#ifdef _WIN32
     program_id = LoadShaders(".\\shaders\\volume.vert", ".\\shaders\\volume.frag");
+#elif defined (__linux__)
+	program_id = LoadShaders("./shaders/volume.vert", "./shaders/volume.frag");
+#endif
+
 
     // === 1. Generate Dummy Volume Data ===
     const int width = yLength;

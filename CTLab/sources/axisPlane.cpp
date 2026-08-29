@@ -21,7 +21,11 @@ AxisPlane::~AxisPlane()
 
 void AxisPlane::Setup()
 {
+#ifdef _WIN32	
     program_id = LoadShaders(".\\shaders\\axisPlane.vert", ".\\shaders\\axisPlane.frag");
+#elif defined (__linux__)
+	program_id = LoadShaders("./shaders/axisPlane.vert", "./shaders/axisPlane.frag");
+#endif
 
     glGenVertexArrays(2, vertex_array_id);
     glBindVertexArray(vertex_array_id[0]);

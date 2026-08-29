@@ -21,9 +21,14 @@ AxisPlane::~AxisPlane()
 void AxisPlane::Setup()
 {
     initializeOpenGLFunctions();
-
+    
+#ifdef _WIN32
     std::string vertexShaderSource = readSourceFile(".\\shaders\\axisPlane.vert");
     std::string fragmentShaderSource = readSourceFile(".\\shaders\\axisPlane.frag");
+#elif defined (__linux__)
+    std::string vertexShaderSource = readSourceFile("./shaders/axisPlane.vert");
+    std::string fragmentShaderSource = readSourceFile("./shaders/axisPlane.frag");
+#endif
 
     shaderProgram = new QOpenGLShaderProgram(this);
     bool success = shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
