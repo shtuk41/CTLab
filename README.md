@@ -1,4 +1,21 @@
 # CTLab
+
+- PCB scan
+
+![Screenshot](Readme/OV5640Board2.png)
+
+- Quad view (QWidgets)
+
+![Screenshot](Readme/scissorsWidgets.png)
+
+- Quad view in C++ using Qt/OpenGL and loaded into QML/PySide6 app.
+
+![Screenshot](Readme/scissorsQML.png)
+
+- Synthetic Volume rendered in quad view
+
+![Screenshot](Readme/cupQML.png)
+
 Simulation of CT acquisition process and volume reconstruction.  
 
 - Points inside the model:
@@ -16,20 +33,6 @@ Simulation of CT acquisition process and volume reconstruction.
 - Reconstruction using SimpleITK and viewed with napari
 
 ![Screenshot](Readme/ReconstructedSimpleITK.png)
-
-- Synthetic Volume rendered in quad view
-
-![Screenshot](Readme/cupQML.png)
-
-- Real volume rendered in quad view (QWidgets)
-
-![Screenshot](Readme/scissorsWidgets.png)
-
-- The quad views are implemented in C++ using Qt/OpenGL and loaded into QML via PySide6.
-
-![Screenshot](Readme/scissorsQML.png)
-
-
 
 References:
 I can't find where the wolf's 3d model came from.  
